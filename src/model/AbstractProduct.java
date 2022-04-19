@@ -1,0 +1,19 @@
+package model;
+
+public abstract class AbstractProduct {
+	private String name;
+	private String barcode;
+	private String productDescription;
+	private int stock;
+	private double price;
+	public AbstractProduct(String name, String barcode, String productDescription, int stock, double price) {
+		this.name = name;
+		this.barcode = barcode;
+		this.productDescription = productDescription;
+		this.stock = stock;
+		this.price = price;
+	}
+
+	public abstract Product findProduct(String barcode);
+
+}
