@@ -2,7 +2,7 @@ package db;
 
 import java.sql.PreparedStatement;
 
-import model.Order;
+import model.B2BOrder;
 
 public class OrderDB implements OrderDBIF {
 	private static final String INSERT_INTO_ORDERLINE_Q = "";
@@ -11,7 +11,7 @@ public class OrderDB implements OrderDBIF {
 	private PreparedStatement insertOrderPS;
 
 	@Override
-	public Order saveOrderToDB(Order order) {
+	public B2BOrder saveOrderToDB(B2BOrder order) {
 		// TODO Auto-generated method stub
 		return null;
 	}

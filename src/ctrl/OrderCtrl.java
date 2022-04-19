@@ -3,7 +3,7 @@ package ctrl;
 import java.time.LocalDate;
 
 import model.B2BCustomer;
-import model.Order;
+import model.B2BOrder;
 
 public class OrderCtrl {
 	
@@ -14,7 +14,7 @@ public class OrderCtrl {
 	
 	public void registerB2BOrder(LocalDate endDate, int cvr, B2BCustomer c) {
 		
-		Order o = new Order(c);
+		B2BOrder o = new B2BOrder(c);
 	}
 	
 	public void addPackage(String barcode, int quantity) {
@@ -28,7 +28,7 @@ public class OrderCtrl {
 		
 	}
 	
-	public Order endOrder() {
+	public B2BOrder endOrder() {
 		
 		return null;
 	}

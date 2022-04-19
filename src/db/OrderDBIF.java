@@ -1,7 +1,7 @@
 package db;
 
-import model.Order;
+import model.B2BOrder;
 
 public interface OrderDBIF {
-	public Order saveOrderToDB(Order order);
+	public B2BOrder saveOrderToDB(B2BOrder order);
 }
