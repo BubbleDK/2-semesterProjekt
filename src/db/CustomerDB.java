@@ -7,7 +7,7 @@ import model.B2BCustomer;
 
 public class CustomerDB implements CustomerDBIF {
 	private B2BCustomer c;
-	private static int FIND_CUSTOMER_BY_CVR;
+	private static final String FIND_CUSTOMER_BY_CVR = "";
 	private static PreparedStatement findCustomer;
 
 	public CustomerDB() {
