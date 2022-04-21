@@ -11,7 +11,7 @@ public class ProductDB implements ProductDBIF {
 	private static PreparedStatement findByBarcodePS;
 
 	@Override
-	public Product findByProductID(int productID) {
+	public Product findByProductBarcode(String barcode) {
 		// TODO Auto-generated method stub
 		return null;
 	}
