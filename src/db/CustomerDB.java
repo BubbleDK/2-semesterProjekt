@@ -16,7 +16,7 @@ public class CustomerDB implements CustomerDBIF {
 	
 	
 	@Override
-	public B2BCustomer findCustomer() {
+	public B2BCustomer findB2BCustomer() {
 		// TODO Auto-generated method stub
 		return null;
 	}

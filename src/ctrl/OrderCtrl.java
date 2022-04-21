@@ -4,10 +4,12 @@ import java.time.LocalDate;
 
 import model.B2BCustomer;
 import model.B2BOrder;
+import model.Person;
 
 public class OrderCtrl {
 	
 	private ProductCtrl productCtrl;
+	private CustomerCtrl customerCtrl;
 
 	public void OrderCtrl() {
 		productCtrl = new ProductCtrl();
@@ -24,8 +26,8 @@ public class OrderCtrl {
 		
 	}
 	
-	public void addB2BEmployee(String email) {
-		
+	public void addB2BCustomer(int CVR) {
+		customerCtrl.findB2BCustomer(CVR);
 		
 	}
 	
