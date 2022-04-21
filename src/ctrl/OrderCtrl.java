@@ -20,7 +20,7 @@ public class OrderCtrl {
 		B2BOrder o = new B2BOrder(c);
 	}
 	
-	public void addPackage(String barcode, int quantity) {
+	public void addPackage(String barcode, int quantity) throws DataAccessException {
 		productCtrl.findProduct(barcode);
 		
 		

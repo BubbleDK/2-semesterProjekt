@@ -11,7 +11,7 @@ public class ProductCtrl {
 		this.productDB = new ProductDB();
 	}
 	
-	public Product findProduct(String barcode) {
+	public Product findProduct(String barcode) throws DataAccessException {
 		Product product = productDB.findByProductBarcode(barcode);
 		return product;
 	}
