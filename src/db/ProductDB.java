@@ -17,7 +17,9 @@ public class ProductDB implements ProductDBIF {
 	}
 	
 	public Product buildPackObject(ResultSet rs, String barcode) {
-		return null;
+		Product res = null;
+		
+		return res;
 	}
 
 }
