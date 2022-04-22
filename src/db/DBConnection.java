@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import ctrl.DataAccessException;
+import expections.DataAccessException;
 
 public class DBConnection {
 		private Connection connection = null;
