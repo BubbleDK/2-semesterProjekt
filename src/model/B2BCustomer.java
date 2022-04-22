@@ -7,6 +7,5 @@ public class B2BCustomer extends Person {
 	}
 
 	public B2BCustomer() {
-		// TODO Auto-generated constructor stub
 	}
 }
