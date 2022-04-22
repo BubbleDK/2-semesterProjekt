@@ -7,6 +7,9 @@ public class Pack extends AbstractProduct {
 		// TODO Auto-generated constructor stub
 	}
 
+	public Pack() {
+	}
+
 	@Override
 	public Product findProduct(String barcode) {
 		// TODO Auto-generated method stub

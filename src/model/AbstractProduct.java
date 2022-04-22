@@ -13,7 +13,31 @@ public abstract class AbstractProduct {
 		this.stock = stock;
 		this.price = price;
 	}
+	
+	public AbstractProduct() {
+		
+	}
 
 	public abstract Product findProduct(String barcode);
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setBarcode(String barcode) {
+		this.barcode = barcode;
+	}
+
+	public void setProductDescription(String productDescription) {
+		this.productDescription = productDescription;
+	}
+
+	public void setStock(int stock) {
+		this.stock = stock;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
 
 }
