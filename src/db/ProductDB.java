@@ -40,7 +40,7 @@ public class ProductDB implements ProductDBIF {
 		return null;
 	}
 	
-	public AbstractProduct buildPackObject(ResultSet rs, String barcode) {
+	public AbstractProduct buildPackObject(ResultSet rs, String barcode) throws DataAccessException {
 		currProduct = new Pack();
 		try {
 			if(rs.next()) {
@@ -51,8 +51,8 @@ public class ProductDB implements ProductDBIF {
 				currProduct.setPrice(rs.getDouble("price"));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new DataAccessException(DBMessages.COULD_NOT_READ_RESULTSET, e);
+//			e.printStackTrace();
 		}
 		return currProduct;
 	}
