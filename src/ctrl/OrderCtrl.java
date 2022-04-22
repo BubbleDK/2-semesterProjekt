@@ -27,8 +27,8 @@ public class OrderCtrl {
 		
 	}
 	
-	public void addB2BCustomer(int CVR) {
-		customerCtrl.findB2BCustomer(CVR);
+	public void addB2BCustomer(int cvr) throws DataAccessException {
+		customerCtrl.findB2BCustomer(cvr);
 		
 	}
 	
