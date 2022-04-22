@@ -2,7 +2,7 @@ package ctrl;
 
 import java.time.LocalDate;
 
-import expections.DataAccessException;
+import exceptions.DataAccessException;
 import model.B2BCustomer;
 import model.B2BOrder;
 import model.Person;

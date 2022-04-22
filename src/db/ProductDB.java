@@ -4,7 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import expections.DataAccessException;
+import exceptions.DataAccessException;
 import model.Product;
 
 public class ProductDB implements ProductDBIF {

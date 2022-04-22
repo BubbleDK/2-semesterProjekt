@@ -1,7 +1,7 @@
 package ctrl;
 
 import db.ProductDB;
-import expections.DataAccessException;
+import exceptions.DataAccessException;
 import model.Product;
 
 public class ProductCtrl {

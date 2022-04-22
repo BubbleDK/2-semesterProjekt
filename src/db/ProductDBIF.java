@@ -1,6 +1,6 @@
 package db;
 
-import expections.DataAccessException;
+import exceptions.DataAccessException;
 import model.Product;
 
 public interface ProductDBIF {
