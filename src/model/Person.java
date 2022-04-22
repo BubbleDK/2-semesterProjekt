@@ -14,6 +14,26 @@ public abstract class Person {
 		
 	}
 	
+	public Person() {
+		
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public void setZipCode(int zipCode) {
+		this.zipCode = zipCode;
+	}
+
+	public void setPhoneNo(int phoneNo) {
+		this.phoneNo = phoneNo;
+	}
+
 	public B2BCustomer findB2BCustomer(int cvr) {
 		
 		return null;
