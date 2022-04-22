@@ -1,6 +1,7 @@
 package ctrl;
 
 import db.CustomerDB;
+import exceptions.DataAccessException;
 import model.B2BCustomer;
 
 public class CustomerCtrl {
@@ -10,8 +11,8 @@ public class CustomerCtrl {
 		
 	}
 
-	public B2BCustomer findB2BCustomer(int CVR) {
-		return customerDB.findB2BCustomer();
+	public B2BCustomer findB2BCustomer(int cvr) throws DataAccessException {
+		return customerDB.findB2BCustomer(cvr);
 	}
 	
 	
