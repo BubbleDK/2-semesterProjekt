@@ -1,6 +1,7 @@
 package model;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class B2BOrder {
@@ -10,8 +11,9 @@ public class B2BOrder {
 	private B2BCustomer c;
 	private List<String> B2BLogin;
 
-	public B2BOrder(B2BCustomer c) {
+	public B2BOrder(String endDateString,B2BCustomer c) {
 		this.c = c;
+		endDate = LocalDate.parse(endDateString,DateTimeFormatter.ofPattern("dd-MM-yyyy"));
 	}
 	
 	public B2BOrderLine addOrderLine(B2BOrderLine ol) {

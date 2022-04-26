@@ -1,11 +1,11 @@
 package model;
 
 public class B2BOrderLine {
-	private Product p;
+	private AbstractProduct p;
 	private int quantity;
-	public B2BOrderLine(Product p, int quantity) {
+	public B2BOrderLine(AbstractProduct p) {
 		this.p = p;
-		this.quantity = quantity;
+		this.quantity = 0;
 	}
 	
 	public void addLogin(String giftNo) {
@@ -16,11 +16,11 @@ public class B2BOrderLine {
 		return quantity;
 	}
 
-	public Product getP() {
+	public AbstractProduct getP() {
 		return p;
 	}
 
-	public void setP(Product p) {
+	public void setP(AbstractProduct p) {
 		this.p = p;
 	}
 
