@@ -3,8 +3,6 @@ package model;
 import java.util.LinkedList;
 import java.util.List;
 
-import model.PackLine;
-
 public class Pack extends AbstractProduct {
 	
 	private List<PackLine> pl;
