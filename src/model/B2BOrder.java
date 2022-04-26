@@ -2,26 +2,29 @@ package model;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import db.OrderDBIF;
+
 public class B2BOrder {
-	private int CVR;
 	private LocalDate endDate;
 	private List<B2BOrderLine> orderLines;
 	private B2BCustomer c;
-	private List<String> B2BLogin;
+	private HashMap<String, String> emailGiftNo;
+
 
 	public B2BOrder(String endDateString,B2BCustomer c) {
 		this.c = c;
+		orderLines = new ArrayList<>();
 		endDate = LocalDate.parse(endDateString,DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+		emailGiftNo = new HashMap<String, String>();
 	}
 	
 	public B2BOrderLine addOrderLine(B2BOrderLine ol) {
-		return null;
-	}
-	
-	public void registerB2BLogin(String email) {
-		
+		orderLines.add(ol);
+		return ol;
 	}
 	
 	public LocalDate getEndDate() {
@@ -34,5 +37,10 @@ public class B2BOrder {
 	
 	public B2BCustomer getB2BCustomer() {
 		return c;
+	}
+
+	public void addB2BEmployee(String email) {
+		B2BLogin b2bLogin = new B2BLogin();
+		emailGiftNo.put(email, b2bLogin.createGiftNo());
 	}
 }

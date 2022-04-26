@@ -1,5 +1,7 @@
 package ctrl;
 
+import db.OrderDB;
+import db.OrderDBIF;
 import exceptions.DataAccessException;
 import model.AbstractProduct;
 import model.B2BCustomer;
@@ -11,6 +13,7 @@ public class OrderCtrl {
 	private ProductCtrl productCtrl;
 	private CustomerCtrl customerCtrl;
 	private B2BOrder o;
+	private OrderDBIF orderDB;
 
 	public OrderCtrl() {
 		productCtrl = new ProductCtrl();
@@ -30,13 +33,13 @@ public class OrderCtrl {
 		
 	}
 	
-	public void addB2BEmployee(int cvr) throws DataAccessException {
-		
-		
+	public void addB2BEmployee(String email) throws DataAccessException {
+		o.addB2BEmployee(email);
 	}
 	
 	public B2BOrder endOrder() {
-		
-		return null;
+		orderDB = new OrderDB();
+		orderDB.saveOrderToDB(o);
+		return o;
 	}
 }

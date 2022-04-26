@@ -9,7 +9,7 @@ public class OrderDB implements OrderDBIF {
 	private PreparedStatement insertOrderLinePS;
 	private static final String INSERT_INTO_ORDER_Q = "";
 	private PreparedStatement insertOrderPS;
-
+	
 	
 	//Huske at denne også skal have save o Orderlines
 	@Override
