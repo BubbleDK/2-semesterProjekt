@@ -2,6 +2,7 @@ package model;
 
 import java.nio.charset.Charset;
 import java.util.Random;
+import java.util.HashMap;
 
 public class B2BLogin {
 	
@@ -14,12 +15,11 @@ public class B2BLogin {
 	
 	
 	
-	private String createRandomGiftNo(String email) {
-		getRandomString();
+	private void createRandomGiftNo(String email) {
+		HashMap<String, String> emailGiftNo = new HashMap<String, String>();
+		emailGiftNo.put(email, getRandomString());
+		System.out.println(emailGiftNo);
 		
-		
-		
-		return "Hej";
 	}
 
 	private String getRandomString() {
