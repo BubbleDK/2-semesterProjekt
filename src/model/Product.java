@@ -14,4 +14,16 @@ public class Product extends AbstractProduct{
 		return null;
 	}
 
+	@Override
+	public void updateStock(int quantity) {
+		this.stock += quantity;
+		
+	}
+
+	@Override
+	public void removeStock(int quantity) {
+		this.stock -= quantity;
+		
+	}
+
 }

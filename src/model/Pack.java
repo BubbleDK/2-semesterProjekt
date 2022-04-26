@@ -22,11 +22,26 @@ public class Pack extends AbstractProduct {
 			pl.add(new PackLine(product, quantity));
 		}
 	}
+	@Override
+	public void updateStock(int quantity) {
+		for (int i = 0; i < pl.size(); i++) {
+			pl.get(i).getPackLineProduct().updateStock(quantity * pl.get(i).getQuantity());
+		}
+	}
+	
+	@Override
+	public void removeStock(int quantity) {
+		for (int i = 0; i < pl.size(); i++) {
+			pl.get(i).getPackLineProduct().removeStock(quantity * pl.get(i).getQuantity());
+		}
+	}
 
 	@Override
 	public Product findProduct(String barcode) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	
 
 }

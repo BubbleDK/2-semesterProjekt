@@ -8,5 +8,15 @@ public class PackLine {
 		this.p = p;
 		this.quantity = quantity;
 	}
+	
+	public AbstractProduct getPackLineProduct() {
+		return p;
+		
+	}
+
+	public int getQuantity() {
+		
+		return quantity;
+	}
 
 }
