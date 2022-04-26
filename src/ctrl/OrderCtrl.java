@@ -37,7 +37,7 @@ public class OrderCtrl {
 		o.addB2BEmployee(email);
 	}
 	
-	public B2BOrder endOrder() {
+	public B2BOrder endOrder() throws DataAccessException {
 		orderDB = new OrderDB();
 		orderDB.saveOrderToDB(o);
 		return o;
