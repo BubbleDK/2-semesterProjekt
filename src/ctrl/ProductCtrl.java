@@ -1,12 +1,13 @@
 package ctrl;
 
 import db.ProductDB;
+import db.ProductDBIF;
 import exceptions.DataAccessException;
 import model.Product;
 
 public class ProductCtrl {
 
-	private ProductDB productDB;
+	private ProductDBIF productDB;
 
 	public ProductCtrl() {
 		this.productDB = new ProductDB();
