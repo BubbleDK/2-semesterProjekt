@@ -18,4 +18,8 @@ public class B2BCustomer extends Person {
 	public void setCvr(int cvr) {
 		this.cvr = cvr;
 	}
+
+	public int getCVR() {
+		return cvr;
+	}
 }
