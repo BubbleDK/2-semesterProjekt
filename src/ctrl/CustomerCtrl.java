@@ -1,14 +1,15 @@
 package ctrl;
 
 import db.CustomerDB;
+import db.CustomerDBIF;
 import exceptions.DataAccessException;
 import model.B2BCustomer;
 
 public class CustomerCtrl {
-	private CustomerDB customerDB;
+	private CustomerDBIF customerDB;
 
 	public CustomerCtrl() {
-		
+		customerDB = new CustomerDB();
 	}
 
 	public B2BCustomer findB2BCustomer(int cvr) throws DataAccessException {

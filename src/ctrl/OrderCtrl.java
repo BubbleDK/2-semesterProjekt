@@ -1,39 +1,45 @@
 package ctrl;
 
-import java.time.LocalDate;
-
+import db.OrderDB;
+import db.OrderDBIF;
 import exceptions.DataAccessException;
+import model.AbstractProduct;
 import model.B2BCustomer;
 import model.B2BOrder;
-import model.Person;
+import model.B2BOrderLine;
 
 public class OrderCtrl {
 	
 	private ProductCtrl productCtrl;
 	private CustomerCtrl customerCtrl;
+	private B2BOrder o;
+	private OrderDBIF orderDB;
 
-	public void OrderCtrl() {
+	public OrderCtrl() {
 		productCtrl = new ProductCtrl();
 	}
 
 	
-	public void registerB2BOrder(LocalDate endDate, int cvr, B2BCustomer c) {
-		B2BOrder o = new B2BOrder(c);
+	public B2BOrder registerB2BOrder(String endDate, int cvr) throws DataAccessException {
+		B2BCustomer c = customerCtrl.findB2BCustomer(cvr);
+		o = new B2BOrder(endDate,c);
+		return o;
 	}
 	
-	public void addPackage(String barcode, int quantity) throws DataAccessException {
-		productCtrl.findProduct(barcode);
-		
-		
-	}
-	
-	public void addB2BCustomer(int cvr) throws DataAccessException {
-		customerCtrl.findB2BCustomer(cvr);
+	public void addPackage(String barcode) throws DataAccessException {
+		AbstractProduct p = productCtrl.findProduct(barcode);
+		B2BOrderLine ol = new B2BOrderLine(p);
+		o.addOrderLine(ol);
 		
 	}
 	
-	public B2BOrder endOrder() {
-		
-		return null;
+	public void addB2BEmployee(String email) throws DataAccessException {
+		o.addB2BEmployee(email);
+	}
+	
+	public B2BOrder endOrder() throws DataAccessException {
+		orderDB = new OrderDB();
+		orderDB.saveOrderToDB(o);
+		return o;
 	}
 }

@@ -34,10 +34,12 @@ public class CustomerDB implements CustomerDBIF {
 		currCustomer = new B2BCustomer();
 		try {
 			if(rs.next()) {
-				currCustomer.setName(rs.getString("name"));
-				currCustomer.setAddress(rs.getString("address"));
-				currCustomer.setZipCode(rs.getInt("zipcode"));
-				currCustomer.setPhoneNo(rs.getInt("phoneno"));
+				currCustomer.setCvr(rs.getInt("cvr"));
+				currCustomer.setCompanyName(rs.getString("companyName"));
+//				currCustomer.setName(rs.getString("name"));
+//				currCustomer.setAddress(rs.getString("address"));
+//				currCustomer.setZipCode(rs.getInt("zipcode"));
+//				currCustomer.setPhoneNo(rs.getInt("phoneno"));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

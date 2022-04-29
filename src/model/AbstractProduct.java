@@ -4,7 +4,7 @@ public abstract class AbstractProduct {
 	private String name;
 	private String barcode;
 	private String productDescription;
-	private int stock;
+	protected int stock;
 	private double price;
 	public AbstractProduct(String name, String barcode, String productDescription, int stock, double price) {
 		this.name = name;
@@ -40,4 +40,10 @@ public abstract class AbstractProduct {
 		this.price = price;
 	}
 
-}
+	public abstract void updateStock(int quantity);
+
+	
+	public abstract void removeStock(int quantity);
+		
+	}
+	
