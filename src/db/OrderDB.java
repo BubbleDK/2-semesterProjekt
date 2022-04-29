@@ -14,8 +14,6 @@ public class OrderDB implements OrderDBIF {
 	private PreparedStatement insertOrderPS;
 	private static final String FIND_CUSTOMERID_Q = "select personid from kk_B2BCustomer WHERE cvr = ?";
 	private PreparedStatement findCustomerIDPS;
-	private static final String FIND_EMPLOYEEID_Q = "select personid from kk_Employee WHERE  = ?";
-	private PreparedStatement findEmployeeIDPS;
 	
 	public OrderDB() throws DataAccessException  {
 		Connection con = DBConnection.getInstance().getConnection();
@@ -23,7 +21,6 @@ public class OrderDB implements OrderDBIF {
 			insertOrderLinePS = con.prepareStatement(INSERT_INTO_ORDERLINE_Q);
 			insertOrderPS = con.prepareStatement(INSERT_INTO_ORDER_Q,PreparedStatement.RETURN_GENERATED_KEYS);
 			findCustomerIDPS = con.prepareStatement(FIND_CUSTOMERID_Q);
-			findEmployeeIDPS = con.prepareStatement(FIND_CUSTOMERID_Q);
 		} catch (SQLException e) {
 			// e.printStackTrace();
 			throw new DataAccessException(DBMessages.COULD_NOT_PREPARE_STATEMENT, e);
@@ -35,7 +32,7 @@ public class OrderDB implements OrderDBIF {
 	@Override
 	public B2BOrder saveOrderToDB(B2BOrder order) throws DataAccessException {
 		int customerID = -1;
-		int employeeID = -1;
+		int employeeID = 1;
 		int productID = -1;
 		try {
 			findCustomerIDPS.setInt(1, order.getB2BCustomer().getCVR());
@@ -45,7 +42,7 @@ public class OrderDB implements OrderDBIF {
 			}
 //			findEmployeeIDPS.setInt(1,order.getEmployee().get)
 			insertOrderPS.setString(1, "pack");
-			insertOrderPS.setInt(2, employeeID);
+			insertOrderPS.setInt(2, customerID);
 			insertOrderPS.setInt(3, employeeID);
 			
 			//Insert into orderlines
