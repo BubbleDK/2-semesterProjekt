@@ -40,7 +40,7 @@ public class OrderDB implements OrderDBIF {
 			if(rsCustomer.next()) {
 				customerID = rsCustomer.getInt(1);
 			}
-//			findEmployeeIDPS.setInt(1,order.getEmployee().get)
+			//insert into Order
 			insertOrderPS.setString(1, "pack");
 			insertOrderPS.setInt(2, customerID);
 			insertOrderPS.setInt(3, employeeID);
@@ -52,6 +52,7 @@ public class OrderDB implements OrderDBIF {
 				insertOrderLinePS.setInt(2, productID);
 				insertOrderLinePS.setInt(3, order.getOrderLines().get(i).getQuantity());
 				insertOrderLinePS.setString(4, "pack");
+				insertOrderLinePS.executeQuery();
 			}
 		} catch (SQLException e) {
 //			e.printStackTrace();
