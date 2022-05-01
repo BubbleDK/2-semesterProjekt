@@ -23,6 +23,10 @@ public abstract class AbstractProduct {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public String getName() {
+		return name;
+	}
 
 	public void setBarcode(String barcode) {
 		this.barcode = barcode;
@@ -38,6 +42,10 @@ public abstract class AbstractProduct {
 
 	public void setPrice(double price) {
 		this.price = price;
+	}
+	
+	public double getPrice() {
+		return price;
 	}
 
 	public abstract void updateStock(int quantity);
