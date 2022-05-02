@@ -40,7 +40,7 @@ public class ProductDB implements ProductDBIF {
 		return null;
 	}
 	
-	public AbstractProduct buildPackObject(ResultSet rs, String barcode) throws DataAccessException {
+	private AbstractProduct buildPackObject(ResultSet rs, String barcode) throws DataAccessException {
 		currProduct = new Pack();
 		try {
 			if(rs.next()) {
