@@ -11,7 +11,7 @@ import model.Product;
 
 public class ProductDB implements ProductDBIF {
 	private AbstractProduct currProduct;
-	private static final String FIND_BY_BARCODE_Q = "SELECT * FROM KK_Product WHERE barcode = ?";
+	private static final String FIND_BY_BARCODE_Q = "SELECT * FROM kk_Product WHERE barcode = ?";
 	private static PreparedStatement findByBarcodePS;
 	
 	public ProductDB() {
