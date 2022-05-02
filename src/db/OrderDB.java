@@ -28,7 +28,7 @@ public class OrderDB implements OrderDBIF {
 	}
 	
 	
-	//TODO der skal lige gøres noget i forhold til id'erne. O find employeeid. Den har ikke noget at søge efter.
+
 	@Override
 	public B2BOrder saveOrderToDB(B2BOrder order) throws DataAccessException {
 		int customerID = -1;
