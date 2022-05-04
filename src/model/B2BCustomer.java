@@ -22,4 +22,8 @@ public class B2BCustomer extends Person {
 	public int getCVR() {
 		return cvr;
 	}
+	
+	public String getCompanyName() {
+		return companyName;
+	}
 }

@@ -27,15 +27,16 @@ public class CustomerDB implements CustomerDBIF {
 	
 	@Override
 	public B2BCustomer findB2BCustomer(int cvr) throws exceptions.DataAccessException {
+		B2BCustomer currCustomer = null;
 		try {
 			findCustomer.setInt(1, cvr);
 			ResultSet rs = findCustomer.executeQuery();
-			buildObject(rs);
+			currCustomer = buildObject(rs);
 		} catch (SQLException e) {
 			throw new DataAccessException(DBMessages.COULD_NOT_BIND_OR_EXECUTE_QUERY, e);
 //			e.printStackTrace();
 		}
-		return null;
+		return currCustomer;
 	}
 	//TODO husk at lave et view som kan trækkes info ud fra til customerobjekter
 	private B2BCustomer buildObject(ResultSet rs) {
@@ -44,6 +45,8 @@ public class CustomerDB implements CustomerDBIF {
 			if(rs.next()) {
 				currCustomer.setCvr(rs.getInt("cvr"));
 				currCustomer.setCompanyName(rs.getString("companyName"));
+				System.out.println(currCustomer.getCVR());
+				System.out.println(currCustomer.getCompanyName());
 //				currCustomer.setName(rs.getString("name"));
 //				currCustomer.setAddress(rs.getString("address"));
 //				currCustomer.setZipCode(rs.getInt("zipcode"));
@@ -53,6 +56,7 @@ public class CustomerDB implements CustomerDBIF {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		System.out.println(currCustomer);
 		return currCustomer;
 	}
 }
