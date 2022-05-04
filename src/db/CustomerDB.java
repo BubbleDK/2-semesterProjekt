@@ -31,7 +31,9 @@ public class CustomerDB implements CustomerDBIF {
 		try {
 			findCustomer.setInt(1, cvr);
 			ResultSet rs = findCustomer.executeQuery();
+			if(rs.next()) {
 			currCustomer = buildObject(rs);
+			}
 		} catch (SQLException e) {
 			throw new DataAccessException(DBMessages.COULD_NOT_BIND_OR_EXECUTE_QUERY, e);
 //			e.printStackTrace();
@@ -42,7 +44,6 @@ public class CustomerDB implements CustomerDBIF {
 	private B2BCustomer buildObject(ResultSet rs) {
 		currCustomer = new B2BCustomer();
 		try {
-			if(rs.next()) {
 				currCustomer.setCvr(rs.getInt("cvr"));
 				currCustomer.setCompanyName(rs.getString("companyName"));
 				System.out.println(currCustomer.getCVR());
@@ -51,7 +52,6 @@ public class CustomerDB implements CustomerDBIF {
 //				currCustomer.setAddress(rs.getString("address"));
 //				currCustomer.setZipCode(rs.getInt("zipcode"));
 //				currCustomer.setPhoneNo(rs.getInt("phoneno"));
-			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
