@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import model.B2BCustomer;
 
 public class CustomerDB implements CustomerDBIF {
-	private B2BCustomer currCustomer;
+	
 	private static final String FIND_CUSTOMER_BY_CVR = "SELECT * FROM kk_B2BCustomer WHERE cvr = ?";
 	private static PreparedStatement findCustomer;
 
@@ -32,7 +32,7 @@ public class CustomerDB implements CustomerDBIF {
 			findCustomer.setInt(1, cvr);
 			ResultSet rs = findCustomer.executeQuery();
 			if(rs.next()) {
-			buildObject(rs);
+			currCustomer = buildObject(rs);
 			}
 		} catch (SQLException e) {
 			throw new DataAccessException(DBMessages.COULD_NOT_BIND_OR_EXECUTE_QUERY, e);
@@ -42,7 +42,7 @@ public class CustomerDB implements CustomerDBIF {
 	}
 	//TODO husk at lave et view som kan trækkes info ud fra til customerobjekter
 	private B2BCustomer buildObject(ResultSet rs) {
-		currCustomer = new B2BCustomer();
+		B2BCustomer currCustomer = new B2BCustomer();
 		try {
 				currCustomer.setCvr(rs.getInt("cvr"));
 				currCustomer.setCompanyName(rs.getString("companyName"));

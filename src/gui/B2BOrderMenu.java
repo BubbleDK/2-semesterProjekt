@@ -67,12 +67,7 @@ public class B2BOrderMenu extends JFrame {
 		
 		JButton btnNyB2BOrdre = new JButton("Ny B2B Ordre");
 		btnNyB2BOrdre.addActionListener((e -> {
-			try {
-				newB2BOrderClicked();
-			} catch (DataAccessException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			newB2BOrderClicked();
 		}));
 		GridBagConstraints gbc_btnNyB2BOrdre = new GridBagConstraints();
 		gbc_btnNyB2BOrdre.insets = new Insets(0, 0, 5, 0);
@@ -105,16 +100,13 @@ public class B2BOrderMenu extends JFrame {
 		panel.add(btnNewButton_2, gbc_btnNewButton_2);
 	}
 
-	private void newB2BOrderClicked() throws DataAccessException {
+	private void newB2BOrderClicked() {
 		String companyName = createPopup();
-		if(companyName == null) {
-			newB2BOrderClicked();
-		}else {
 		String endDate = JOptionPane.showInputDialog("Indtast slut dato: 'DD-MM-YYYY'");
 		B2BOrderGUI orderGUI = new B2BOrderGUI(companyName, endDate);
 		orderGUI.setVisible(true);
 		this.dispose();
-		}
+		
 	}
 	
 	private String createPopup() {
@@ -128,9 +120,10 @@ public class B2BOrderMenu extends JFrame {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		if(currCustomer.getCVR() != cvr) {
-			JOptionPane.showMessageDialog(null, "Prøv Igen");
-		}
+		if(currCustomer == null) {
+				JOptionPane.showMessageDialog(null, "Prøv Igen");
+				newB2BOrderClicked();
+			}
 		return currCustomer.getCompanyName();
 	}
 }
