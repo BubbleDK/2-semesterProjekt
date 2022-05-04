@@ -11,9 +11,7 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-<<<<<<< HEAD
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
-=======
 	<classpathentry kind="lib" path="lib/jgoodies-forms-1.8.0.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
@@ -39,6 +37,5 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
->>>>>>> branch 'main' of https://github.com/BubbleDK/2-semesterProjekt.git
 	<classpathentry kind="output" path="bin"/>
 </classpath>
