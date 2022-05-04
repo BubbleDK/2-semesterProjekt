@@ -30,7 +30,7 @@ public class CustomerDB implements CustomerDBIF {
 		return null;
 	}
 	//TODO husk at lave et view som kan trækkes info ud fra til customerobjekter
-	private void buildObject(ResultSet rs) {
+	private B2BCustomer buildObject(ResultSet rs) {
 		currCustomer = new B2BCustomer();
 		try {
 			if(rs.next()) {
@@ -45,5 +45,6 @@ public class CustomerDB implements CustomerDBIF {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return currCustomer;
 	}
 }
