@@ -14,16 +14,13 @@ public class ProductDB implements ProductDBIF {
 	private static final String FIND_BY_BARCODE_Q = "SELECT * FROM kk_Product WHERE barcode = ?";
 	private static PreparedStatement findByBarcodePS;
 	
-	public ProductDB() {
+	public ProductDB() throws DataAccessException {
 		try {
 			findByBarcodePS = DBConnection.getInstance().getConnection().prepareStatement(FIND_BY_BARCODE_Q);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (DataAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//			e.printStackTrace();
+			throw new DataAccessException(DBMessages.COULD_NOT_PREPARE_STATEMENT, e);
+		} 
 	}
 
 	@Override
@@ -34,8 +31,8 @@ public class ProductDB implements ProductDBIF {
 			ResultSet rs = findByBarcodePS.executeQuery();
 			buildPackObject(rs, barcode);
 		} catch (SQLException e) {
-			throw new DataAccessException(DBMessages.COULD_NOT_BIND_OR_EXECUTE_QUERY, e);
 //			e.printStackTrace();
+			throw new DataAccessException(DBMessages.COULD_NOT_BIND_OR_EXECUTE_QUERY, e);
 		}
 		return null;
 	}
@@ -51,8 +48,8 @@ public class ProductDB implements ProductDBIF {
 				currProduct.setPrice(rs.getDouble("price"));
 			}
 		} catch (SQLException e) {
-			throw new DataAccessException(DBMessages.COULD_NOT_READ_RESULTSET, e);
 //			e.printStackTrace();
+			throw new DataAccessException(DBMessages.COULD_NOT_READ_RESULTSET, e);
 		}
 		return currProduct;
 	}
