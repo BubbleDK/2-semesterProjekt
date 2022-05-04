@@ -108,7 +108,7 @@ public class B2BOrderMenu extends JFrame {
 		this.dispose();
 		
 	}
-	
+	//TODO den kører metoden to gange hvis man taster forkert første gang
 	private String createPopup() {
 		String insertCVR = JOptionPane.showInputDialog("Indtast CVR");
 		int cvr = Integer.parseInt(insertCVR);
