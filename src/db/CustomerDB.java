@@ -29,7 +29,7 @@ public class CustomerDB implements CustomerDBIF {
 		}
 		return null;
 	}
-	
+	//TODO husk at lave et view som kan trækkes info ud fra til customerobjekter
 	private void buildObject(ResultSet rs) {
 		currCustomer = new B2BCustomer();
 		try {
