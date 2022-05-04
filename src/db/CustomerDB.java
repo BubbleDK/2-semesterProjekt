@@ -13,7 +13,15 @@ public class CustomerDB implements CustomerDBIF {
 	private static PreparedStatement findCustomer;
 
 	public CustomerDB() {
-		
+		try {
+			findCustomer = DBConnection.getInstance().getConnection().prepareStatement(FIND_CUSTOMER_BY_CVR);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (DataAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	
