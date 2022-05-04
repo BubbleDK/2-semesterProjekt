@@ -13,6 +13,9 @@ import javax.swing.JButton;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 
 public class MainMenu extends JFrame {
 
@@ -47,25 +50,44 @@ public class MainMenu extends JFrame {
 		
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.CENTER);
-		panel.setLayout(new GridLayout(0, 3, 0, 0));
+		GridBagLayout gbl_panel = new GridBagLayout();
+		gbl_panel.columnWidths = new int[]{141, 0};
+		gbl_panel.rowHeights = new int[]{83, 81, 80, 0};
+		gbl_panel.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+		panel.setLayout(gbl_panel);
 		
-		JButton btnNewOrder = new JButton("Ny ordre");
+		JButton btnNewOrder = new JButton("B2B Ordre");
+		GridBagConstraints gbc_btnNewOrder = new GridBagConstraints();
+		gbc_btnNewOrder.fill = GridBagConstraints.BOTH;
+		gbc_btnNewOrder.insets = new Insets(0, 0, 5, 0);
+		gbc_btnNewOrder.gridx = 0;
+		gbc_btnNewOrder.gridy = 0;
+		panel.add(btnNewOrder, gbc_btnNewOrder);
 		btnNewOrder.addActionListener((e -> newOrderClicked()));
-		panel.add(btnNewOrder);
 		
 		JButton btnFindOrder = new JButton("Find ordre");
 		btnFindOrder.setEnabled(false);
-		panel.add(btnFindOrder);
+		GridBagConstraints gbc_btnFindOrder = new GridBagConstraints();
+		gbc_btnFindOrder.insets = new Insets(0, 0, 5, 0);
+		gbc_btnFindOrder.fill = GridBagConstraints.BOTH;
+		gbc_btnFindOrder.gridx = 0;
+		gbc_btnFindOrder.gridy = 1;
+		panel.add(btnFindOrder, gbc_btnFindOrder);
 		
 		JButton btnFindProduct = new JButton("Find produkter");
+		GridBagConstraints gbc_btnFindProduct = new GridBagConstraints();
+		gbc_btnFindProduct.fill = GridBagConstraints.BOTH;
+		gbc_btnFindProduct.gridx = 0;
+		gbc_btnFindProduct.gridy = 2;
+		panel.add(btnFindProduct, gbc_btnFindProduct);
 		btnFindProduct.setEnabled(false);
-		panel.add(btnFindProduct);
 
 	}
 
 	private void newOrderClicked() {
-		OrderGUI orderGui = new OrderGUI();
-		orderGui.setVisible(true);
+		B2BOrderMenu orderMenu = new B2BOrderMenu();
+		orderMenu.setVisible(true);
 		this.dispose();
 	}
 
