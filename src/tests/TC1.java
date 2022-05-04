@@ -29,7 +29,7 @@ class TC1 {
 	void test() throws DataAccessException, SQLException {
 		Connection con = DBConnection.getInstance().getConnection();
 		OrderCtrl orderCtrl = new OrderCtrl();
-		orderCtrl.registerB2BOrder("20-05-2022", 1234);
+		orderCtrl.registerB2BOrder("20-05-2022", 123456789);
 		orderCtrl.addPackage("P1234");
 		orderCtrl.addB2BEmployee("Gudiksen@gmail.com");
 		orderCtrl.endOrder();

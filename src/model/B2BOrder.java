@@ -43,4 +43,20 @@ public class B2BOrder {
 		B2BLogin b2bLogin = new B2BLogin();
 		emailGiftNo.put(email, b2bLogin.createGiftNo());
 	}
+	//TODO: Skal alle disse settere være der?
+	public void setEndDate(String endDateString) {
+		endDate = LocalDate.parse(endDateString,DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+	}
+	
+	public void setOrderLines(ArrayList orderLines) {
+		orderLines = new ArrayList<>();
+	}
+	
+	public void setCustomer(B2BCustomer c) {
+		this.c = c;
+	}
+	
+	public void setEmailGiftNo(HashMap emailGiftNo) {
+		emailGiftNo = new HashMap<String,String>();
+	}
 }
