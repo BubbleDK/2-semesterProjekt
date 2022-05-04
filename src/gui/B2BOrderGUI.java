@@ -27,6 +27,8 @@ public class B2BOrderGUI extends JFrame {
 	private JPanel contentPane;
 	private JTable table;
 	private JTable table_1;
+	private JLabel lblCustomerName;
+	private JLabel lblDate;
 
 	/**
 	 * Launch the application.
@@ -43,11 +45,17 @@ public class B2BOrderGUI extends JFrame {
 			}
 		});
 	}
-
+	/**
+	* @param endDate 
+	 * @param cvr 
+	 */
+	public B2BOrderGUI(String companyName, String endDate) {
+		this();
+		init(companyName, endDate);
+	}
+	
 	/**
 	 * Create the frame.
-	 * @param endDate 
-	 * @param cvr 
 	 */
 	public B2BOrderGUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -75,14 +83,14 @@ public class B2BOrderGUI extends JFrame {
 		gbl_panel.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
-		JLabel lblCustomerName = new JLabel("Kunde: ");
+		lblCustomerName = new JLabel("Kunde: ");
 		GridBagConstraints gbc_lblCustomerName = new GridBagConstraints();
 		gbc_lblCustomerName.insets = new Insets(0, 0, 5, 0);
 		gbc_lblCustomerName.gridx = 0;
 		gbc_lblCustomerName.gridy = 0;
 		panel.add(lblCustomerName, gbc_lblCustomerName);
 		
-		JLabel lblDate = new JLabel("Dato: ");
+		lblDate = new JLabel("Dato: ");
 		GridBagConstraints gbc_lblDate = new GridBagConstraints();
 		gbc_lblDate.gridx = 0;
 		gbc_lblDate.gridy = 1;
@@ -158,7 +166,8 @@ public class B2BOrderGUI extends JFrame {
 		scrollPane_1.setViewportView(table_1);
 	}
 	
-	public B2BOrderGUI(int cvr, String endDate) {
-		this();
+	private void init(String companyName, String endDate) {
+		lblCustomerName.setText("Kunde: " + companyName);
+		lblDate.setText("Slutdato: " + endDate);
 	}
 }

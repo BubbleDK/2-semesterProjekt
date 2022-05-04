@@ -23,6 +23,7 @@ import java.awt.event.ActionEvent;
 
 import ctrl.CustomerCtrl;
 import exceptions.DataAccessException;
+import model.B2BCustomer;
 
 public class B2BOrderMenu extends JFrame {
 
@@ -105,32 +106,31 @@ public class B2BOrderMenu extends JFrame {
 	}
 
 	private void newB2BOrderClicked() throws DataAccessException {
-		int cvr = createPopup();
-		String EndDate = JOptionPane.showInputDialog("Indtast slut dato: 'DD-MM-YYYY'");
-		B2BOrderGUI orderGUI = new B2BOrderGUI(cvr, EndDate);
+		String companyName = createPopup();
+		if(companyName == null) {
+			newB2BOrderClicked();
+		}else {
+		String endDate = JOptionPane.showInputDialog("Indtast slut dato: 'DD-MM-YYYY'");
+		B2BOrderGUI orderGUI = new B2BOrderGUI(companyName, endDate);
 		orderGUI.setVisible(true);
 		this.dispose();
+		}
 	}
 	
-	private int createPopup() {
+	private String createPopup() {
 		String insertCVR = JOptionPane.showInputDialog("Indtast CVR");
 		int cvr = Integer.parseInt(insertCVR);
 		CustomerCtrl customerCtrl = new CustomerCtrl();
+		B2BCustomer currCustomer = null;
 		try {
-			if(customerCtrl.findB2BCustomer(cvr).getCVR() != cvr) {
-						JOptionPane.showMessageDialog(null, "Prøv Igen");
-						createPopup();
-					}
-		} catch (HeadlessException e) {
+			currCustomer = customerCtrl.findB2BCustomer(cvr);
+		} catch (DataAccessException e1) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			createPopup();
-		} catch (DataAccessException e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			createPopup();
+			e1.printStackTrace();
 		}
-		return cvr;
+		if(currCustomer.getCVR() != cvr) {
+			JOptionPane.showMessageDialog(null, "PrÃ¸v Igen");
+		}
+		return currCustomer.getCompanyName();
 	}
-
 }
