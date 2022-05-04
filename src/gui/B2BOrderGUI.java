@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-public class OrderGUI extends JFrame {
+public class B2BOrderGUI extends JFrame {
 
 	private JPanel contentPane;
 
@@ -18,7 +18,7 @@ public class OrderGUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					OrderGUI frame = new OrderGUI();
+					B2BOrderGUI frame = new B2BOrderGUI();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -30,7 +30,7 @@ public class OrderGUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public OrderGUI() {
+	public B2BOrderGUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
