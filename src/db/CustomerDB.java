@@ -32,7 +32,7 @@ public class CustomerDB implements CustomerDBIF {
 			findCustomer.setInt(1, cvr);
 			ResultSet rs = findCustomer.executeQuery();
 			if(rs.next()) {
-			currCustomer = buildObject(rs);
+			buildObject(rs);
 			}
 		} catch (SQLException e) {
 			throw new DataAccessException(DBMessages.COULD_NOT_BIND_OR_EXECUTE_QUERY, e);
