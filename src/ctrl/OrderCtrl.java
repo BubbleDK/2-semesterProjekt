@@ -15,7 +15,7 @@ public class OrderCtrl {
 	private B2BOrder o;
 	private OrderDBIF orderDB;
 
-	public OrderCtrl() {
+	public OrderCtrl() throws DataAccessException {
 		productCtrl = new ProductCtrl();
 	}
 

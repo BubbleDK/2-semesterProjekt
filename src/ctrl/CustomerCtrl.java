@@ -8,7 +8,7 @@ import model.B2BCustomer;
 public class CustomerCtrl {
 	private CustomerDBIF customerDB;
 
-	public CustomerCtrl() {
+	public CustomerCtrl() throws DataAccessException {
 		customerDB = new CustomerDB();
 	}
 

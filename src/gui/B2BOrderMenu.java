@@ -112,16 +112,19 @@ public class B2BOrderMenu extends JFrame {
 	private String createPopup() {
 		String insertCVR = JOptionPane.showInputDialog("Indtast CVR");
 		int cvr = Integer.parseInt(insertCVR);
-		CustomerCtrl customerCtrl = new CustomerCtrl();
+		CustomerCtrl customerCtrl;
 		B2BCustomer currCustomer = null;
+		
 		try {
+			customerCtrl = new CustomerCtrl();
 			currCustomer = customerCtrl.findB2BCustomer(cvr);
-		} catch (DataAccessException e) {
-			JOptionPane.showMessageDialog(this, "");
-//			e.printStackTrace();
+		} catch (DataAccessException e1) {
+			e1.printStackTrace();
+			JOptionPane.showMessageDialog(this, "Kan ikke få adgang til database", "Data access error", JOptionPane.OK_OPTION);
 		}
+		
 		if(currCustomer == null) {
-				JOptionPane.showMessageDialog(null, "Prøv Igen");
+				JOptionPane.showMessageDialog(null, "Kunne ikke finde kunde ud fra indtastede cvr.", "Fejlmeddelelse", JOptionPane.OK_OPTION);
 				newB2BOrderClicked();
 			}
 		return currCustomer.getCompanyName();
