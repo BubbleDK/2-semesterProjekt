@@ -12,16 +12,13 @@ public class CustomerDB implements CustomerDBIF {
 	private static final String FIND_CUSTOMER_BY_CVR = "SELECT * FROM kk_B2BCustomer WHERE cvr = ?";
 	private static PreparedStatement findCustomer;
 
-	public CustomerDB() {
+	public CustomerDB() throws DataAccessException {
 		try {
 			findCustomer = DBConnection.getInstance().getConnection().prepareStatement(FIND_CUSTOMER_BY_CVR);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (DataAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			throw new DataAccessException(DBMessages.COULD_NOT_PREPARE_STATEMENT, e);
+//			e.printStackTrace();
+		} 
 	}
 	
 	
@@ -35,13 +32,13 @@ public class CustomerDB implements CustomerDBIF {
 			currCustomer = buildObject(rs);
 			}
 		} catch (SQLException e) {
-			throw new DataAccessException(DBMessages.COULD_NOT_BIND_OR_EXECUTE_QUERY, e);
+			throw new DataAccessException(DBMessages.COULD_NOT_READ_RESULTSET, e);
 //			e.printStackTrace();
 		}
 		return currCustomer;
 	}
 	//TODO husk at lave et view som kan trækkes info ud fra til customerobjekter
-	private B2BCustomer buildObject(ResultSet rs) {
+	private B2BCustomer buildObject(ResultSet rs) throws DataAccessException {
 		B2BCustomer currCustomer = new B2BCustomer();
 		try {
 				currCustomer.setCvr(rs.getInt("cvr"));
@@ -53,8 +50,8 @@ public class CustomerDB implements CustomerDBIF {
 //				currCustomer.setZipCode(rs.getInt("zipcode"));
 //				currCustomer.setPhoneNo(rs.getInt("phoneno"));
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new DataAccessException(DBMessages.COULD_NOT_READ_RESULTSET, e);
+//			e.printStackTrace();
 		}
 		System.out.println(currCustomer);
 		return currCustomer;

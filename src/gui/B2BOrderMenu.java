@@ -116,9 +116,9 @@ public class B2BOrderMenu extends JFrame {
 		B2BCustomer currCustomer = null;
 		try {
 			currCustomer = customerCtrl.findB2BCustomer(cvr);
-		} catch (DataAccessException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+		} catch (DataAccessException e) {
+			JOptionPane.showMessageDialog(this, "");
+//			e.printStackTrace();
 		}
 		if(currCustomer == null) {
 				JOptionPane.showMessageDialog(null, "Prøv Igen");
