@@ -125,6 +125,9 @@ public class B2BOrderGUI extends JFrame {
 		panel_2.add(btnAddLogin);
 		
 		JButton btnEndOrder = new JButton("Afslut Ordre");
+		btnEndOrder.addActionListener((e -> {
+			endOrderClicked();
+		}));
 		panel_2.add(btnEndOrder);
 		
 		JPanel pnlSubTotal = new JPanel();
@@ -180,8 +183,17 @@ public class B2BOrderGUI extends JFrame {
 		scrollPane_1.setViewportView(loginTable);
 	}
 	
-	private void addLoginClicked() {
+	private void endOrderClicked() {
 		// TODO Auto-generated method stub
+		try {
+			orderCtrl.endOrder();
+		} catch (DataAccessException e) {
+			JOptionPane.showMessageDialog(this, "Kan ikke få adgang til database", "Data access error",
+					JOptionPane.OK_OPTION);
+			//e.printStackTrace();
+		}
+	}
+	private void addLoginClicked() {
 		String insertEmail = JOptionPane.showInputDialog("Indtast email til login");
 		if(checkEmail(insertEmail)) {
 		try {
