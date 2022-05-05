@@ -221,6 +221,7 @@ public class B2BOrderGUI extends JFrame {
 	private void endOrderClicked() {
 		try {
 			orderCtrl.endOrder();
+			this.dispose();
 		} catch (DataAccessException e) {
 			JOptionPane.showMessageDialog(this, "Kan ikke få adgang til database", "Data access error",
 					JOptionPane.OK_OPTION);
