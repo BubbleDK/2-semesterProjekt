@@ -31,6 +31,11 @@ public abstract class AbstractProduct {
 	public void setBarcode(String barcode) {
 		this.barcode = barcode;
 	}
+	
+	public String getBarcode() {
+		return this.barcode;
+	}
+		
 
 	public void setProductDescription(String productDescription) {
 		this.productDescription = productDescription;
@@ -52,6 +57,6 @@ public abstract class AbstractProduct {
 
 	
 	public abstract void removeStock(int quantity);
-		
-	}
+
+}
 	
