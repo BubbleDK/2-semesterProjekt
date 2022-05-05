@@ -29,6 +29,7 @@ public class OrderCtrl {
 	}
 	
 	public void addPackage(String barcode) throws DataAccessException {
+		//TODO: check for gentagelser i produkter/ordrelinjer DER MÅ IKKE VÆRE FLERE ENS
 		AbstractProduct p = productCtrl.findProduct(barcode);
 		B2BOrderLine ol = new B2BOrderLine(p);
 		o.addOrderLine(ol);

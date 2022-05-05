@@ -192,38 +192,32 @@ public class B2BOrderGUI extends JFrame {
 	
 	private void addProductClicked() {
 		String insertBarcode = JOptionPane.showInputDialog("Indtast stregkode");
-		checkProductBarcode(insertBarcode);
+		//AbstractProduct currProduct = checkProductBarcode(insertBarcode);
 		AbstractProduct currProduct = null;
+		try {
+			currProduct = productCtrl.findProduct(insertBarcode);
+		} catch (DataAccessException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		if(currProduct != null) {
-			if(currProduct.getBarcode().equals(insertBarcode)){
-				try {
-					orderCtrl.addPackage(insertBarcode);
-				} catch (DataAccessException e) {
-					JOptionPane.showMessageDialog(this, "Kan ikke få adgang til database", "Data access error",
-							JOptionPane.OK_OPTION);
-					e.printStackTrace();
-				}
+			try {
+				orderCtrl.addPackage(currProduct.getBarcode());
+			} catch (DataAccessException e) {
+				JOptionPane.showMessageDialog(this, "Kan ikke få adgang til database", "Data access error",
+						JOptionPane.OK_OPTION);
+				//e.printStackTrace();
+			}
 			DefaultTableModel productModel = (DefaultTableModel) productTable.getModel();
 			productModel.addRow(new String[] {insertBarcode, Double.toString(currProduct.getPrice()), "0"});
-			}
-		}else {
-			JOptionPane.showMessageDialog(null, "Ugyldig barcode", "Fejlmeddelelse",
+		}else if(insertBarcode != null){
+			JOptionPane.showMessageDialog(this, "Forkert stregkode", "Stregkodefejl!",
 					JOptionPane.OK_OPTION);
 			addProductClicked();
 		}
+	
 	}
-	private void checkProductBarcode(String barcode) {
-		AbstractProduct currProduct = null;
-		try {
-			currProduct = productCtrl.findProduct(barcode);
-		} catch (DataAccessException e1) {
-			JOptionPane.showMessageDialog(this, "Kan ikke få adgang til database", "Data access error",
-					JOptionPane.OK_OPTION);
-			//e1.printStackTrace();
-		}
-	}
-		
-	}
+	
 	private void endOrderClicked() {
 		try {
 			orderCtrl.endOrder();
