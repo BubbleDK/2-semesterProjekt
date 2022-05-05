@@ -22,6 +22,10 @@ public class B2BOrder {
 		emailGiftNo = new HashMap<String, String>();
 	}
 	
+	public B2BOrder() {
+		
+	}
+	
 	public B2BOrderLine addOrderLine(B2BOrderLine ol) {
 		orderLines.add(ol);
 		return ol;
@@ -48,8 +52,8 @@ public class B2BOrder {
 		endDate = LocalDate.parse(endDateString,DateTimeFormatter.ofPattern("dd-MM-yyyy"));
 	}
 	
-	public void setOrderLines(ArrayList orderLines) {
-		orderLines = new ArrayList<>();
+	public void setOrderLines(B2BOrderLine PackLine) {
+		orderLines.add(PackLine);
 	}
 	
 	public void setCustomer(B2BCustomer c) {

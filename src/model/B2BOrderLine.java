@@ -8,6 +8,10 @@ public class B2BOrderLine {
 		this.quantity = 0;
 	}
 	
+	public B2BOrderLine() {
+		
+	}
+	
 	public void addLogin(String giftNo) {
 		
 	}
@@ -27,5 +31,7 @@ public class B2BOrderLine {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
+
+	
 
 }

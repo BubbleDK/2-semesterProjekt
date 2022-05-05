@@ -5,13 +5,19 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import exceptions.DataAccessException;
+import model.AbstractProduct;
 import model.B2BCustomer;
+import model.B2BLogin;
 import model.B2BOrder;
+import model.B2BOrderLine;
 
 public class OrderDB implements OrderDBIF {
 	private B2BOrder currOrder;
+	private CustomerDB CDB;
+	private HashMap<String, String> EGN;
 	private static final String INSERT_INTO_ORDERLINE_Q = "insert into kk_OrderLines (orderID, productID, quantity, type) values (?, ?, ?, ?)";
 	private PreparedStatement insertOrderLinePS;
 	private static final String INSERT_INTO_ORDER_Q = "insert into kk_Orders (type, customerID, employeeID) values (?, ?, ?, ?)";
@@ -87,15 +93,46 @@ public class OrderDB implements OrderDBIF {
 			//TODO:Hvordan bruger jeg settere på flere ting?
 			if(rs.next()) {
 				currOrder.setEndDate(rs.getString("endDate"));
-				currOrder.setOrderLines((ArrayList) rs.getArray("OrderLines"));
-				currOrder.setCustomer(rs.getString("customerID"));
-				currOrder.setEmailGiftNo(rs.getString("price"));
+				currOrder.setOrderLines(buildOrderLineObject(rs));
+				currOrder.setCustomer(CDB.findB2BCustomer(rs.getInt("customerID")));
+				currOrder.setEmailGiftNo(buildEmailGiftObject(rs));
 			}
 		} catch (SQLException e) {
 			throw new DataAccessException(DBMessages.COULD_NOT_READ_RESULTSET, e);
 //			e.printStackTrace();
 		}
 		return currOrder;
+	}
+	
+	private HashMap buildEmailGiftObject(ResultSet rs) throws DataAccessException {
+		EGN = new HashMap<String, String>();
+		
+		try {
+			if(rs.next()) {
+				EGN.put(rs.getString("Email"), rs.getString("GiftNo"));
+			}
+		}catch(SQLException e){
+			throw new DataAccessException(DBMessages.COULD_NOT_READ_RESULTSET, e);
+		}
+		
+		return null;
+	}
+
+
+
+	public B2BOrderLine buildOrderLineObject(ResultSet rs) throws DataAccessException {
+		B2BOrderLine currOL = new B2BOrderLine();
+		try {
+			//TODO:Hvordan bruger jeg settere på flere ting?
+			if(rs.next()) {
+				currOL.setP((AbstractProduct) rs.getObject("product"));
+				currOL.setQuantity(rs.getInt("quantity"));
+			}
+		} catch (SQLException e) {
+			throw new DataAccessException(DBMessages.COULD_NOT_READ_RESULTSET, e);
+//			e.printStackTrace();
+		}
+		return currOL;
 	}
 
 }
