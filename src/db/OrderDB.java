@@ -81,8 +81,8 @@ public class OrderDB implements OrderDBIF {
 			ResultSet rs = findByOrderNoPS.executeQuery();
 			buildPackObject(rs, endDate, c);
 		} catch (SQLException e) {
-			throw new DataAccessException(DBMessages.COULD_NOT_BIND_OR_EXECUTE_QUERY, e);
 //			e.printStackTrace();
+			throw new DataAccessException(DBMessages.COULD_NOT_BIND_OR_EXECUTE_QUERY, e);
 		}
 		return null;
 	}
@@ -98,8 +98,8 @@ public class OrderDB implements OrderDBIF {
 				currOrder.setEmailGiftNo(buildEmailGiftObject(rs));
 			}
 		} catch (SQLException e) {
-			throw new DataAccessException(DBMessages.COULD_NOT_READ_RESULTSET, e);
 //			e.printStackTrace();
+			throw new DataAccessException(DBMessages.COULD_NOT_READ_RESULTSET, e);
 		}
 		return currOrder;
 	}

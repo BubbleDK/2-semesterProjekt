@@ -9,7 +9,7 @@ public class ProductCtrl {
 
 	private ProductDBIF productDB;
 
-	public ProductCtrl() {
+	public ProductCtrl() throws DataAccessException {
 		this.productDB = new ProductDB();
 	}
 	
