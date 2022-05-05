@@ -60,9 +60,9 @@ public class B2BOrderGUI extends JFrame {
 	 * @param orderCtrl 
 	 * @param cvr 
 	 */
-	public B2BOrderGUI(String companyName, String endDate, OrderCtrl orderCtrl) {
+	public B2BOrderGUI(int cvr, String companyName, String endDate, OrderCtrl orderCtrl) {
 		this();
-		init(companyName, endDate, orderCtrl);
+		init(cvr, companyName, endDate, orderCtrl);
 	}
 	
 	/**
@@ -218,11 +218,16 @@ public class B2BOrderGUI extends JFrame {
 		
 	}
 	
-	private void init(String companyName, String endDate, OrderCtrl orderCtrl) {
+	private void init(int cvr, String companyName, String endDate, OrderCtrl orderCtrl) {
 		lblCustomerName.setText("Kunde: " + companyName);
 		lblDate.setText("Slutdato: " + endDate);
 		this.orderCtrl = orderCtrl;
-		//TODO: registerB2BOrder skal have et CVR og ikke et companyName
-		orderCtrl.registerB2BOrder(companyName, endDate);
+		try {
+			orderCtrl.registerB2BOrder(endDate, cvr);
+		} catch (DataAccessException e) {
+			JOptionPane.showMessageDialog(this, "Kan ikke få adgang til database", "Data access error",
+					JOptionPane.OK_OPTION);
+			//e.printStackTrace();
+		}
 	}
 }

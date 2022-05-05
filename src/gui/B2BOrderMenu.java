@@ -4,25 +4,17 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import java.awt.GridBagLayout;
-import java.awt.HeadlessException;
-
-import javax.swing.Box;
 import javax.swing.JButton;
-import javax.swing.JDialog;
-
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.awt.event.ActionEvent;
-
 import ctrl.CustomerCtrl;
 import ctrl.OrderCtrl;
 import exceptions.DataAccessException;
@@ -33,6 +25,7 @@ public class B2BOrderMenu extends JFrame {
 	private JPanel contentPane;
 	private CustomerCtrl customerCtrl;
 	private OrderCtrl orderCtrl;
+	private int cvr;
 
 	/**
 	 * Launch the application.
@@ -127,18 +120,25 @@ public class B2BOrderMenu extends JFrame {
 	private void newB2BOrderClicked() {
 		String companyName = findCompanyNameByCVR();
 		System.out.println("efter findcompanybycvr");
-		if(companyName != null) {
+		if(companyName != null && companyName.equals("close!")) {
+			
+		}
+		else if(companyName != null) {
 			String endDate = JOptionPane.showInputDialog("Indtast slut dato: 'DD-MM-YYYY'");
-			if(checkDate(endDate)) {
-			B2BOrderGUI orderGUI = new B2BOrderGUI(companyName, endDate, orderCtrl);
+			if(checkDate(endDate).equals("ok")) {
+			B2BOrderGUI orderGUI = new B2BOrderGUI(cvr, companyName, endDate, orderCtrl);
 			orderGUI.setVisible(true);
 			this.dispose();
-			}else {
-				JOptionPane.showMessageDialog(this, "Dato format skal være DD-MM-YYYY, eksempelvis 01-01-2000", "Input fejl",
+			}else if(checkDate(endDate).equals("dato fejl")){
+				JOptionPane.showMessageDialog(this, "Dato skal være efter dags dato", "Input fejl",
+						JOptionPane.OK_OPTION);
+				newB2BOrderClicked();
+			}else if(checkDate(endDate).equals("format fejl")) {
+				JOptionPane.showMessageDialog(this, "Dato skal være af format 'DD-MM-YYYY'", "Input fejl", 
 						JOptionPane.OK_OPTION);
 				newB2BOrderClicked();
 			}
-		}else {
+		}else{
 			newB2BOrderClicked();
 		}
 	}
@@ -146,13 +146,16 @@ public class B2BOrderMenu extends JFrame {
 	private String findCompanyNameByCVR() {
 		System.out.println("1");
 		String insertCVR = JOptionPane.showInputDialog("Indtast CVR");
-		int cvr = -1;
-		if (isANumber(insertCVR) && !insertCVR.isBlank()) {
+		cvr = -1;
+		if(isANumber(insertCVR) && !insertCVR.isBlank()) {
 			cvr = Integer.parseInt(insertCVR);
 			System.out.println("2");
-		} else {
+		}else if(insertCVR == null){
+			return "close!";
+		}else {
 			JOptionPane.showMessageDialog(this, "Antal skal være et tal.", "Input fejl", JOptionPane.OK_OPTION);
 			System.out.println("3");
+			return null;
 		}
 
 		B2BCustomer currCustomer = null;
@@ -176,23 +179,30 @@ public class B2BOrderMenu extends JFrame {
 		return currCustomer.getCompanyName();
 	}
 	
-	private Boolean checkDate(String date) {
+	private String checkDate(String date) {
+		String res = "";
+		
 		//datePattern describes a dd-mm-yyyy date pattern.
 		String datePattern = "^(3[01]|[12][0-9]|0[1-9])-(1[0-2]|0[1-9])-[0-9]{4}$";
+		LocalDate endDate = null;
 
 		Pattern pattern = Pattern.compile(datePattern);
 
 		Matcher m = pattern.matcher(date);
-
-		if(m.find()) {
-			System.out.println(date + " is ok");
-			return true;
-		}
-		else {
-			System.out.println(date + " is not ok");
-			return false;
-		}
-		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+			try {
+				endDate = LocalDate.parse(date, formatter);
+				if(m.find() && endDate.isAfter(LocalDate.now())) {
+					System.out.println(date + " is ok");
+					res = "ok";
+				}else if(LocalDate.now().isAfter(endDate)) {
+					res = "dato fejl";
+				}
+			} catch (Exception e) {
+				System.out.println(date + " is not ok");
+				res  = "format fejl";
+			}
+		return res;
 	}
 
 	private boolean isANumber(String string) {
