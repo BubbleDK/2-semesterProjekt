@@ -19,9 +19,12 @@ import javax.swing.JDialog;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
 
 import ctrl.CustomerCtrl;
+import ctrl.OrderCtrl;
 import exceptions.DataAccessException;
 import model.B2BCustomer;
 
@@ -29,6 +32,7 @@ public class B2BOrderMenu extends JFrame {
 
 	private JPanel contentPane;
 	private CustomerCtrl customerCtrl;
+	private OrderCtrl orderCtrl;
 
 	/**
 	 * Launch the application.
@@ -111,6 +115,13 @@ public class B2BOrderMenu extends JFrame {
 					JOptionPane.OK_OPTION);
 //			e.printStackTrace();
 		}
+		try {
+			orderCtrl = new OrderCtrl();
+		} catch (DataAccessException e) {
+			JOptionPane.showMessageDialog(this, "Kan ikke få adgang til database", "Data access error",
+					JOptionPane.OK_OPTION);
+			//e.printStackTrace();
+		}
 	}
 
 	private void newB2BOrderClicked() {
@@ -118,9 +129,15 @@ public class B2BOrderMenu extends JFrame {
 		System.out.println("efter findcompanybycvr");
 		if(companyName != null) {
 			String endDate = JOptionPane.showInputDialog("Indtast slut dato: 'DD-MM-YYYY'");
-			B2BOrderGUI orderGUI = new B2BOrderGUI(companyName, endDate);
+			if(checkDate(endDate)) {
+			B2BOrderGUI orderGUI = new B2BOrderGUI(companyName, endDate, orderCtrl);
 			orderGUI.setVisible(true);
 			this.dispose();
+			}else {
+				JOptionPane.showMessageDialog(this, "Dato format skal være DD-MM-YYYY, eksempelvis 01-01-2000", "Input fejl",
+						JOptionPane.OK_OPTION);
+				newB2BOrderClicked();
+			}
 		}else {
 			newB2BOrderClicked();
 		}
@@ -157,6 +174,25 @@ public class B2BOrderMenu extends JFrame {
 		}
 		System.out.println(currCustomer + "2");
 		return currCustomer.getCompanyName();
+	}
+	
+	private Boolean checkDate(String date) {
+		//datePattern describes a dd-mm-yyyy date pattern.
+		String datePattern = "^(3[01]|[12][0-9]|0[1-9])-(1[0-2]|0[1-9])-[0-9]{4}$";
+
+		Pattern pattern = Pattern.compile(datePattern);
+
+		Matcher m = pattern.matcher(date);
+
+		if(m.find()) {
+			System.out.println(date + " is ok");
+			return true;
+		}
+		else {
+			System.out.println(date + " is not ok");
+			return false;
+		}
+		
 	}
 
 	private boolean isANumber(String string) {

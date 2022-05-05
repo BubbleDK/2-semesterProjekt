@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JScrollPane;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -19,16 +20,25 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import ctrl.OrderCtrl;
+import exceptions.DataAccessException;
+
 import javax.swing.JSplitPane;
 import javax.swing.JDesktopPane;
+import java.awt.event.ActionListener;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.awt.event.ActionEvent;
 
 public class B2BOrderGUI extends JFrame {
 
 	private JPanel contentPane;
-	private JTable table;
-	private JTable table_1;
+	private JTable productTable;
+	private JTable loginTable;
 	private JLabel lblCustomerName;
 	private JLabel lblDate;
+	private OrderCtrl orderCtrl;
 
 	/**
 	 * Launch the application.
@@ -47,11 +57,12 @@ public class B2BOrderGUI extends JFrame {
 	}
 	/**
 	* @param endDate 
+	 * @param orderCtrl 
 	 * @param cvr 
 	 */
-	public B2BOrderGUI(String companyName, String endDate) {
+	public B2BOrderGUI(String companyName, String endDate, OrderCtrl orderCtrl) {
 		this();
-		init(companyName, endDate);
+		init(companyName, endDate, orderCtrl);
 	}
 	
 	/**
@@ -107,7 +118,10 @@ public class B2BOrderGUI extends JFrame {
 		JButton btnAddProduct = new JButton("Tilf\u00F8j Produkt");
 		panel_2.add(btnAddProduct);
 		
-		JButton btnAddLogin = new JButton("Tilf\u00F8j email");
+		JButton btnAddLogin = new JButton("Tilføj Login");
+		btnAddLogin.addActionListener((e -> {
+			addLoginClicked();
+		}));
 		panel_2.add(btnAddLogin);
 		
 		JButton btnEndOrder = new JButton("Afslut Ordre");
@@ -141,33 +155,74 @@ public class B2BOrderGUI extends JFrame {
 		scrollPane.setBounds(10, 11, 192, 126);
 		desktopPane.add(scrollPane);
 		
-		table = new JTable();
-		table.setModel(new DefaultTableModel(
+		productTable = new JTable();
+		productTable.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
 			new String[] {
-				"New column", "New column"
+				"Produkt", "Pris"
 			}
 		));
-		scrollPane.setViewportView(table);
+		scrollPane.setViewportView(productTable);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBounds(212, 11, 202, 126);
 		desktopPane.add(scrollPane_1);
 		
-		table_1 = new JTable();
-		table_1.setModel(new DefaultTableModel(
+		loginTable = new JTable();
+		loginTable.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
 			new String[] {
-				"New column"
+				"Email"
 			}
 		));
-		scrollPane_1.setViewportView(table_1);
+		scrollPane_1.setViewportView(loginTable);
 	}
 	
-	private void init(String companyName, String endDate) {
+	private void addLoginClicked() {
+		// TODO Auto-generated method stub
+		String insertEmail = JOptionPane.showInputDialog("Indtast email til login");
+		if(checkEmail(insertEmail)) {
+		try {
+			orderCtrl.addB2BEmployee(insertEmail);
+		} catch (DataAccessException e) {
+			JOptionPane.showMessageDialog(this, "Kan ikke få adgang til database", "Data access error",
+					JOptionPane.OK_OPTION);
+			//e.printStackTrace();
+		}
+		DefaultTableModel loginModel = (DefaultTableModel) loginTable.getModel();
+		loginModel.addRow(new String[] {insertEmail});
+		}else {
+			JOptionPane.showMessageDialog(null, "Ugyldigt email format", "Fejlmeddelelse",
+					JOptionPane.OK_OPTION);
+			addLoginClicked();
+		}
+	}
+	
+	private Boolean checkEmail(String email) {
+		String emailPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$";
+
+		Pattern pattern = Pattern.compile(emailPattern);
+
+		Matcher m = pattern.matcher(email);
+
+		if(m.find()) {
+			System.out.println(email + " is ok");
+			return true;
+		}
+		else {
+			System.out.println(email + " is not ok");
+			return false;
+		}
+		
+	}
+	
+	private void init(String companyName, String endDate, OrderCtrl orderCtrl) {
 		lblCustomerName.setText("Kunde: " + companyName);
 		lblDate.setText("Slutdato: " + endDate);
+		this.orderCtrl = orderCtrl;
+		//TODO: registerB2BOrder skal have et CVR og ikke et companyName
+		orderCtrl.registerB2BOrder(companyName, endDate);
 	}
 }
