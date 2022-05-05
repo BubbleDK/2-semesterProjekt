@@ -29,7 +29,7 @@ class TC1 {
 	}
 
 	@Test
-	void testCreateOrderSameAsSavedOrder() throws DataAccessException, SQLException {
+	void testCreateOrderSameAsSavedOrderSingleProduct() throws DataAccessException, SQLException {
 		Connection con = DBConnection.getInstance().getConnection();
 		OrderCtrl orderCtrl = new OrderCtrl();
 		CustomerCtrl customerCtrl = new CustomerCtrl();
@@ -49,6 +49,27 @@ class TC1 {
 		}
 		
 	}
-
-
+	
+	@Test
+	void testCreateOrderSameAsSavedOrderMultipleProducts() throws DataAccessException, SQLException {
+		Connection con = DBConnection.getInstance().getConnection();
+		OrderCtrl orderCtrl = new OrderCtrl();
+		CustomerCtrl customerCtrl = new CustomerCtrl();
+		orderCtrl.registerB2BOrder("20-05-2022", 123456789);
+		orderCtrl.addPackage("P1234");
+		orderCtrl.addPackage("P2345");
+		orderCtrl.addB2BEmployee("Gudiksen@gmail.com");
+		currOrder = orderCtrl.endOrder();
+		
+		
+		findOrderPS = con.prepareStatement(FIND_ORDER_Q);
+		findOrderPS.setInt(1, currOrder.getOrderNo());
+		ResultSet rs = findOrderPS.executeQuery();
+		if(rs.next()) {
+		System.out.println(rs.getInt("id"));
+		System.out.println(currOrder.getOrderNo());
+		assertEquals(currOrder.getOrderNo(), rs.getInt("orderNo"));
+		}
+		
+	}
 }
