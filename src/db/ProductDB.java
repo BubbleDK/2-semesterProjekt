@@ -29,7 +29,9 @@ public class ProductDB implements ProductDBIF {
 		try {
 			findByBarcodePS.setString(1, barcode);
 			ResultSet rs = findByBarcodePS.executeQuery();
-			buildPackObject(rs);
+			if(rs.next()) {
+			currProduct = buildPackObject(rs);
+			}
 		} catch (SQLException e) {
 //			e.printStackTrace();
 			throw new DataAccessException(DBMessages.COULD_NOT_BIND_OR_EXECUTE_QUERY, e);
@@ -40,13 +42,11 @@ public class ProductDB implements ProductDBIF {
 	private AbstractProduct buildPackObject(ResultSet rs) throws DataAccessException {
 		currProduct = new Pack();
 		try {
-			if(rs.next()) {
-				currProduct.setName(rs.getString("productName"));
-				currProduct.setBarcode(rs.getString("barcode"));
-				currProduct.setProductDescription(rs.getString("productdescription"));
-				currProduct.setStock(rs.getInt("stock"));
-				currProduct.setPrice(rs.getDouble("price"));
-			}
+			currProduct.setName(rs.getString("productName"));
+			currProduct.setBarcode(rs.getString("barcode"));
+			currProduct.setProductDescription(rs.getString("productdescription"));
+			currProduct.setStock(rs.getInt("stock"));
+			currProduct.setPrice(rs.getDouble("price"));
 		} catch (SQLException e) {
 //			e.printStackTrace();
 			throw new DataAccessException(DBMessages.COULD_NOT_READ_RESULTSET, e);

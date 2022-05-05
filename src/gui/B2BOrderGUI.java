@@ -22,7 +22,10 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import ctrl.OrderCtrl;
+import ctrl.ProductCtrl;
 import exceptions.DataAccessException;
+import model.AbstractProduct;
+import model.Product;
 
 import javax.swing.JSplitPane;
 import javax.swing.JDesktopPane;
@@ -39,6 +42,7 @@ public class B2BOrderGUI extends JFrame {
 	private JLabel lblCustomerName;
 	private JLabel lblDate;
 	private OrderCtrl orderCtrl;
+	private ProductCtrl productCtrl;
 
 	/**
 	 * Launch the application.
@@ -115,7 +119,10 @@ public class B2BOrderGUI extends JFrame {
 		bottomPanel.add(panel_2, BorderLayout.SOUTH);
 		panel_2.setLayout(new GridLayout(1, 0, 0, 0));
 		
-		JButton btnAddProduct = new JButton("Tilf\u00F8j Produkt");
+		JButton btnAddProduct = new JButton("Tilføj Produkt");
+		btnAddProduct.addActionListener((e -> {
+			addProductClicked();
+		}));
 		panel_2.add(btnAddProduct);
 		
 		JButton btnAddLogin = new JButton("Tilføj Login");
@@ -163,7 +170,7 @@ public class B2BOrderGUI extends JFrame {
 			new Object[][] {
 			},
 			new String[] {
-				"Produkt", "Pris"
+				"Produkt", "Pris", "Antal"
 			}
 		));
 		scrollPane.setViewportView(productTable);
@@ -183,8 +190,41 @@ public class B2BOrderGUI extends JFrame {
 		scrollPane_1.setViewportView(loginTable);
 	}
 	
+	private void addProductClicked() {
+		String insertBarcode = JOptionPane.showInputDialog("Indtast stregkode");
+		checkProductBarcode(insertBarcode);
+		AbstractProduct currProduct = null;
+		if(currProduct != null) {
+			if(currProduct.getBarcode().equals(insertBarcode)){
+				try {
+					orderCtrl.addPackage(insertBarcode);
+				} catch (DataAccessException e) {
+					JOptionPane.showMessageDialog(this, "Kan ikke få adgang til database", "Data access error",
+							JOptionPane.OK_OPTION);
+					e.printStackTrace();
+				}
+			DefaultTableModel productModel = (DefaultTableModel) productTable.getModel();
+			productModel.addRow(new String[] {insertBarcode, Double.toString(currProduct.getPrice()), "0"});
+			}
+		}else {
+			JOptionPane.showMessageDialog(null, "Ugyldig barcode", "Fejlmeddelelse",
+					JOptionPane.OK_OPTION);
+			addProductClicked();
+		}
+	}
+	private void checkProductBarcode(String barcode) {
+		AbstractProduct currProduct = null;
+		try {
+			currProduct = productCtrl.findProduct(barcode);
+		} catch (DataAccessException e1) {
+			JOptionPane.showMessageDialog(this, "Kan ikke få adgang til database", "Data access error",
+					JOptionPane.OK_OPTION);
+			//e1.printStackTrace();
+		}
+	}
+		
+	}
 	private void endOrderClicked() {
-		// TODO Auto-generated method stub
 		try {
 			orderCtrl.endOrder();
 		} catch (DataAccessException e) {
@@ -236,6 +276,13 @@ public class B2BOrderGUI extends JFrame {
 		this.orderCtrl = orderCtrl;
 		try {
 			orderCtrl.registerB2BOrder(endDate, cvr);
+		} catch (DataAccessException e) {
+			JOptionPane.showMessageDialog(this, "Kan ikke få adgang til database", "Data access error",
+					JOptionPane.OK_OPTION);
+			//e.printStackTrace();
+		}
+		try {
+			productCtrl = new ProductCtrl();
 		} catch (DataAccessException e) {
 			JOptionPane.showMessageDialog(this, "Kan ikke få adgang til database", "Data access error",
 					JOptionPane.OK_OPTION);
