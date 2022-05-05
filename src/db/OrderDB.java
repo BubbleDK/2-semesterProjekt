@@ -57,7 +57,7 @@ public class OrderDB implements OrderDBIF {
 			}
 			//insert into Order
 			insertOrderPS.setString(1, "B2B");
-			orderNo = new Random().nextInt(100);
+			orderNo = order.newOrderNo();
 			insertOrderPS.setInt(2, orderNo);
 			insertOrderPS.setInt(3, customerID);
 			insertOrderPS.setInt(4, employeeID);
@@ -70,18 +70,17 @@ public class OrderDB implements OrderDBIF {
 				if(rsProduct.next()) {
 					productID = rsProduct.getInt(1);
 				}
-				System.out.println(productID);
 				insertOrderLinePS.setInt(1, orderID);
 				insertOrderLinePS.setInt(2, productID);
 				insertOrderLinePS.setInt(3, order.getOrderLines().get(i).getQuantity());
 				insertOrderLinePS.setString(4, "pack");
-				insertOrderLinePS.executeQuery();
+				insertOrderLinePS.executeUpdate();
 			}
 		} catch (SQLException e) {
-//			e.printStackTrace();
+			e.printStackTrace();
 			throw new DataAccessException(DBMessages.COULD_NOT_BIND_PS_VARS_INSERT, e);
 		}
-		return null;
+		return order;
 	}
 	
 	public B2BOrder findByOrderNo(int orderNo) throws DataAccessException {
