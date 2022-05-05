@@ -3,6 +3,7 @@ package ctrl;
 import db.ProductDB;
 import db.ProductDBIF;
 import exceptions.DataAccessException;
+import model.AbstractProduct;
 import model.Product;
 
 public class ProductCtrl {
@@ -13,8 +14,8 @@ public class ProductCtrl {
 		this.productDB = new ProductDB();
 	}
 	
-	public Product findProduct(String barcode) throws DataAccessException {
-		Product product = productDB.findByProductBarcode(barcode);
+	public AbstractProduct findProduct(String barcode) throws DataAccessException {
+		AbstractProduct product = productDB.findByProductBarcode(barcode);
 		return product;
 	}
 }

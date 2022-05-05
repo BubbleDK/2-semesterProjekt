@@ -17,6 +17,7 @@ public class OrderCtrl {
 
 	public OrderCtrl() throws DataAccessException {
 		productCtrl = new ProductCtrl();
+		customerCtrl = new CustomerCtrl();
 	}
 
 	

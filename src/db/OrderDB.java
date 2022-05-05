@@ -4,13 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import exceptions.DataAccessException;
 import model.AbstractProduct;
-import model.B2BCustomer;
-import model.B2BLogin;
 import model.B2BOrder;
 import model.B2BOrderLine;
 
@@ -73,13 +70,13 @@ public class OrderDB implements OrderDBIF {
 		}
 		return null;
 	}
-	//TODO: Ændre metode navn
-	public B2BOrder findByOrderNo(int orderNo, String endDate, B2BCustomer c) throws DataAccessException {
+	
+	public B2BOrder findByOrderNo(int orderNo) throws DataAccessException {
 		currOrder = null;
 		try {
 			findByOrderNoPS.setInt(1, orderNo);
 			ResultSet rs = findByOrderNoPS.executeQuery();
-			buildPackObject(rs, endDate, c);
+			buildPackObject(rs);
 		} catch (SQLException e) {
 //			e.printStackTrace();
 			throw new DataAccessException(DBMessages.COULD_NOT_BIND_OR_EXECUTE_QUERY, e);
@@ -87,10 +84,9 @@ public class OrderDB implements OrderDBIF {
 		return null;
 	}
 	
-	private B2BOrder buildPackObject(ResultSet rs, String endDate, B2BCustomer c) throws DataAccessException {
-		currOrder = new B2BOrder(endDate,c);
+	private B2BOrder buildPackObject(ResultSet rs) throws DataAccessException {
+		currOrder = new B2BOrder();
 		try {
-			//TODO:Hvordan bruger jeg settere på flere ting?
 			if(rs.next()) {
 				currOrder.setEndDate(rs.getString("endDate"));
 				currOrder.setOrderLines(buildOrderLineObject(rs));
@@ -123,7 +119,6 @@ public class OrderDB implements OrderDBIF {
 	public B2BOrderLine buildOrderLineObject(ResultSet rs) throws DataAccessException {
 		B2BOrderLine currOL = new B2BOrderLine();
 		try {
-			//TODO:Hvordan bruger jeg settere på flere ting?
 			if(rs.next()) {
 				currOL.setP((AbstractProduct) rs.getObject("product"));
 				currOL.setQuantity(rs.getInt("quantity"));

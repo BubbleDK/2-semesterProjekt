@@ -11,7 +11,7 @@ import model.Product;
 
 public class ProductDB implements ProductDBIF {
 	private AbstractProduct currProduct;
-	private static final String FIND_BY_BARCODE_Q = "SELECT * FROM kk_Product WHERE barcode = ?";
+	private static final String FIND_BY_BARCODE_Q = "SELECT * FROM kk_AbstractProduct WHERE barcode = ?";
 	private static PreparedStatement findByBarcodePS;
 	
 	public ProductDB() throws DataAccessException {
@@ -24,24 +24,24 @@ public class ProductDB implements ProductDBIF {
 	}
 
 	@Override
-	public Product findByProductBarcode(String barcode) throws DataAccessException {
+	public AbstractProduct findByProductBarcode(String barcode) throws DataAccessException {
 		currProduct = null;
 		try {
 			findByBarcodePS.setString(1, barcode);
 			ResultSet rs = findByBarcodePS.executeQuery();
-			buildPackObject(rs, barcode);
+			buildPackObject(rs);
 		} catch (SQLException e) {
 //			e.printStackTrace();
 			throw new DataAccessException(DBMessages.COULD_NOT_BIND_OR_EXECUTE_QUERY, e);
 		}
-		return null;
+		return currProduct;
 	}
 	
-	private AbstractProduct buildPackObject(ResultSet rs, String barcode) throws DataAccessException {
+	private AbstractProduct buildPackObject(ResultSet rs) throws DataAccessException {
 		currProduct = new Pack();
 		try {
 			if(rs.next()) {
-				currProduct.setName(rs.getString("name"));
+				currProduct.setName(rs.getString("productName"));
 				currProduct.setBarcode(rs.getString("barcode"));
 				currProduct.setProductDescription(rs.getString("productdescription"));
 				currProduct.setStock(rs.getInt("stock"));
