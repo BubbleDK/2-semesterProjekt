@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 import db.OrderDBIF;
 
@@ -13,7 +14,7 @@ public class B2BOrder {
 	private List<B2BOrderLine> orderLines;
 	private B2BCustomer c;
 	private HashMap<String, String> emailGiftNo;
-
+	private int orderNo;
 
 	public B2BOrder(String endDateString,B2BCustomer c) {
 		this.c = c;
@@ -42,6 +43,10 @@ public class B2BOrder {
 	public B2BCustomer getB2BCustomer() {
 		return c;
 	}
+	
+	public int getOrderNo() {
+		return this.orderNo;
+	}
 
 	public void addB2BEmployee(String email) {
 		B2BLogin b2bLogin = new B2BLogin();
@@ -62,5 +67,10 @@ public class B2BOrder {
 	
 	public void setEmailGiftNo(HashMap emailGiftNo) {
 		emailGiftNo = new HashMap<String,String>();
+	}
+	//TODO: ÆNDRE!
+	public int newOrderNo() {
+		orderNo = new Random().nextInt(1000000);
+		return orderNo;
 	}
 }

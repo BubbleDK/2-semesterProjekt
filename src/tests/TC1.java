@@ -19,8 +19,9 @@ import model.B2BOrder;
 
 class TC1 {
 	private B2BOrder currOrder;
-	private static final String FIND_ORDER_Q = "select * from kk_Orders WHERE id = 1";
+	private static final String FIND_ORDER_Q = "select * from kk_Orders WHERE orderNo = ?";
 	private PreparedStatement findOrderPS;
+
 
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -28,7 +29,7 @@ class TC1 {
 	}
 
 	@Test
-	void test() throws DataAccessException, SQLException {
+	void testCreateOrderSameAsSavedOrder() throws DataAccessException, SQLException {
 		Connection con = DBConnection.getInstance().getConnection();
 		OrderCtrl orderCtrl = new OrderCtrl();
 		CustomerCtrl customerCtrl = new CustomerCtrl();
@@ -37,8 +38,15 @@ class TC1 {
 		orderCtrl.addB2BEmployee("Gudiksen@gmail.com");
 		currOrder = orderCtrl.endOrder();
 		
+		
 		findOrderPS = con.prepareStatement(FIND_ORDER_Q);
-		assertEquals(currOrder, findOrderPS);
+		findOrderPS.setInt(1, currOrder.getOrderNo());
+		ResultSet rs = findOrderPS.executeQuery();
+		if(rs.next()) {
+		System.out.println(rs.getInt("id"));
+		System.out.println(currOrder.getOrderNo());
+		assertEquals(currOrder.getOrderNo(), rs.getInt("orderNo"));
+		}
 		
 	}
 
