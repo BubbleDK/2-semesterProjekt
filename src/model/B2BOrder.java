@@ -73,4 +73,8 @@ public class B2BOrder {
 		orderNo = new Random().nextInt(1000000);
 		return orderNo;
 	}
+	
+	public HashMap<String, String> getEmailGiftNo() {
+		return this.emailGiftNo;
+	}
 }

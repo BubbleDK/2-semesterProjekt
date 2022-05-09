@@ -20,6 +20,8 @@ public class OrderDB implements OrderDBIF {
 	private PreparedStatement insertOrderLinePS;
 	private static final String INSERT_INTO_ORDER_Q = "insert into kk_Orders (type, orderNo, customerID, employeeID) values (?, ?, ?, ?)";
 	private PreparedStatement insertOrderPS;
+	private static final String INSERT_INTO_B2BLOGIN_Q = "insert into kk_B2BLogin (giftNO, email, orderID, orderLineID) values (?, ?, ?, ?)";
+	private PreparedStatement insertB2bLoginPS;
 	private static final String FIND_CUSTOMERID_Q = "select * from kk_B2BCustomer WHERE cvr = ?";
 	private PreparedStatement findCustomerIDPS;
 	private static final String FIND_PRODUCTID_Q = "select id from kk_AbstractProduct WHERE barcode = ?";
@@ -35,6 +37,7 @@ public class OrderDB implements OrderDBIF {
 			findCustomerIDPS = con.prepareStatement(FIND_CUSTOMERID_Q);
 			findByOrderNoPS = con.prepareStatement(FIND_BY_ORDERNO_Q);
 			findProductIDPS = con.prepareStatement(FIND_PRODUCTID_Q);
+			insertB2bLoginPS = con.prepareStatement(INSERT_INTO_B2BLOGIN_Q);
 		} catch (SQLException e) {
 			// e.printStackTrace();
 			throw new DataAccessException(DBMessages.COULD_NOT_PREPARE_STATEMENT, e);
@@ -75,6 +78,14 @@ public class OrderDB implements OrderDBIF {
 				insertOrderLinePS.setInt(3, order.getOrderLines().get(i).getQuantity());
 				insertOrderLinePS.setString(4, "pack");
 				insertOrderLinePS.executeUpdate();
+			}
+			int orderLinesID = DBConnection.getInstance().executeInsertWithIdentity(insertOrderLinePS);
+			// Save b2b login
+			for (String login : order.getEmailGiftNo().keySet()) {
+				insertB2bLoginPS.setString(1, order.getEmailGiftNo().get(login));
+				insertB2bLoginPS.setString(2, login);
+				insertB2bLoginPS.setInt(3, orderID);
+				insertB2bLoginPS.setInt(4, orderLinesID);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
