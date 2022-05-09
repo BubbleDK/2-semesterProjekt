@@ -9,12 +9,6 @@ public class Product extends AbstractProduct{
 	}
 
 	@Override
-	public Product findProduct(String barcode) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public void updateStock(int quantity) {
 		this.stock += quantity;
 		

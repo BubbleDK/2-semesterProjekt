@@ -46,6 +46,7 @@ public class ProductDB implements ProductDBIF {
 			currProduct.setBarcode(rs.getString("barcode"));
 			currProduct.setProductDescription(rs.getString("productdescription"));
 			currProduct.setStock(rs.getInt("stock"));
+			//TODO: skal opdateres med ny priceclass
 			currProduct.setPrice(rs.getDouble("price"));
 		} catch (SQLException e) {
 //			e.printStackTrace();

@@ -33,13 +33,4 @@ public class Pack extends AbstractProduct {
 			packlines.get(i).getPackLineProduct().removeStock(quantity * packlines.get(i).getQuantity());
 		}
 	}
-
-	@Override
-	public Product findProduct(String barcode) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	
-
 }
