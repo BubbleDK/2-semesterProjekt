@@ -81,6 +81,7 @@ public class OrderDB implements OrderDBIF {
 			}
 			int orderLinesID = DBConnection.getInstance().executeInsertWithIdentity(insertOrderLinePS);
 			// Save b2b login
+			//TODO Skal vi have sat orderlines her? Er det ikke først når man logger ind og vælger noget? Executeinsertwithidentity overover mangler reutngeneratedkeys under prepare statement
 			for (String login : order.getEmailGiftNo().keySet()) {
 				insertB2bLoginPS.setString(1, order.getEmailGiftNo().get(login));
 				insertB2bLoginPS.setString(2, login);
