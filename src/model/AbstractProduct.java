@@ -23,8 +23,6 @@ public abstract class AbstractProduct {
 		
 	}
 
-	public abstract Product findProduct(String barcode);
-
 	public void setName(String name) {
 		this.name = name;
 	}

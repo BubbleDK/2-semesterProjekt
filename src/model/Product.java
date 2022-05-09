@@ -9,12 +9,6 @@ public class Product extends AbstractProduct{
 	}
 
 	@Override
-	public Product findProduct(String barcode) {
-		// TODO: skal den måske slettes? DB laget gør det her
-		return null;
-	}
-
-	@Override
 	public void updateStock(int quantity) {
 		this.stock += quantity;
 		
