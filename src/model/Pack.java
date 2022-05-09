@@ -36,7 +36,7 @@ public class Pack extends AbstractProduct {
 
 	@Override
 	public Product findProduct(String barcode) {
-		// TODO Auto-generated method stub
+		// TODO: skal den måske slettes? DB laget gør det her
 		return null;
 	}
 

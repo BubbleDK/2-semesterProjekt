@@ -1,17 +1,22 @@
 package model;
 
+import java.util.ArrayList;
+
 public abstract class AbstractProduct {
 	private String name;
 	private String barcode;
 	private String productDescription;
 	protected int stock;
-	private double price;
-	public AbstractProduct(String name, String barcode, String productDescription, int stock, double price) {
+	private double priceInsert;
+	private ArrayList<Price> prices;
+	
+	public AbstractProduct(String name, String barcode, String productDescription, int stock, double priceInsert) {
 		this.name = name;
 		this.barcode = barcode;
 		this.productDescription = productDescription;
 		this.stock = stock;
-		this.price = price;
+		Price price = new Price(priceInsert);
+		prices.add(price);
 	}
 	
 	public AbstractProduct() {
@@ -36,7 +41,6 @@ public abstract class AbstractProduct {
 		return this.barcode;
 	}
 		
-
 	public void setProductDescription(String productDescription) {
 		this.productDescription = productDescription;
 	}
@@ -44,13 +48,18 @@ public abstract class AbstractProduct {
 	public void setStock(int stock) {
 		this.stock = stock;
 	}
-
-	public void setPrice(double price) {
-		this.price = price;
-	}
 	
 	public double getPrice() {
-		return price;
+		return prices.get(prices.size()-1).getPrice();
+	}
+	
+	public double getPrice(String date) {
+		for(Price p: prices) {
+			if(p.getDate().toString().equals(date)) {
+				return p.getPrice();
+			}
+		}
+		return -1d;
 	}
 
 	public abstract void updateStock(int quantity);
