@@ -7,7 +7,6 @@ public abstract class AbstractProduct {
 	private String barcode;
 	private String productDescription;
 	protected int stock;
-	private double priceInsert;
 	private ArrayList<Price> prices;
 	
 	public AbstractProduct(String name, String barcode, String productDescription, int stock, double priceInsert) {
@@ -59,7 +58,11 @@ public abstract class AbstractProduct {
 		}
 		return -1d;
 	}
-
+	
+	public void setPrice(Price i) {
+		prices.add(i);
+	}
+	
 	public abstract void updateStock(int quantity);
 
 	

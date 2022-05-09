@@ -1,5 +1,6 @@
 package db;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -7,16 +8,21 @@ import java.sql.SQLException;
 import exceptions.DataAccessException;
 import model.AbstractProduct;
 import model.Pack;
+import model.Price;
 import model.Product;
 
 public class ProductDB implements ProductDBIF {
 	private AbstractProduct currProduct;
 	private static final String FIND_BY_BARCODE_Q = "SELECT * FROM kk_AbstractProduct WHERE barcode = ?";
 	private static PreparedStatement findByBarcodePS;
+	private static final String FIND_BY_PRODUCTID_Q = "SELECT * FROM kk_Pricehistory WHERE productID = ?";
+	private static PreparedStatement findPriceHisPS;
 	
 	public ProductDB() throws DataAccessException {
+		Connection con = DBConnection.getInstance().getConnection();
 		try {
-			findByBarcodePS = DBConnection.getInstance().getConnection().prepareStatement(FIND_BY_BARCODE_Q);
+			findByBarcodePS = con.prepareStatement(FIND_BY_BARCODE_Q);
+			findPriceHisPS = con.prepareStatement(FIND_BY_PRODUCTID_Q);
 		} catch (SQLException e) {
 //			e.printStackTrace();
 			throw new DataAccessException(DBMessages.COULD_NOT_PREPARE_STATEMENT, e);
@@ -30,7 +36,7 @@ public class ProductDB implements ProductDBIF {
 			findByBarcodePS.setString(1, barcode);
 			ResultSet rs = findByBarcodePS.executeQuery();
 			if(rs.next()) {
-			currProduct = buildPackObject(rs);
+				currProduct = buildPackObject(rs);
 			}
 		} catch (SQLException e) {
 //			e.printStackTrace();
@@ -47,9 +53,16 @@ public class ProductDB implements ProductDBIF {
 			currProduct.setProductDescription(rs.getString("productdescription"));
 			currProduct.setStock(rs.getInt("stock"));
 			//TODO: skal opdateres med ny priceclass
-			currProduct.setPrice(rs.getDouble("price"));
+			findPriceHisPS.setInt(1, rs.getInt("id"));
+			ResultSet res = findPriceHisPS.executeQuery();
+			if (res != null) {
+				res.last();
+				String p = res.getString("price");
+				Price price = new Price(Double.parseDouble(p));
+				currProduct.setPrice(price);
+			}	
 		} catch (SQLException e) {
-//			e.printStackTrace();
+			e.printStackTrace();
 			throw new DataAccessException(DBMessages.COULD_NOT_READ_RESULTSET, e);
 		}
 		return currProduct;
