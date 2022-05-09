@@ -226,7 +226,7 @@ public class B2BOrderGUI extends JFrame {
 		} catch (DataAccessException e) {
 			JOptionPane.showMessageDialog(this, "Kan ikke få adgang til database", "Data access error",
 					JOptionPane.OK_OPTION);
-			//e.printStackTrace();
+			e.printStackTrace();
 		}
 	}
 	private void addLoginClicked() {
