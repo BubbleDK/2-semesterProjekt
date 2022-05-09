@@ -15,11 +15,12 @@ public abstract class AbstractProduct {
 		this.productDescription = productDescription;
 		this.stock = stock;
 		Price price = new Price(priceInsert);
-		prices.add(price);
+		this.prices = new ArrayList<Price>();
+		this.prices.add(price);
 	}
 	
 	public AbstractProduct() {
-		
+		this.prices = new ArrayList<Price>();
 	}
 
 	public void setName(String name) {
@@ -50,17 +51,17 @@ public abstract class AbstractProduct {
 		return prices.get(prices.size()-1).getPrice();
 	}
 	
-	public double getPrice(String date) {
-		for(Price p: prices) {
-			if(p.getDate().toString().equals(date)) {
-				return p.getPrice();
-			}
-		}
-		return -1d;
-	}
+//	public double getPrice(String date) {
+//		for(Price p: prices) {
+//			if(p.getDate().toString().equals(date)) {
+//				return p.getPrice();
+//			}
+//		}
+//		return -1d;
+//	}
 	
 	public void setPrice(Price i) {
-		prices.add(i);
+		this.prices.add(i);
 	}
 	
 	public abstract void updateStock(int quantity);

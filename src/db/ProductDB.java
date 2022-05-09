@@ -15,7 +15,7 @@ public class ProductDB implements ProductDBIF {
 	private AbstractProduct currProduct;
 	private static final String FIND_BY_BARCODE_Q = "SELECT * FROM kk_AbstractProduct WHERE barcode = ?";
 	private static PreparedStatement findByBarcodePS;
-	private static final String FIND_BY_PRODUCTID_Q = "SELECT * FROM kk_Pricehistory WHERE productID = ?";
+	private static final String FIND_BY_PRODUCTID_Q = "SELECT TOP 1 * FROM kk_Pricehistory WHERE productID = ? ORDER BY historyDate DESC";
 	private static PreparedStatement findPriceHisPS;
 	
 	public ProductDB() throws DataAccessException {
@@ -55,8 +55,7 @@ public class ProductDB implements ProductDBIF {
 			//TODO: skal opdateres med ny priceclass
 			findPriceHisPS.setInt(1, rs.getInt("id"));
 			ResultSet res = findPriceHisPS.executeQuery();
-			if (res != null) {
-				res.last();
+			if(res.next()) {
 				String p = res.getString("price");
 				Price price = new Price(Double.parseDouble(p));
 				currProduct.setPrice(price);

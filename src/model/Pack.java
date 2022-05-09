@@ -13,6 +13,7 @@ public class Pack extends AbstractProduct {
 	}
 
 	public Pack() {
+		super();
 	}
 	
 	public void addItem(AbstractProduct product, int quantity) {
