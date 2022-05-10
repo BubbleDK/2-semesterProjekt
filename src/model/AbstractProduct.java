@@ -6,7 +6,7 @@ public abstract class AbstractProduct {
 	private String name;
 	private String barcode;
 	private String productDescription;
-	private int stock;
+	protected int stock;
 	private ArrayList<Price> prices;
 	
 	public AbstractProduct(String name, String barcode, String productDescription, int stock, double priceInsert) {
