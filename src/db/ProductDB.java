@@ -12,7 +12,6 @@ import model.Price;
 import model.Product;
 
 public class ProductDB implements ProductDBIF {
-	private AbstractProduct currProduct;
 	private static final String FIND_BY_BARCODE_Q = "SELECT * FROM kk_AbstractProduct WHERE barcode = ?";
 	private static PreparedStatement findByBarcodePS;
 	private static final String FIND_BY_PRODUCTID_Q = "SELECT TOP 1 * FROM kk_Pricehistory WHERE productID = ? ORDER BY historyDate DESC";
@@ -31,12 +30,12 @@ public class ProductDB implements ProductDBIF {
 
 	@Override
 	public AbstractProduct findByProductBarcode(String barcode) throws DataAccessException {
-		currProduct = null;
+		AbstractProduct currProduct = null;
 		try {
 			findByBarcodePS.setString(1, barcode);
 			ResultSet rs = findByBarcodePS.executeQuery();
 			if(rs.next()) {
-				currProduct = buildPackObject(rs);
+				currProduct = buildPackObject(rs, currProduct);
 			}
 		} catch (SQLException e) {
 //			e.printStackTrace();
@@ -45,7 +44,7 @@ public class ProductDB implements ProductDBIF {
 		return currProduct;
 	}
 	
-	private AbstractProduct buildPackObject(ResultSet rs) throws DataAccessException {
+	private AbstractProduct buildPackObject(ResultSet rs, AbstractProduct currProduct) throws DataAccessException {
 		currProduct = new Pack();
 		try {
 			currProduct.setName(rs.getString("productName"));
