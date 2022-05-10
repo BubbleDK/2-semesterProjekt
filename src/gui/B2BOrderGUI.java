@@ -197,7 +197,8 @@ public class B2BOrderGUI extends JFrame {
 		try {
 			currProduct = productCtrl.findProduct(insertBarcode);
 		} catch (DataAccessException e1) {
-			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(this, "Kan ikke finde produkt", "Data access error",
+					JOptionPane.OK_OPTION);
 			e1.printStackTrace();
 		}
 		if(currProduct != null) {
@@ -220,9 +221,14 @@ public class B2BOrderGUI extends JFrame {
 	
 	private void endOrderClicked() {
 		try {
-			orderCtrl.endOrder();
-			JOptionPane.showMessageDialog(this, "Din Ordre gemt");
-			this.dispose();
+			if(orderCtrl.endOrder() != null) {
+				orderCtrl.endOrder();
+				JOptionPane.showMessageDialog(this, "Din Ordre gemt");
+				this.dispose();
+			}else {
+				JOptionPane.showMessageDialog(this, "Kan ikke gemme tom ordre", "Data access error",
+						JOptionPane.OK_OPTION);
+			}
 		} catch (DataAccessException e) {
 			JOptionPane.showMessageDialog(this, "Kan ikke få adgang til database", "Data access error",
 					JOptionPane.OK_OPTION);
@@ -231,7 +237,8 @@ public class B2BOrderGUI extends JFrame {
 	}
 	private void addLoginClicked() {
 		String insertEmail = JOptionPane.showInputDialog("Indtast email til login");
-		if(checkEmail(insertEmail)) {
+		if(insertEmail != null){
+			if(checkEmail(insertEmail)) {
 		try {
 			orderCtrl.addB2BEmployee(insertEmail);
 		} catch (DataAccessException e) {
@@ -245,6 +252,7 @@ public class B2BOrderGUI extends JFrame {
 			JOptionPane.showMessageDialog(null, "Ugyldigt email format", "Fejlmeddelelse",
 					JOptionPane.OK_OPTION);
 			addLoginClicked();
+		}
 		}
 	}
 	

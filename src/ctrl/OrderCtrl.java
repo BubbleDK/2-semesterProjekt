@@ -41,8 +41,12 @@ public class OrderCtrl {
 	}
 	
 	public B2BOrder endOrder() throws DataAccessException {
+		if(o.getOrderLines().size() > 0 && o.getEmailGiftNo().size() > 0) {
 		orderDB = new OrderDB();
 		orderDB.saveOrderToDB(o);
+		}else {
+			return null;
+		}
 		return o;
 	}
 }
