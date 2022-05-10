@@ -28,12 +28,13 @@ public class OrderCtrl {
 		return o;
 	}
 	
-	public void addPackage(String barcode) throws DataAccessException {
+	public AbstractProduct addPackage(String barcode) throws DataAccessException {
 		//TODO: check for gentagelser i produkter/ordrelinjer DER MÅ IKKE VÆRE FLERE ENS
 		AbstractProduct p = productCtrl.findProduct(barcode);
 		B2BOrderLine ol = new B2BOrderLine(p);
 		o.addOrderLine(ol);
 		
+		return p;
 	}
 	
 	public void addB2BEmployee(String email) throws DataAccessException {
