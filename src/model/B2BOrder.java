@@ -49,8 +49,14 @@ public class B2BOrder {
 	}
 
 	public void addB2BEmployee(String email) {
-		B2BLogin b2bLogin = new B2BLogin();
-		emailGiftNo.put(email, b2bLogin.createGiftNo());
+		if(email != null) {
+			for(String emails : emailGiftNo.keySet()) {
+				if(email != emails) {
+					B2BLogin b2bLogin = new B2BLogin();
+					emailGiftNo.put(email, b2bLogin.createGiftNo());
+				}
+			}
+		}
 	}
 	//TODO: Skal alle disse settere være der?
 	public void setEndDate(String endDateString) {
