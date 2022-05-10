@@ -13,6 +13,7 @@ import ctrl.OrderCtrl;
 import db.DBConnection;
 import exceptions.DataAccessException;
 import model.AbstractProduct;
+import model.B2BOrderLine;
 
 class TC3Test {
 
@@ -28,15 +29,17 @@ class TC3Test {
 		orderCtrl.registerB2BOrder("20-05-2022", 123456789);
 		
 		// Act
-//		orderCtrl.addPackage("1");
+		B2BOrderLine ol = orderCtrl.addPackage("1");
 		
 		//Assert
 		
 		DataAccessException thrown = assertThrows(DataAccessException.class, () -> {
-			orderCtrl.addPackage("1234563fafa46");
-		}, "NullPointerException error was expected");
+			if(ol.getProduct() == null) {
+				throw new DataAccessException("Product is null!", new Throwable());
+			}
+		});
 			
-		assertEquals("DataAccessException error was expected", thrown.getMessage());
+		assertEquals("Product is null!", thrown.getMessage());
 
 
 	}
