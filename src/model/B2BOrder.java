@@ -49,12 +49,17 @@ public class B2BOrder {
 	}
 
 	public void addB2BEmployee(String email) {
-		if(email != null) {
+		if(email != "") {
+			if(getEmailGiftNo().size() > 0) {
 			for(String emails : emailGiftNo.keySet()) {
-				if(email != emails) {
+				if(!email.equalsIgnoreCase(emails)) {
 					B2BLogin b2bLogin = new B2BLogin();
 					emailGiftNo.put(email, b2bLogin.createGiftNo());
 				}
+			}
+			}else {
+				B2BLogin b2bLogin = new B2BLogin();
+				emailGiftNo.put(email, b2bLogin.createGiftNo());
 			}
 		}
 	}
