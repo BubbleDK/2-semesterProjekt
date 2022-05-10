@@ -4,8 +4,11 @@ import java.sql.Connection;
 
 import ctrl.CustomerCtrl;
 import ctrl.OrderCtrl;
+import ctrl.ProductCtrl;
 import db.DBConnection;
+import db.ProductDB;
 import exceptions.DataAccessException;
+import model.AbstractProduct;
 import model.B2BOrder;
 
 public class TryMe {
@@ -14,10 +17,14 @@ public static void main(String[] args) throws DataAccessException {
 			Connection con = DBConnection.getInstance().getConnection();
 			OrderCtrl orderCtrl = new OrderCtrl();
 			CustomerCtrl customerCtrl = new CustomerCtrl();
+			ProductCtrl productCtrl = new ProductCtrl();
+			ProductDB productDB = new ProductDB();
 			B2BOrder o = orderCtrl.registerB2BOrder("20-05-2022", 123456789);
 			
 			// Act
-			orderCtrl.addPackage(null);
+			orderCtrl.addPackage("err414124");
+			AbstractProduct p = productCtrl.findProduct("err414124");
+			productDB.findByProductBarcode("err414124");
 			System.out.println(o);
 }
 }

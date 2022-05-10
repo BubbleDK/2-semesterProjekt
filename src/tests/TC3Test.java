@@ -1,5 +1,6 @@
 package tests;
 
+import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.sql.Connection;
@@ -11,6 +12,7 @@ import ctrl.CustomerCtrl;
 import ctrl.OrderCtrl;
 import db.DBConnection;
 import exceptions.DataAccessException;
+import model.AbstractProduct;
 
 class TC3Test {
 
@@ -29,14 +31,14 @@ class TC3Test {
 //		orderCtrl.addPackage("1");
 		
 		//Assert
-		assertThrows(DataAccessException.class, new Executable() {
-			
-			@Override
-			public void execute() throws Throwable {
-				orderCtrl.addPackage("1");
-			}
-		});
 		
-	}
+		DataAccessException thrown = assertThrows(DataAccessException.class, () -> {
+			orderCtrl.addPackage("1234563fafa46");
+		}, "NullPointerException error was expected");
+			
+		assertEquals("DataAccessException error was expected", thrown.getMessage());
 
+
+	}
+	
 }

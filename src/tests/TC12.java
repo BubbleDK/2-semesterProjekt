@@ -17,7 +17,7 @@ import db.DBMessages;
 import exceptions.DataAccessException;
 import model.B2BOrder;
 
-class TC1 {
+class TC12 {
 	private B2BOrder currOrder;
 	private static final String FIND_ORDER_Q = "select * from kk_Orders WHERE orderNo = ?";
 	private PreparedStatement findOrderPS;
