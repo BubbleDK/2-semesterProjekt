@@ -22,9 +22,9 @@ public class Pack extends AbstractProduct {
 		}
 	}
 	@Override
-	public void updateStock(int quantity) {
+	public void addStock(int quantity) {
 		for (int i = 0; i < packlines.size(); i++) {
-			packlines.get(i).getPackLineProduct().updateStock(quantity * packlines.get(i).getQuantity());
+			packlines.get(i).getPackLineProduct().addStock(quantity * packlines.get(i).getQuantity());
 		}
 	}
 	

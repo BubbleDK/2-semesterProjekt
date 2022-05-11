@@ -222,7 +222,7 @@ public class B2BOrderGUI extends JFrame {
 	private void endOrderClicked() {
 		try {
 			if(orderCtrl.endOrder() != null) {
-				orderCtrl.endOrder();
+//				orderCtrl.endOrder();
 				JOptionPane.showMessageDialog(this, "Din Ordre gemt");
 				this.dispose();
 			}else {

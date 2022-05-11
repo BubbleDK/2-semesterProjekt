@@ -35,7 +35,7 @@ public class ProductDB implements ProductDBIF {
 			findByBarcodePS.setString(1, barcode);
 			ResultSet rs = findByBarcodePS.executeQuery();
 			if(rs.next()) {
-				currProduct = buildPackObject(rs, currProduct);
+				currProduct = buildPackObject(rs);
 			}
 		} catch (SQLException e) {
 //			e.printStackTrace();
@@ -44,8 +44,8 @@ public class ProductDB implements ProductDBIF {
 		return currProduct;
 	}
 	
-	private AbstractProduct buildPackObject(ResultSet rs, AbstractProduct currProduct) throws DataAccessException {
-		currProduct = new Pack();
+	private AbstractProduct buildPackObject(ResultSet rs) throws DataAccessException {
+		AbstractProduct currProduct = new Pack();
 		try {
 			currProduct.setName(rs.getString("productName"));
 			currProduct.setBarcode(rs.getString("barcode"));

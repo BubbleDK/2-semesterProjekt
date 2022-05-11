@@ -87,7 +87,7 @@ public class OrderDB implements OrderDBIF {
 				insertB2bLoginPS.setString(2, login);
 				insertB2bLoginPS.setInt(3, orderID);
 //				insertB2bLoginPS.setInt(4, orderLinesID);
-				insertB2bLoginPS.executeUpdate();
+				insertB2bLoginPS.execute();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

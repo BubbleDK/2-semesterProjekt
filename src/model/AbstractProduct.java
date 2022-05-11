@@ -6,7 +6,7 @@ public abstract class AbstractProduct {
 	private String name;
 	private String barcode;
 	private String productDescription;
-	protected int stock;
+	private int stock;
 	private ArrayList<Price> prices;
 	
 	public AbstractProduct(String name, String barcode, String productDescription, int stock, double priceInsert) {
@@ -47,6 +47,10 @@ public abstract class AbstractProduct {
 		this.stock = stock;
 	}
 	
+	public int getStock() {
+		return stock;
+	}
+	
 	public double getPrice() {
 		return prices.get(prices.size()-1).getPrice();
 	}
@@ -64,7 +68,7 @@ public abstract class AbstractProduct {
 		this.prices.add(i);
 	}
 	
-	public abstract void updateStock(int quantity);
+	public abstract void addStock(int quantity);
 
 	
 	public abstract void removeStock(int quantity);

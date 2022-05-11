@@ -9,15 +9,14 @@ public class Product extends AbstractProduct{
 	}
 
 	@Override
-	public void updateStock(int quantity) {
-		this.stock += quantity;
+	public void addStock(int quantity) {
+		setStock(getStock() + quantity);
 		
 	}
 
 	@Override
 	public void removeStock(int quantity) {
-		this.stock -= quantity;
-		
+		setStock(getStock() - quantity);
 	}
 
 }
