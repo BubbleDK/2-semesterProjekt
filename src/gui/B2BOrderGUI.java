@@ -198,7 +198,7 @@ public class B2BOrderGUI extends JFrame {
 			currProduct = productCtrl.findProduct(insertBarcode);
 		} catch (DataAccessException e1) {
 			JOptionPane.showMessageDialog(this, "Kan ikke finde produkt", "Data access error",
-					JOptionPane.OK_OPTION);
+					JOptionPane.ERROR_MESSAGE);
 			e1.printStackTrace();
 		}
 		if(currProduct != null) {
@@ -206,14 +206,14 @@ public class B2BOrderGUI extends JFrame {
 				orderCtrl.addPackage(currProduct.getBarcode());
 			} catch (DataAccessException e) {
 				JOptionPane.showMessageDialog(this, "Kan ikke få adgang til database", "Data access error",
-						JOptionPane.OK_OPTION);
+						JOptionPane.ERROR_MESSAGE);
 				//e.printStackTrace();
 			}
 			DefaultTableModel productModel = (DefaultTableModel) productTable.getModel();
 			productModel.addRow(new String[] {insertBarcode, Double.toString(currProduct.getPrice()), "0"});
 		}else if(insertBarcode != null){
 			JOptionPane.showMessageDialog(this, "Forkert stregkode", "Stregkodefejl!",
-					JOptionPane.OK_OPTION);
+					JOptionPane.ERROR_MESSAGE);
 			addProductClicked();
 		}
 	
@@ -227,31 +227,37 @@ public class B2BOrderGUI extends JFrame {
 				this.dispose();
 			}else {
 				JOptionPane.showMessageDialog(this, "Kan ikke gemme tom ordre", "Data access error",
-						JOptionPane.OK_OPTION);
+						JOptionPane.ERROR_MESSAGE);
 			}
 		} catch (DataAccessException e) {
 			JOptionPane.showMessageDialog(this, "Kan ikke få adgang til database", "Data access error",
-					JOptionPane.OK_OPTION);
+					JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
 	}
 	//TODO: TJEKKER ALDRIG OM DEN ER PÅ ORDREN. SÅ MAN KAN TILFØJE SAMME EMAIL TIL ORDREN, SELVOM DEN ER TJEKKET OG IKKE BLIVER SENDT NED TIL DBEN
 	private void addLoginClicked() {
+		boolean login = false;
 		String insertEmail = JOptionPane.showInputDialog("Indtast email til login");
 		if(insertEmail != null){
 			if(checkEmail(insertEmail)) {
 		try {
-			orderCtrl.addB2BEmployee(insertEmail);
+			login = orderCtrl.addB2BEmployee(insertEmail);
 		} catch (DataAccessException e) {
 			JOptionPane.showMessageDialog(this, "Kan ikke få adgang til database", "Data access error",
-					JOptionPane.OK_OPTION);
+					JOptionPane.ERROR_MESSAGE);
 			//e.printStackTrace();
 		}
-		DefaultTableModel loginModel = (DefaultTableModel) loginTable.getModel();
-		loginModel.addRow(new String[] {insertEmail});
+			if(login) {
+				DefaultTableModel loginModel = (DefaultTableModel) loginTable.getModel();
+				loginModel.addRow(new String[] {insertEmail});
+			}else {
+				JOptionPane.showMessageDialog(null, "Mailadresse er allerede tilføjet", "Fejl", 
+						JOptionPane.ERROR_MESSAGE);
+			}
 		}else {
 			JOptionPane.showMessageDialog(null, "Ugyldigt email format", "Fejlmeddelelse",
-					JOptionPane.OK_OPTION);
+					JOptionPane.ERROR_MESSAGE);
 			addLoginClicked();
 		}
 		}

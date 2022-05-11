@@ -37,8 +37,8 @@ public class OrderCtrl {
 		return ol;
 	}
 	
-	public void addB2BEmployee(String email) throws DataAccessException {
-		o.addB2BEmployee(email);
+	public boolean addB2BEmployee(String email) throws DataAccessException {
+		return o.addB2BEmployee(email);
 	}
 	
 	public B2BOrder endOrder() throws DataAccessException {

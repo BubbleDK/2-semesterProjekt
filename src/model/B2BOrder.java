@@ -53,13 +53,13 @@ public class B2BOrder {
 		boolean res = false;
 		if(email != "") {
 			if(getEmailGiftNo().size() > 0) {
-			for(Map.Entry<String, String> entry : emailGiftNo.entrySet()) {
-				if(!entry.getKey().equals(email)) {
-					B2BLogin b2bLogin = new B2BLogin();
-					emailGiftNo.put(email, b2bLogin.createGiftNo());
-					res = true;
+				for(Map.Entry<String, String> entry : emailGiftNo.entrySet()) {
+					if(!entry.getKey().equals(email)) {
+						B2BLogin b2bLogin = new B2BLogin();
+						emailGiftNo.put(email, b2bLogin.createGiftNo());
+						res = true;
+					}
 				}
-			}
 			}else {
 				B2BLogin b2bLogin = new B2BLogin();
 				emailGiftNo.put(email, b2bLogin.createGiftNo());
