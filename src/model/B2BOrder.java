@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import db.OrderDBIF;
@@ -51,8 +52,8 @@ public class B2BOrder {
 	public void addB2BEmployee(String email) {
 		if(email != "") {
 			if(getEmailGiftNo().size() > 0) {
-			for(String emails : emailGiftNo.keySet()) {
-				if(!email.equalsIgnoreCase(emails)) {
+			for(Map.Entry<String, String> entry : emailGiftNo.entrySet()) {
+				if(!entry.getKey().equals(email)) {
 					B2BLogin b2bLogin = new B2BLogin();
 					emailGiftNo.put(email, b2bLogin.createGiftNo());
 				}
