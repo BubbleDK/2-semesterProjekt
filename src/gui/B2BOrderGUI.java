@@ -257,7 +257,7 @@ public class B2BOrderGUI extends JFrame {
 	}
 	
 	private Boolean checkEmail(String email) {
-		String emailPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$";
+		String emailPattern = "^[ÆØÅæøåa-zA-Z0-9._%+-]+@[ÆØÅæøåa-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$";
 
 		Pattern pattern = Pattern.compile(emailPattern);
 
