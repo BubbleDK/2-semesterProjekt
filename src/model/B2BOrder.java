@@ -58,6 +58,8 @@ public class B2BOrder {
 						B2BLogin b2bLogin = new B2BLogin();
 						emailGiftNo.put(email, b2bLogin.createGiftNo());
 						res = true;
+					}else {
+						return false;
 					}
 				}
 			}else {
