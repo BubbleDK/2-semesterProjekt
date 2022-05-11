@@ -49,20 +49,24 @@ public class B2BOrder {
 		return this.orderNo;
 	}
 
-	public void addB2BEmployee(String email) {
+	public boolean addB2BEmployee(String email) {
+		boolean res = false;
 		if(email != "") {
 			if(getEmailGiftNo().size() > 0) {
 			for(Map.Entry<String, String> entry : emailGiftNo.entrySet()) {
 				if(!entry.getKey().equals(email)) {
 					B2BLogin b2bLogin = new B2BLogin();
 					emailGiftNo.put(email, b2bLogin.createGiftNo());
+					res = true;
 				}
 			}
 			}else {
 				B2BLogin b2bLogin = new B2BLogin();
 				emailGiftNo.put(email, b2bLogin.createGiftNo());
+				res = true;
 			}
 		}
+		return res;
 	}
 	//TODO: Skal alle disse settere være der?
 	public void setEndDate(String endDateString) {
