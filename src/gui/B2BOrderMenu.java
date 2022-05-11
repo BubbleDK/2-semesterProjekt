@@ -19,6 +19,8 @@ import ctrl.CustomerCtrl;
 import ctrl.OrderCtrl;
 import exceptions.DataAccessException;
 import model.B2BCustomer;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class B2BOrderMenu extends JFrame {
 
@@ -90,15 +92,20 @@ public class B2BOrderMenu extends JFrame {
 		gbc_btnNewButton_1.gridy = 2;
 		panel.add(btnNewButton_1, gbc_btnNewButton_1);
 
-		JButton btnNewButton_2 = new JButton("New button");
-		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
-		gbc_btnNewButton_2.fill = GridBagConstraints.BOTH;
-		gbc_btnNewButton_2.gridx = 0;
-		gbc_btnNewButton_2.gridy = 3;
-		panel.add(btnNewButton_2, gbc_btnNewButton_2);
+		JButton btnTestData = new JButton("Ny ordre med testdata");
+		btnTestData.addActionListener((e -> {
+				testDataClicked();
+		}));
+		GridBagConstraints gbc_btnTestData = new GridBagConstraints();
+		gbc_btnTestData.fill = GridBagConstraints.BOTH;
+		gbc_btnTestData.gridx = 0;
+		gbc_btnTestData.gridy = 3;
+		panel.add(btnTestData, gbc_btnTestData);
 
 		init();
 	}
+
+	
 
 	private void init() {
 		try {
@@ -119,7 +126,6 @@ public class B2BOrderMenu extends JFrame {
 
 	private void newB2BOrderClicked() {
 		String companyName = findCompanyNameByCVR();
-		System.out.println("efter findcompanybycvr");
 		if(companyName != null && companyName.equals("close!")) {
 			
 		}
@@ -212,5 +218,11 @@ public class B2BOrderMenu extends JFrame {
 		} catch (Exception e) {
 			return false;
 		}
+	}
+	
+	private void testDataClicked() {
+		B2BOrderGUI orderGUI = new B2BOrderGUI(123456789, "CGI", "02-02-2222", orderCtrl);
+		orderGUI.setVisible(true);
+		this.dispose();		
 	}
 }
