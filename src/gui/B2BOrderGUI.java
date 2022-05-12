@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
+import javax.swing.BoxLayout;
 
 public class B2BOrderGUI extends JFrame {
 
@@ -166,16 +167,15 @@ public class B2BOrderGUI extends JFrame {
 		
 		JDesktopPane desktopPane = new JDesktopPane();
 		contentPane.add(desktopPane, BorderLayout.CENTER);
+		desktopPane.setLayout(new BoxLayout(desktopPane, BoxLayout.X_AXIS));
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 11, 192, 126);
 		desktopPane.add(scrollPane);
 		
 		productTable = new JTable();
 		scrollPane.setViewportView(productTable);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(212, 11, 202, 126);
 		desktopPane.add(scrollPane_1);
 		
 		loginTable = new JTable();
