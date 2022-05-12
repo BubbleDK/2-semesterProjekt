@@ -4,8 +4,8 @@ public class B2BCustomer extends Person {
 	private String companyName;
 	private int cvr;
 	
-	public B2BCustomer(String name, String address, int zipCode, int phoneNo, String email) {
-		super(name, address, zipCode, phoneNo, email);
+	public B2BCustomer(String name, String address, int zipCode, int phoneNo, String email, String city) {
+		super(name, address, zipCode, phoneNo, email, city);
 	}
 
 	public B2BCustomer() {
