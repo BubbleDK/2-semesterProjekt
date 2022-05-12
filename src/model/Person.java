@@ -34,8 +34,4 @@ public abstract class Person {
 		this.phoneNo = phoneNo;
 	}
 
-	public B2BCustomer findB2BCustomer(int cvr) {
-		
-		return null;
-	}
 }
