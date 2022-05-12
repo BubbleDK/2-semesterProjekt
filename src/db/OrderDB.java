@@ -125,7 +125,7 @@ public class OrderDB implements OrderDBIF {
 		return currOrder;
 	}
 	
-	private HashMap buildEmailGiftObject(ResultSet rs) throws DataAccessException {
+	private HashMap<String,String> buildEmailGiftObject(ResultSet rs) throws DataAccessException {
 		EGN = new HashMap<String, String>();
 		
 		try {
