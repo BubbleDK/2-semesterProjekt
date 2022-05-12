@@ -238,7 +238,6 @@ public class B2BOrderGUI extends JFrame {
 			e.printStackTrace();
 		}
 	}
-	//TODO: TJEKKER ALDRIG OM DEN ER PÅ ORDREN. SÅ MAN KAN TILFØJE SAMME EMAIL TIL ORDREN, SELVOM DEN ER TJEKKET OG IKKE BLIVER SENDT NED TIL DBEN
 	private void addLoginClicked() {
 		boolean login = false;
 		String insertEmail = JOptionPane.showInputDialog("Indtast email til login");
