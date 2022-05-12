@@ -101,7 +101,7 @@ public class OrderDB implements OrderDBIF {
 		try {
 			findByOrderNoPS.setInt(1, orderNo);
 			ResultSet rs = findByOrderNoPS.executeQuery();
-			buildPackObject(rs);
+			buildOrderObject(rs);
 		} catch (SQLException e) {
 //			e.printStackTrace();
 			throw new DataAccessException(DBMessages.COULD_NOT_BIND_OR_EXECUTE_QUERY, e);
@@ -109,7 +109,7 @@ public class OrderDB implements OrderDBIF {
 		return null;
 	}
 	
-	private B2BOrder buildPackObject(ResultSet rs) throws DataAccessException {
+	private B2BOrder buildOrderObject(ResultSet rs) throws DataAccessException {
 		currOrder = new B2BOrder();
 		try {
 			if(rs.next()) {
