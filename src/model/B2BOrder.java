@@ -75,8 +75,8 @@ public class B2BOrder {
 		endDate = LocalDate.parse(endDateString,DateTimeFormatter.ofPattern("dd-MM-yyyy"));
 	}
 	
-	public void setOrderLines(B2BOrderLine PackLine) {
-		orderLines.add(PackLine);
+	public void setOrderLines(B2BOrderLine orderLine) {
+		orderLines.add(orderLine);
 	}
 	
 	public void setCustomer(B2BCustomer c) {
