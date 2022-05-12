@@ -6,16 +6,26 @@ public abstract class Person {
 	private int zipCode;
 	private int phoneNo;
 	private String email;
+	private String city;
 	
-	public Person(String name, String address, int zipCode, int phoneNo, String email) {
+	public Person(String name, String address, int zipCode, int phoneNo, String email, String city) {
 		this.name = name;
 		this.address = address;
 		this.zipCode = zipCode;
 		this.phoneNo = phoneNo;
 		this.email = email;
+		this.city = city;
 		
 	}
 	
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	public Person() {
 		
 	}
