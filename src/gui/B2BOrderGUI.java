@@ -203,14 +203,17 @@ public class B2BOrderGUI extends JFrame {
 		}
 		if(currProduct != null) {
 			try {
-				orderCtrl.addPackage(currProduct.getBarcode());
+				if(orderCtrl.addPackage(currProduct.getBarcode()) != null) {
+					DefaultTableModel productModel = (DefaultTableModel) productTable.getModel();
+					productModel.addRow(new String[] {insertBarcode, Double.toString(currProduct.getPrice()), "0"});
+				}
+				
 			} catch (DataAccessException e) {
 				JOptionPane.showMessageDialog(this, "Kan ikke få adgang til database", "Data access error",
 						JOptionPane.ERROR_MESSAGE);
 				//e.printStackTrace();
 			}
-			DefaultTableModel productModel = (DefaultTableModel) productTable.getModel();
-			productModel.addRow(new String[] {insertBarcode, Double.toString(currProduct.getPrice()), "0"});
+			
 		}else if(insertBarcode != null){
 			JOptionPane.showMessageDialog(this, "Forkert stregkode", "Stregkodefejl!",
 					JOptionPane.ERROR_MESSAGE);

@@ -29,12 +29,20 @@ public class OrderCtrl {
 	}
 	
 	public B2BOrderLine addPackage(String barcode) throws DataAccessException {
-		//TODO: check for gentagelser i produkter/ordrelinjer DER MÅ IKKE VÆRE FLERE ENS
+		boolean productAlreadyExists = false;
 		AbstractProduct p = productCtrl.findProduct(barcode);
-		B2BOrderLine ol = new B2BOrderLine(p);
-		o.addOrderLine(ol);
-		
-		return ol;
+		for(B2BOrderLine ol : o.getOrderLines()) {
+			if(ol.getProduct().getBarcode().equals(p.getBarcode())) {
+				productAlreadyExists = true;
+			}
+		}
+		if(productAlreadyExists == false) {
+			B2BOrderLine ol = new B2BOrderLine(p);
+			o.addOrderLine(ol);
+			return ol;
+		}else{
+			return null;
+		}
 	}
 	
 	public boolean addB2BEmployee(String email) throws DataAccessException {
