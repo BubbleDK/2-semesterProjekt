@@ -54,7 +54,7 @@ public class MainMenu extends JFrame {
 		gbl_panel.columnWidths = new int[]{141, 0};
 		gbl_panel.rowHeights = new int[]{83, 81, 80, 0};
 		gbl_panel.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{1.0, 1.0, 1.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
 		JButton btnNewOrder = new JButton("B2B Ordre");
