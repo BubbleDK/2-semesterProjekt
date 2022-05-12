@@ -5,12 +5,14 @@ public abstract class Person {
 	private String address;
 	private int zipCode;
 	private int phoneNo;
+	private String email;
 	
-	public Person(String name, String address, int zipCode, int phoneNo) {
+	public Person(String name, String address, int zipCode, int phoneNo, String email) {
 		this.name = name;
 		this.address = address;
 		this.zipCode = zipCode;
 		this.phoneNo = phoneNo;
+		this.email = email;
 		
 	}
 	
