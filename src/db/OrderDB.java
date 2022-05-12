@@ -145,7 +145,7 @@ public class OrderDB implements OrderDBIF {
 		B2BOrderLine currOL = new B2BOrderLine();
 		try {
 			if(rs.next()) {
-				currOL.setP((AbstractProduct) rs.getObject("product"));
+				currOL.setProduct((AbstractProduct) rs.getObject("product"));
 				currOL.setQuantity(rs.getInt("quantity"));
 			}
 		} catch (SQLException e) {

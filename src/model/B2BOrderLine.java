@@ -12,25 +12,23 @@ public class B2BOrderLine {
 		
 	}
 	
-	public void addLogin(String giftNo) {
-		
-	}
-	
 	public int getQuantity() {
 		return quantity;
+	}
+	
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 
 	public AbstractProduct getProduct() {
 		return product;
 	}
 
-	public void setP(AbstractProduct product) {
+	public void setProduct(AbstractProduct product) {
 		this.product = product;
 	}
 
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
+	
 
 	
 
