@@ -16,22 +16,13 @@ public class Pack extends AbstractProduct {
 		super();
 	}
 	
-	public void addItem(AbstractProduct product, int quantity) {
-		if (product != null && quantity > 0) {
-			packlines.add(new PackLine(product, quantity));
-		}
-	}
 	@Override
 	public void addStock(int quantity) {
-		for (int i = 0; i < packlines.size(); i++) {
-			packlines.get(i).getPackLineProduct().addStock(quantity * packlines.get(i).getQuantity());
-		}
+		
 	}
 	
 	@Override
 	public void removeStock(int quantity) {
-		for (int i = 0; i < packlines.size(); i++) {
-			packlines.get(i).getPackLineProduct().removeStock(quantity * packlines.get(i).getQuantity());
-		}
+		
 	}
 }

@@ -14,14 +14,14 @@ import model.Product;
 public class ProductDB implements ProductDBIF {
 	private static final String FIND_BY_BARCODE_Q = "SELECT * FROM kk_AbstractProduct WHERE barcode = ?";
 	private static PreparedStatement findByBarcodePS;
-	private static final String FIND_BY_PRODUCTID_Q = "SELECT TOP 1 * FROM kk_Pricehistory WHERE productID = ? ORDER BY historyDate DESC";
-	private static PreparedStatement findPriceHisPS;
+	private static final String FIND_PRICEHISTORY_BY_PRODUCTID_Q = "SELECT TOP 1 * FROM kk_Pricehistory WHERE productID = ? ORDER BY historyDate DESC";
+	private static PreparedStatement findPriceHistoryPS;
 	
 	public ProductDB() throws DataAccessException {
 		Connection con = DBConnection.getInstance().getConnection();
 		try {
 			findByBarcodePS = con.prepareStatement(FIND_BY_BARCODE_Q);
-			findPriceHisPS = con.prepareStatement(FIND_BY_PRODUCTID_Q);
+			findPriceHistoryPS = con.prepareStatement(FIND_PRICEHISTORY_BY_PRODUCTID_Q);
 		} catch (SQLException e) {
 //			e.printStackTrace();
 			throw new DataAccessException(DBMessages.COULD_NOT_PREPARE_STATEMENT, e);
@@ -51,8 +51,8 @@ public class ProductDB implements ProductDBIF {
 			currProduct.setBarcode(rs.getString("barcode"));
 			currProduct.setProductDescription(rs.getString("productdescription"));
 			currProduct.setStock(rs.getInt("stock"));
-			findPriceHisPS.setInt(1, rs.getInt("id"));
-			ResultSet res = findPriceHisPS.executeQuery();
+			findPriceHistoryPS.setInt(1, rs.getInt("id"));
+			ResultSet res = findPriceHistoryPS.executeQuery();
 			if(res.next()) {
 				String p = res.getString("price");
 				Price price = new Price(Double.parseDouble(p));

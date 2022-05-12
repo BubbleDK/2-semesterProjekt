@@ -64,8 +64,8 @@ public abstract class AbstractProduct {
 //		return -1d;
 //	}
 	
-	public void setPrice(Price i) {
-		this.prices.add(i);
+	public void setPrice(Price price) {
+		this.prices.add(price);
 	}
 	
 	public abstract void addStock(int quantity);
