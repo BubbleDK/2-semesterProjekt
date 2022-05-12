@@ -6,7 +6,6 @@ import java.util.HashMap;
 
 public class B2BLogin {
 
-	private String email;
 	private String giftNo;
 
 
@@ -44,12 +43,6 @@ public class B2BLogin {
 		return giftNo;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public String getGiftNo() {
-		return giftNo;
-	}
+	
 
 }
