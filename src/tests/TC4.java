@@ -26,8 +26,8 @@ class TC4 {
 //		CustomerCtrl customerCtrl = new CustomerCtrl();
 		orderCtrl.registerB2BOrder("20-05-2022", 123456789);
 		orderCtrl.addPackage("P1234");
-		orderCtrl.addB2BEmployee("Gudiksen@gmail.com");
-		orderCtrl.addB2BEmployee("Gudiksen@gmail.com");
+		orderCtrl.addB2BLogin("Gudiksen@gmail.com");
+		orderCtrl.addB2BLogin("Gudiksen@gmail.com");
 		currOrder = orderCtrl.endOrder();
 		assertEquals(1,currOrder.getEmailGiftNo().size());
 	}

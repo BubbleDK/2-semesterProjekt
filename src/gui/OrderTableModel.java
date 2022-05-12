@@ -9,7 +9,7 @@ import model.B2BOrderLine;
 
 public class OrderTableModel extends DefaultTableModel {
 
-	private static final String[] COLUMN_NAMES = { "Produkt", "Antal", "Pris" };
+	private static final String[] COLUMN_NAMES = { "Stregkode", "Produkt", "Pris", "Antal" };
 	private ArrayList<B2BOrderLine> elements;
 
 	public OrderTableModel() {
@@ -47,13 +47,16 @@ public class OrderTableModel extends DefaultTableModel {
 		String res = "UNKNOWN";
 		switch (column) {
 		case 0:
-			res = currList.getProduct().getName();
+			res = currList.getProduct().getBarcode();
 			break;
 		case 1:
-			res = Double.toString(currList.getQuantity());
+			res = currList.getProduct().getName();
 			break;
 		case 2:
-			res = Double.toString(currList.getProduct().getPrice() * currList.getQuantity());
+			res = Double.toString(currList.getProduct().getPrice());
+			break;
+		case 3:
+			res = Double.toString(currList.getQuantity());
 			break;
 		}
 		return res;

@@ -20,16 +20,21 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import ctrl.OrderCtrl;
 import ctrl.ProductCtrl;
 import exceptions.DataAccessException;
 import model.AbstractProduct;
+import model.B2BOrderLine;
+import model.Pack;
 import model.Product;
 
 import javax.swing.JSplitPane;
 import javax.swing.JDesktopPane;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
@@ -43,6 +48,7 @@ public class B2BOrderGUI extends JFrame {
 	private JLabel lblDate;
 	private OrderCtrl orderCtrl;
 	private ProductCtrl productCtrl;
+	private OrderTableModel orderTableModel;
 
 	/**
 	 * Launch the application.
@@ -166,13 +172,6 @@ public class B2BOrderGUI extends JFrame {
 		desktopPane.add(scrollPane);
 		
 		productTable = new JTable();
-		productTable.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"Produkt", "Pris", "Antal"
-			}
-		));
 		scrollPane.setViewportView(productTable);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
@@ -192,20 +191,18 @@ public class B2BOrderGUI extends JFrame {
 	
 	private void addProductClicked() {
 		String insertBarcode = JOptionPane.showInputDialog("Indtast stregkode");
-		//AbstractProduct currProduct = checkProductBarcode(insertBarcode);
-		AbstractProduct currProduct = null;
+		Pack currPack = null;
 		try {
-			currProduct = productCtrl.findProduct(insertBarcode);
+			currPack = productCtrl.findPack(insertBarcode);
 		} catch (DataAccessException e1) {
 			JOptionPane.showMessageDialog(this, "Kan ikke finde produkt", "Data access error",
 					JOptionPane.ERROR_MESSAGE);
 			e1.printStackTrace();
 		}
-		if(currProduct != null) {
+		if(currPack != null) {
 			try {
-				if(orderCtrl.addPackage(currProduct.getBarcode()) != null) {
-					DefaultTableModel productModel = (DefaultTableModel) productTable.getModel();
-					productModel.addRow(new String[] {insertBarcode, Double.toString(currProduct.getPrice()), "0"});
+				if(orderCtrl.addPackage(currPack.getBarcode()) != null) {
+					refresh();
 				}
 				
 			} catch (DataAccessException e) {
@@ -222,6 +219,10 @@ public class B2BOrderGUI extends JFrame {
 	
 	}
 	
+	private void refresh() {
+		List<B2BOrderLine> currOrderLines = orderCtrl.getOrder().getOrderLines();
+		this.orderTableModel.setModelData(currOrderLines);
+	}
 	private void endOrderClicked() {
 		try {
 			if(orderCtrl.endOrder() != null) {
@@ -244,7 +245,7 @@ public class B2BOrderGUI extends JFrame {
 		if(insertEmail != null){
 			if(checkEmail(insertEmail)) {
 		try {
-			login = orderCtrl.addB2BEmployee(insertEmail);
+			login = orderCtrl.addB2BLogin(insertEmail);
 		} catch (DataAccessException e) {
 			JOptionPane.showMessageDialog(this, "Kan ikke få adgang til database", "Data access error",
 					JOptionPane.ERROR_MESSAGE);
@@ -287,6 +288,8 @@ public class B2BOrderGUI extends JFrame {
 		lblCustomerName.setText("Kunde: " + companyName);
 		lblDate.setText("Slutdato: " + endDate);
 		this.orderCtrl = orderCtrl;
+		orderTableModel = new OrderTableModel();
+		this.productTable.setModel(orderTableModel);
 		try {
 			orderCtrl.registerB2BOrder(endDate, cvr);
 		} catch (DataAccessException e) {

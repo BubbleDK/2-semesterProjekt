@@ -2,8 +2,9 @@ package db;
 
 import exceptions.DataAccessException;
 import model.AbstractProduct;
+import model.Pack;
 import model.Product;
 
 public interface ProductDBIF {
-	AbstractProduct findByProductBarcode(String barcode) throws DataAccessException;
+	Pack findByProductBarcode(String barcode) throws DataAccessException;
 }

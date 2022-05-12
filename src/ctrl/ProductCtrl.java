@@ -4,6 +4,7 @@ import db.ProductDB;
 import db.ProductDBIF;
 import exceptions.DataAccessException;
 import model.AbstractProduct;
+import model.Pack;
 import model.Product;
 
 public class ProductCtrl {
@@ -14,8 +15,10 @@ public class ProductCtrl {
 		this.productDB = new ProductDB();
 	}
 	
-	public AbstractProduct findProduct(String barcode) throws DataAccessException {
-		AbstractProduct product = productDB.findByProductBarcode(barcode);
-		return product;
+	public Pack findPack(String barcode) throws DataAccessException {
+		Pack p = productDB.findByProductBarcode(barcode);
+		return p;
 	}
+	
+	
 }

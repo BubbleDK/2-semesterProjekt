@@ -7,6 +7,7 @@ import model.AbstractProduct;
 import model.B2BCustomer;
 import model.B2BOrder;
 import model.B2BOrderLine;
+import model.Pack;
 
 public class OrderCtrl {
 	
@@ -30,7 +31,7 @@ public class OrderCtrl {
 	
 	public B2BOrderLine addPackage(String barcode) throws DataAccessException {
 		boolean productAlreadyExists = false;
-		AbstractProduct p = productCtrl.findProduct(barcode);
+		Pack p = productCtrl.findPack(barcode);
 		for(B2BOrderLine ol : o.getOrderLines()) {
 			if(ol.getProduct().getBarcode().equals(p.getBarcode())) {
 				productAlreadyExists = true;
@@ -45,8 +46,8 @@ public class OrderCtrl {
 		}
 	}
 	
-	public boolean addB2BEmployee(String email) throws DataAccessException {
-		return o.addB2BEmployee(email);
+	public boolean addB2BLogin(String email) throws DataAccessException {
+		return o.addB2BLogin(email);
 	}
 	
 	public B2BOrder endOrder() throws DataAccessException {
@@ -57,5 +58,9 @@ public class OrderCtrl {
 			return null;
 		}
 		return o;
+	}
+	
+	public B2BOrder getOrder() {
+		return this.o;
 	}
 }

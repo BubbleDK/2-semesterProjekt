@@ -10,6 +10,7 @@ import db.ProductDB;
 import exceptions.DataAccessException;
 import model.AbstractProduct;
 import model.B2BOrder;
+import model.Pack;
 
 public class TryMe {
 public static void main(String[] args) throws DataAccessException {
@@ -23,7 +24,7 @@ public static void main(String[] args) throws DataAccessException {
 			
 			// Act
 			orderCtrl.addPackage("err414124");
-			AbstractProduct p = productCtrl.findProduct("err414124");
+			Pack p = productCtrl.findPack("err414124");
 			productDB.findByProductBarcode("err414124");
 			System.out.println(o);
 }

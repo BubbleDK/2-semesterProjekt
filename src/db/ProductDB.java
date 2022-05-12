@@ -29,40 +29,40 @@ public class ProductDB implements ProductDBIF {
 	}
 
 	@Override
-	public AbstractProduct findByProductBarcode(String barcode) throws DataAccessException {
-		AbstractProduct currProduct = null;
+	public Pack findByProductBarcode(String barcode) throws DataAccessException {
+		Pack currPack = null;
 		try {
 			findByBarcodePS.setString(1, barcode);
 			ResultSet rs = findByBarcodePS.executeQuery();
 			if(rs.next()) {
-				currProduct = buildPackObject(rs);
+				currPack = buildPackObject(rs);
 			}
 		} catch (SQLException e) {
 //			e.printStackTrace();
 			throw new DataAccessException(DBMessages.COULD_NOT_BIND_OR_EXECUTE_QUERY, e);
 		}
-		return currProduct;
+		return currPack;
 	}
 	
-	private AbstractProduct buildPackObject(ResultSet rs) throws DataAccessException {
-		AbstractProduct currProduct = new Pack();
+	private Pack buildPackObject(ResultSet rs) throws DataAccessException {
+		Pack currPack = new Pack();
 		try {
-			currProduct.setName(rs.getString("productName"));
-			currProduct.setBarcode(rs.getString("barcode"));
-			currProduct.setProductDescription(rs.getString("productdescription"));
-			currProduct.setStock(rs.getInt("stock"));
+			currPack.setName(rs.getString("productName"));
+			currPack.setBarcode(rs.getString("barcode"));
+			currPack.setProductDescription(rs.getString("productdescription"));
+			currPack.setStock(rs.getInt("stock"));
 			findPriceHistoryPS.setInt(1, rs.getInt("id"));
 			ResultSet res = findPriceHistoryPS.executeQuery();
 			if(res.next()) {
 				String p = res.getString("price");
 				Price price = new Price(Double.parseDouble(p));
-				currProduct.setPrice(price);
+				currPack.setPrice(price);
 			}	
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DataAccessException(DBMessages.COULD_NOT_READ_RESULTSET, e);
 		}
-		return currProduct;
+		return currPack;
 	}
 
 }

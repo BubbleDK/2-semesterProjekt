@@ -49,7 +49,7 @@ public class B2BOrder {
 		return this.orderNo;
 	}
 
-	public boolean addB2BEmployee(String email) {
+	public boolean addB2BLogin(String email) {
 		boolean res = false;
 		if(email != "") {
 			if(getEmailGiftNo().size() > 0) {
