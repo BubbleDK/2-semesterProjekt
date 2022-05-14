@@ -15,7 +15,6 @@ import model.B2BOrderLine;
 
 public class OrderDB implements OrderDBIF {
 	private B2BOrder currOrder;
-	private B2BCustomer currCustomer;
 	private CustomerDB CDB;
 	private HashMap<String, String> EGN;
 	private static final String INSERT_INTO_ORDERLINE_Q = "insert into kk_OrderLines (orderID, productID, quantity, type) values (?, ?, ?, ?)";
@@ -49,8 +48,6 @@ public class OrderDB implements OrderDBIF {
 		}
 	}
 	
-	
-
 	@Override
 	public B2BOrder saveOrderToDB(B2BOrder order) throws DataAccessException {
 		int customerID = -1;
@@ -69,6 +66,7 @@ public class OrderDB implements OrderDBIF {
 			insertOrderPS.setInt(2, orderNo);
 			insertOrderPS.setInt(3, customerID);
 			insertOrderPS.setInt(4, employeeID);
+			//TODO: tilføj endDate
 			
 			//Insert into orderlines
 			int orderID = DBConnection.getInstance().executeInsertWithIdentity(insertOrderPS);
@@ -157,8 +155,6 @@ public class OrderDB implements OrderDBIF {
 		
 		return null;
 	}
-
-
 
 	public B2BOrderLine buildOrderLineObject(ResultSet rs) throws DataAccessException {
 		B2BOrderLine currOL = new B2BOrderLine();

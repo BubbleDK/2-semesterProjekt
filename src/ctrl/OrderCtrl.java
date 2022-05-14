@@ -23,7 +23,7 @@ public class OrderCtrl {
 	}
 	
 	public void registerB2BOrderChoice(String companyName) {
-		//TODO: Lav et join som viser Orders sammen med B2BCustomer eller Person
+		//TODO: Lav et join som viser Orders sammen med B2BCustomer eller Person og måske orderlines med?
 		try {
 			o = orderDB.findOrderByCompanyName(companyName);
 		} catch (DataAccessException e) {
