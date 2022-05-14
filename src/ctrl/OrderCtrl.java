@@ -21,7 +21,16 @@ public class OrderCtrl {
 		productCtrl = new ProductCtrl();
 		customerCtrl = new CustomerCtrl();
 	}
-
+	
+	public void registerB2BOrderChoice(String companyName) {
+		//TODO: Lav et join som viser Orders sammen med B2BCustomer eller Person
+		try {
+			o = orderDB.findOrderByCompanyName(companyName);
+		} catch (DataAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	public B2BOrder registerB2BOrder(String endDate, int cvr) throws DataAccessException {
 		B2BCustomer c = customerCtrl.findB2BCustomer(cvr);
