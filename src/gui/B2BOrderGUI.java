@@ -182,13 +182,6 @@ public class B2BOrderGUI extends JFrame {
 		desktopPane.add(scrollPane_1);
 		
 		loginTable = new JTable();
-//		loginTable.setModel(new DefaultTableModel(
-//			new Object[][] {
-//			},
-//			new String[] {
-//				"Email"
-//			}
-//		));
 		scrollPane_1.setViewportView(loginTable);
 	}
 	

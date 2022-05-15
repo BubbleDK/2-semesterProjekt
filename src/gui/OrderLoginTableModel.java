@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.table.DefaultTableModel;
 
-import model.B2BLogin;
-import model.B2BOrderLine;
-
 public class OrderLoginTableModel extends DefaultTableModel{
 	private static final String[] COLUMN_NAMES = { "Email"};
 	private ArrayList<String> elements;
