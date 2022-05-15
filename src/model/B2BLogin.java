@@ -43,6 +43,13 @@ public class B2BLogin {
 		return giftNo;
 	}
 
+
+
+	public String getEmail() {
+		// TODO Skal vi ikke kunne gette en email på et object? Det skal helst kunne ske til GUI
+		return null;
+	}
+
 	
 
 }

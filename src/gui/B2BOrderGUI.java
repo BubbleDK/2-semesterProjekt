@@ -26,6 +26,7 @@ import ctrl.OrderCtrl;
 import ctrl.ProductCtrl;
 import exceptions.DataAccessException;
 import model.AbstractProduct;
+import model.B2BLogin;
 import model.B2BOrderLine;
 import model.Pack;
 import model.Product;
@@ -34,6 +35,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JDesktopPane;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -50,6 +52,7 @@ public class B2BOrderGUI extends JFrame {
 	private OrderCtrl orderCtrl;
 	private ProductCtrl productCtrl;
 	private OrderTableModel orderTableModel;
+	private OrderLoginTableModel orderLoginTableModel;
 
 	/**
 	 * Launch the application.
@@ -179,14 +182,38 @@ public class B2BOrderGUI extends JFrame {
 		desktopPane.add(scrollPane_1);
 		
 		loginTable = new JTable();
-		loginTable.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"Email"
-			}
-		));
+//		loginTable.setModel(new DefaultTableModel(
+//			new Object[][] {
+//			},
+//			new String[] {
+//				"Email"
+//			}
+//		));
 		scrollPane_1.setViewportView(loginTable);
+	}
+	
+	private void init(int cvr, String companyName, String endDate, OrderCtrl orderCtrl) {
+		lblCustomerName.setText("Kunde: " + companyName);
+		lblDate.setText("Slutdato: " + endDate);
+		this.orderCtrl = orderCtrl;
+		orderTableModel = new OrderTableModel();
+		this.productTable.setModel(orderTableModel);
+		orderLoginTableModel = new OrderLoginTableModel();
+		this.loginTable.setModel(orderLoginTableModel);
+		try {
+			orderCtrl.registerB2BOrder(endDate, cvr);
+		} catch (DataAccessException e) {
+			JOptionPane.showMessageDialog(this, "Kan ikke få adgang til database", "Data access error",
+					JOptionPane.OK_OPTION);
+			//e.printStackTrace();
+		}
+		try {
+			productCtrl = new ProductCtrl();
+		} catch (DataAccessException e) {
+			JOptionPane.showMessageDialog(this, "Kan ikke få adgang til database", "Data access error",
+					JOptionPane.OK_OPTION);
+			//e.printStackTrace();
+		}
 	}
 	
 	private void addProductClicked() {
@@ -222,6 +249,8 @@ public class B2BOrderGUI extends JFrame {
 	private void refresh() {
 		List<B2BOrderLine> currOrderLines = orderCtrl.getOrder().getOrderLines();
 		this.orderTableModel.setModelData(currOrderLines);
+		HashMap currLogins = orderCtrl.getOrder().getEmailGiftNo();
+		this.orderLoginTableModel.setModelData(currLogins);
 	}
 	private void endOrderClicked() {
 		try {
@@ -253,7 +282,7 @@ public class B2BOrderGUI extends JFrame {
 		}
 			if(login) {
 				DefaultTableModel loginModel = (DefaultTableModel) loginTable.getModel();
-				loginModel.addRow(new String[] {insertEmail});
+				refresh();
 			}else {
 				JOptionPane.showMessageDialog(null, "Mailadresse er allerede tilføjet", "Fejl", 
 						JOptionPane.ERROR_MESSAGE);
@@ -284,25 +313,5 @@ public class B2BOrderGUI extends JFrame {
 		
 	}
 	
-	private void init(int cvr, String companyName, String endDate, OrderCtrl orderCtrl) {
-		lblCustomerName.setText("Kunde: " + companyName);
-		lblDate.setText("Slutdato: " + endDate);
-		this.orderCtrl = orderCtrl;
-		orderTableModel = new OrderTableModel();
-		this.productTable.setModel(orderTableModel);
-		try {
-			orderCtrl.registerB2BOrder(endDate, cvr);
-		} catch (DataAccessException e) {
-			JOptionPane.showMessageDialog(this, "Kan ikke få adgang til database", "Data access error",
-					JOptionPane.OK_OPTION);
-			//e.printStackTrace();
-		}
-		try {
-			productCtrl = new ProductCtrl();
-		} catch (DataAccessException e) {
-			JOptionPane.showMessageDialog(this, "Kan ikke få adgang til database", "Data access error",
-					JOptionPane.OK_OPTION);
-			//e.printStackTrace();
-		}
-	}
+	
 }
