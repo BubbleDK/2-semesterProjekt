@@ -9,12 +9,15 @@ import model.B2BCustomer;
 
 public class CustomerDB implements CustomerDBIF {
 	
-	private static final String FIND_CUSTOMER_BY_CVR = "SELECT * FROM kk_B2BCustomer WHERE cvr = ?";
+	private static final String FIND_CUSTOMER_BY_CVR_Q = "SELECT * FROM kk_B2BCustomer WHERE cvr = ?";
 	private static PreparedStatement findCustomer;
-
+	private static final String FIND_CUSTOMER_BY_ID_Q = "SELECT * FROM kk_B2BCustomer WHERE id = ?";
+	private static PreparedStatement findCustomerById;
+	
 	public CustomerDB() throws DataAccessException {
 		try {
-			findCustomer = DBConnection.getInstance().getConnection().prepareStatement(FIND_CUSTOMER_BY_CVR);
+			findCustomer = DBConnection.getInstance().getConnection().prepareStatement(FIND_CUSTOMER_BY_CVR_Q);
+			findCustomerById = DBConnection.getInstance().getConnection().prepareStatement(FIND_CUSTOMER_BY_ID_Q);
 		} catch (SQLException e) {
 			throw new DataAccessException(DBMessages.COULD_NOT_PREPARE_STATEMENT, e);
 //			e.printStackTrace();
@@ -37,6 +40,23 @@ public class CustomerDB implements CustomerDBIF {
 		}
 		return currCustomer;
 	}
+	
+	@Override
+	public B2BCustomer findB2BCustomerByID(int id) throws DataAccessException {
+		B2BCustomer currCustomer = null;
+		try {
+			findCustomer.setInt(1, id);
+			ResultSet rs = findCustomerById.executeQuery();
+			if(rs.next()) {
+			currCustomer = buildObject(rs);
+			}
+		} catch (SQLException e) {
+			throw new DataAccessException(DBMessages.COULD_NOT_READ_RESULTSET, e);
+//			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	//TODO husk at lave et view som kan trækkes info ud fra til customerobjekter
 	private B2BCustomer buildObject(ResultSet rs) throws DataAccessException {
 		B2BCustomer currCustomer = new B2BCustomer();
@@ -56,4 +76,7 @@ public class CustomerDB implements CustomerDBIF {
 		System.out.println(currCustomer);
 		return currCustomer;
 	}
+
+
+	
 }

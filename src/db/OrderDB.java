@@ -15,7 +15,7 @@ import model.B2BOrderLine;
 
 public class OrderDB implements OrderDBIF {
 	private B2BOrder currOrder;
-	private CustomerDB customerDB;
+	private CustomerDBIF customerDB;
 	private HashMap<String, String> EGN;
 	private static final String INSERT_INTO_ORDERLINE_Q = "insert into kk_OrderLines (orderID, productID, quantity, type) values (?, ?, ?, ?)";
 	private PreparedStatement insertOrderLinePS;
@@ -89,7 +89,6 @@ public class OrderDB implements OrderDBIF {
 				insertB2bLoginPS.setString(1, order.getEmailGiftNo().get(login));
 				insertB2bLoginPS.setString(2, login);
 				insertB2bLoginPS.setInt(3, orderID);
-//				insertB2bLoginPS.setInt(4, orderLinesID);
 				insertB2bLoginPS.execute();
 			}
 		} catch (SQLException e) {
@@ -98,7 +97,7 @@ public class OrderDB implements OrderDBIF {
 		}
 		return order;
 	}
-	
+	//TODO: Skal denne returnere NULL? Skal currOrder bruges?
 	public B2BOrder findByOrderNo(int orderNo) throws DataAccessException {
 		currOrder = null;
 		try {
@@ -131,7 +130,7 @@ public class OrderDB implements OrderDBIF {
 			if(rs.next()) {
 				currOrder.setEndDate(rs.getString("endDate"));
 				currOrder.setOrderLines(buildOrderLineObject(rs));
-				currOrder.setCustomer(customerDB.findB2BCustomer(rs.getInt("customerID")));
+				currOrder.setCustomer(customerDB.findB2BCustomerByID(rs.getInt("customerID")));
 				currOrder.setEmailGiftNo(buildEmailGiftObject(rs));
 			}
 		} catch (SQLException e) {
