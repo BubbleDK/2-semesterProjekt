@@ -5,7 +5,6 @@ import java.util.List;
 import db.OrderDB;
 import db.OrderDBIF;
 import exceptions.DataAccessException;
-import model.AbstractProduct;
 import model.B2BCustomer;
 import model.B2BOrder;
 import model.B2BOrderLine;
@@ -22,10 +21,12 @@ public class OrderCtrl {
 	public OrderCtrl() throws DataAccessException {
 		productCtrl = new ProductCtrl();
 		customerCtrl = new CustomerCtrl();
+		orderDB = new OrderDB();
 	}
 	
 	public B2BOrder registerB2BOrderChoice(String giftNo) throws DataAccessException {
-		return orderDB.findOrderBylogin(giftNo);
+		o = orderDB.findOrderBylogin(giftNo);
+		return o;
 	}
 	
 	public B2BOrder registerB2BOrder(String endDate, int cvr) throws DataAccessException {
@@ -57,7 +58,7 @@ public class OrderCtrl {
 	
 	public B2BOrder endOrder() throws DataAccessException {
 		if(o.getOrderLines().size() > 0 && o.getEmailGiftNo().size() > 0) {
-		orderDB = new OrderDB();
+		
 		orderDB.saveOrderToDB(o);
 		}else {
 			return null;

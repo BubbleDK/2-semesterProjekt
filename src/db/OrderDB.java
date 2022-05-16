@@ -16,7 +16,7 @@ import model.B2BOrderLine;
 public class OrderDB implements OrderDBIF {
 	private B2BOrder currOrder;
 	private CustomerDBIF customerDB;
-	private HashMap<String, String> EGN;
+	private HashMap<String, String> emailGiftNo;
 	private static final String INSERT_INTO_ORDERLINE_Q = "insert into kk_OrderLines (orderID, productID, quantity, type) values (?, ?, ?, ?)";
 	private PreparedStatement insertOrderLinePS;
 	private static final String INSERT_INTO_ORDER_Q = "insert into kk_Orders (type, orderNo, customerID, employeeID, enddate) values (?, ?, ?, ?, ?)";
@@ -29,7 +29,8 @@ public class OrderDB implements OrderDBIF {
 	private PreparedStatement findProductIDPS;
 	private static final String FIND_BY_ORDERNO_Q = "SELECT * FROM kk_Orders WHERE OrderNo = ?";
 	private static PreparedStatement findByOrderNoPS;
-	private static final String FIND_BY_LOGIN_Q = "SELECT * FROM kk_Orders INNER JOIN kk_B2BLogin ON kk_orders.id = kk_B2BLogin.orderid and kk_B2BLogin.giftNo = ?";
+	private static final String FIND_BY_LOGIN_Q = "SELECT * FROM kk_Orders INNER JOIN kk_B2BLogin ON kk_orders.id = kk_B2BLogin.orderid and kk_B2BLogin.giftNo = ?"
+			+ "INNER JOIN kk_OrderLines ON kk_OrderLines.orderID = kk_Orders.id";
 	private static PreparedStatement findOrderByLoginPS;
 	
 	public OrderDB() throws DataAccessException  {
@@ -82,9 +83,7 @@ public class OrderDB implements OrderDBIF {
 				insertOrderLinePS.setString(4, "pack");
 				insertOrderLinePS.executeUpdate();
 			}
-//			int orderLinesID = DBConnection.getInstance().executeInsertWithIdentity(insertOrderLinePS);
 			// Save b2b login
-			//TODO Skal vi have sat orderlines her? Er det ikke først når man logger ind og vælger noget? Executeinsertwithidentity overover mangler reutngeneratedkeys under prepare statement
 			for (String login : order.getEmailGiftNo().keySet()) {
 				insertB2bLoginPS.setString(1, order.getEmailGiftNo().get(login));
 				insertB2bLoginPS.setString(2, login);
@@ -120,7 +119,7 @@ public class OrderDB implements OrderDBIF {
 			if(rs.next()) {
 			currOrder = buildOrderObject(rs);
 			}
-			} catch (SQLException e) {
+		} catch (SQLException e) {
 			throw new DataAccessException(DBMessages.COULD_NOT_BIND_OR_EXECUTE_QUERY, e);
 		}
 		return currOrder;
@@ -130,9 +129,9 @@ public class OrderDB implements OrderDBIF {
 		currOrder = new B2BOrder();
 		try {
 				currOrder.setEndDate(rs.getString("endDate"));
-				currOrder.setOrderLines(buildOrderLineObject(rs));
 				currOrder.setCustomer(customerDB.findB2BCustomerByID(rs.getInt("customerID")));
 				currOrder.setEmailGiftNo(buildEmailGiftObject(rs));
+				currOrder.setOrderLines(buildOrderLineObject(rs));
 		} catch (SQLException e) {
 //			e.printStackTrace();
 			throw new DataAccessException(DBMessages.COULD_NOT_READ_RESULTSET, e);
@@ -141,11 +140,11 @@ public class OrderDB implements OrderDBIF {
 	}
 	
 	private HashMap<String,String> buildEmailGiftObject(ResultSet rs) throws DataAccessException {
-		EGN = new HashMap<String, String>();
+		emailGiftNo = new HashMap<String, String>();
 		
 		try {
 			if(rs.next()) {
-				EGN.put(rs.getString("Email"), rs.getString("GiftNo"));
+				emailGiftNo.put(rs.getString("Email"), rs.getString("GiftNo"));
 			}
 		}catch(SQLException e){
 			throw new DataAccessException(DBMessages.COULD_NOT_READ_RESULTSET, e);
@@ -155,16 +154,17 @@ public class OrderDB implements OrderDBIF {
 	}
 
 	public B2BOrderLine buildOrderLineObject(ResultSet rs) throws DataAccessException {
-		B2BOrderLine currOL = new B2BOrderLine();
+		B2BOrderLine currOrderLine = new B2BOrderLine();
 		try {
 			if(rs.next()) {
-				currOL.setProduct((AbstractProduct) rs.getObject("product"));
-				currOL.setQuantity(rs.getInt("quantity"));
+				currOrderLine.setProduct((AbstractProduct) rs.getObject("product"));
+				currOrderLine.setQuantity(rs.getInt("quantity"));
+				
 			}
 		} catch (SQLException e) {
 			throw new DataAccessException(DBMessages.COULD_NOT_READ_RESULTSET, e);
 //			e.printStackTrace();
 		}
-		return currOL;
+		return currOrderLine;
 	}
 }

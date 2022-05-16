@@ -130,7 +130,7 @@ public class B2BOrderMenu extends JFrame {
 			//e.printStackTrace();
 		}
 	}
-	//TODO: må vi godt holde fast i et objekt B2BOrder her?
+	//TODO: Lav et tjek efter om brugt
 	private void giftChoiceClicked() {
 		String insertGiftNo = JOptionPane.showInputDialog("Indtast gavekode");
 		B2BOrder currOrder = null;
@@ -141,8 +141,13 @@ public class B2BOrderMenu extends JFrame {
 					JOptionPane.ERROR_MESSAGE);
 //			e.printStackTrace();
 		}
+		if(!(currOrder == null)) {
+			GiftChoiceGUI gcgui = new GiftChoiceGUI(orderCtrl);
+		}else {
+			JOptionPane.showMessageDialog(null, "Kunne ikke finde koden i systemet.", "Fejl", 
+					JOptionPane.ERROR_MESSAGE);
+		}
 		
-		GiftChoiceGUI gcgui = new GiftChoiceGUI(orderCtrl);
 	}
 
 	private void newB2BOrderClicked() {
