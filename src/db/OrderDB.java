@@ -15,7 +15,7 @@ import model.B2BOrderLine;
 
 public class OrderDB implements OrderDBIF {
 	private B2BOrder currOrder;
-	private CustomerDB CDB;
+	private CustomerDB customerDB;
 	private HashMap<String, String> EGN;
 	private static final String INSERT_INTO_ORDERLINE_Q = "insert into kk_OrderLines (orderID, productID, quantity, type) values (?, ?, ?, ?)";
 	private PreparedStatement insertOrderLinePS;
@@ -131,7 +131,7 @@ public class OrderDB implements OrderDBIF {
 			if(rs.next()) {
 				currOrder.setEndDate(rs.getString("endDate"));
 				currOrder.setOrderLines(buildOrderLineObject(rs));
-				currOrder.setCustomer(CDB.findB2BCustomer(rs.getInt("customerID")));
+				currOrder.setCustomer(customerDB.findB2BCustomer(rs.getInt("customerID")));
 				currOrder.setEmailGiftNo(buildEmailGiftObject(rs));
 			}
 		} catch (SQLException e) {
