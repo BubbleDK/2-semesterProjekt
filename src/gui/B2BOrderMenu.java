@@ -134,7 +134,14 @@ public class B2BOrderMenu extends JFrame {
 	private void giftChoiceClicked() {
 		String insertGiftNo = JOptionPane.showInputDialog("Indtast gavekode");
 		B2BOrder currOrder = null;
-		currOrder = orderCtrl.registerB2BOrderChoice(insertGiftNo);	
+		try {
+			currOrder = orderCtrl.registerB2BOrderChoice(insertGiftNo);
+		} catch (DataAccessException e) {
+			JOptionPane.showMessageDialog(this, "Kan ikke få adgang til database", "Data access error",
+					JOptionPane.ERROR_MESSAGE);
+//			e.printStackTrace();
+		}
+		
 		GiftChoiceGUI gcgui = new GiftChoiceGUI(orderCtrl);
 	}
 

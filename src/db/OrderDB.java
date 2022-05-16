@@ -117,8 +117,10 @@ public class OrderDB implements OrderDBIF {
 		try {
 			findOrderByLoginPS.setString(1, giftNo);
 			ResultSet rs = findOrderByLoginPS.executeQuery();
+			if(rs.next()) {
 			currOrder = buildOrderObject(rs);
-		} catch (SQLException e) {
+			}
+			} catch (SQLException e) {
 			throw new DataAccessException(DBMessages.COULD_NOT_BIND_OR_EXECUTE_QUERY, e);
 		}
 		return currOrder;
@@ -127,12 +129,10 @@ public class OrderDB implements OrderDBIF {
 	private B2BOrder buildOrderObject(ResultSet rs) throws DataAccessException {
 		currOrder = new B2BOrder();
 		try {
-			if(rs.next()) {
 				currOrder.setEndDate(rs.getString("endDate"));
 				currOrder.setOrderLines(buildOrderLineObject(rs));
 				currOrder.setCustomer(customerDB.findB2BCustomerByID(rs.getInt("customerID")));
 				currOrder.setEmailGiftNo(buildEmailGiftObject(rs));
-			}
 		} catch (SQLException e) {
 //			e.printStackTrace();
 			throw new DataAccessException(DBMessages.COULD_NOT_READ_RESULTSET, e);
