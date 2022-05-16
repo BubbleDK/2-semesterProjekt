@@ -73,7 +73,7 @@ public class OrderCtrl {
 		return o.getOrderLines();
 	}
 	
-	public List<B2BOrderLine> choosePack(String barcode) {
-		return o.choosePack(barcode);
+	public B2BOrderLine choosePack(String barcode) throws DataAccessException {
+		return o.choosePack(productCtrl.findPack(barcode));
 	}
 }

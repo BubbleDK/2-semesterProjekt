@@ -102,8 +102,7 @@ public class B2BOrder {
 		return this.emailGiftNo;
 	}
 
-	public List<B2BOrderLine> choosePack(String barcode) {
-		return null;
-		//return orderLines.updateOrderLine(barcode);
+	public B2BOrderLine choosePack(Pack p) {
+		return this.addOrderLine(new B2BOrderLine(p));
 	}
 }
