@@ -29,8 +29,8 @@ public class OrderDB implements OrderDBIF {
 	private PreparedStatement findProductIDPS;
 	private static final String FIND_BY_ORDERNO_Q = "SELECT * FROM kk_Orders WHERE OrderNo = ?";
 	private static PreparedStatement findByOrderNoPS;
-	private static final String FIND_BY_COMPANYNAME_Q = "SELECT * FROM kk_Orders RIGHT OUTER JOIN kk_B2BCustomer ON kk_orders.customerID = kk_B2BCustomer.id and kk_B2BCustomer.companyName = ?";
-	private static PreparedStatement findOrderByCompanyNamePS;
+	private static final String FIND_BY_LOGIN_Q = "SELECT * FROM kk_Orders INNER JOIN kk_B2BLogin ON kk_orders.id = kk_B2BLogin.orderid and kk_B2BLogin.giftNo = ?";
+	private static PreparedStatement findOrderByLoginPS;
 	
 	public OrderDB() throws DataAccessException  {
 		Connection con = DBConnection.getInstance().getConnection();
@@ -41,7 +41,7 @@ public class OrderDB implements OrderDBIF {
 			findByOrderNoPS = con.prepareStatement(FIND_BY_ORDERNO_Q);
 			findProductIDPS = con.prepareStatement(FIND_PRODUCTID_Q);
 			insertB2bLoginPS = con.prepareStatement(INSERT_INTO_B2BLOGIN_Q);
-			findOrderByCompanyNamePS = con.prepareStatement(FIND_BY_COMPANYNAME_Q);
+			findOrderByLoginPS = con.prepareStatement(FIND_BY_LOGIN_Q);
 		} catch (SQLException e) {
 			// e.printStackTrace();
 			throw new DataAccessException(DBMessages.COULD_NOT_PREPARE_STATEMENT, e);
@@ -112,19 +112,18 @@ public class OrderDB implements OrderDBIF {
 		return null;
 	}
 	
-	public B2BOrder findOrderByCompanyName(String companyName) throws DataAccessException {
+	@Override
+	public B2BOrder findOrderBylogin(String giftNo) throws DataAccessException {
 		currOrder = null;
 		try {
-			//TODO: Søg i et join hvor companyName = companyName og hvor orders.customerID = customer.id
-			findOrderByCompanyNamePS.setString(1, companyName);
-			ResultSet rs = findOrderByCompanyNamePS.executeQuery();
+			findOrderByLoginPS.setString(1, giftNo);
+			ResultSet rs = findOrderByLoginPS.executeQuery();
 			currOrder = buildOrderObject(rs);
 		} catch (SQLException e) {
 			throw new DataAccessException(DBMessages.COULD_NOT_BIND_OR_EXECUTE_QUERY, e);
 		}
 		return currOrder;
 	}
-
 
 	private B2BOrder buildOrderObject(ResultSet rs) throws DataAccessException {
 		currOrder = new B2BOrder();
@@ -169,5 +168,7 @@ public class OrderDB implements OrderDBIF {
 		}
 		return currOL;
 	}
+
+	
 
 }

@@ -22,10 +22,10 @@ public class OrderCtrl {
 		customerCtrl = new CustomerCtrl();
 	}
 	
-	public void registerB2BOrderChoice(String companyName) {
+	public void registerB2BOrderChoice(String giftNo) {
 		//TODO: Lav et join som viser Orders sammen med B2BCustomer eller Person og måske orderlines med?
 		try {
-			o = orderDB.findOrderByCompanyName(companyName);
+			o = orderDB.findOrderBylogin(giftNo);
 		} catch (DataAccessException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
