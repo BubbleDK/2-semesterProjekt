@@ -8,10 +8,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import db.OrderDBIF;
-
 public class B2BOrder {
 	private LocalDate endDate;
+	private String dateText;
 	private List<B2BOrderLine> orderLines;
 	private B2BCustomer c;
 	private HashMap<String, String> emailGiftNo;
@@ -19,8 +18,11 @@ public class B2BOrder {
 
 	public B2BOrder(String endDateString,B2BCustomer c) {
 		this.c = c;
+		
 		orderLines = new ArrayList<>();
-		endDate = LocalDate.parse(endDateString,DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+		this.endDate = LocalDate.parse(endDateString,formatter);
+		dateText = endDate.format(formatter);
 		emailGiftNo = new HashMap<String, String>();
 	}
 	
@@ -33,8 +35,8 @@ public class B2BOrder {
 		return ol;
 	}
 	
-	public LocalDate getEndDate() {
-		return endDate;
+	public String getEndDate() {
+		return dateText;
 	}
 	
 	public List<B2BOrderLine> getOrderLines(){

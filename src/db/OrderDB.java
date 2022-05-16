@@ -19,7 +19,7 @@ public class OrderDB implements OrderDBIF {
 	private HashMap<String, String> EGN;
 	private static final String INSERT_INTO_ORDERLINE_Q = "insert into kk_OrderLines (orderID, productID, quantity, type) values (?, ?, ?, ?)";
 	private PreparedStatement insertOrderLinePS;
-	private static final String INSERT_INTO_ORDER_Q = "insert into kk_Orders (type, orderNo, customerID, employeeID) values (?, ?, ?, ?)";
+	private static final String INSERT_INTO_ORDER_Q = "insert into kk_Orders (type, orderNo, customerID, employeeID, enddate) values (?, ?, ?, ?, ?)";
 	private PreparedStatement insertOrderPS;
 	private static final String INSERT_INTO_B2BLOGIN_Q = "insert into kk_B2BLogin (giftNO, email, orderID) values (?, ?, ?)";
 	private PreparedStatement insertB2bLoginPS;
@@ -66,7 +66,7 @@ public class OrderDB implements OrderDBIF {
 			insertOrderPS.setInt(2, orderNo);
 			insertOrderPS.setInt(3, customerID);
 			insertOrderPS.setInt(4, employeeID);
-			//TODO: tilføj endDate
+			insertOrderPS.setString(5, order.getEndDate());
 			
 			//Insert into orderlines
 			int orderID = DBConnection.getInstance().executeInsertWithIdentity(insertOrderPS);
