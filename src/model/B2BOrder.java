@@ -101,4 +101,9 @@ public class B2BOrder {
 	public HashMap<String, String> getEmailGiftNo() {
 		return this.emailGiftNo;
 	}
+
+	public List<B2BOrderLine> choosePack(String barcode) {
+		return null;
+		//return orderLines.updateOrderLine(barcode);
+	}
 }

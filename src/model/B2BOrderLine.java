@@ -27,9 +27,4 @@ public class B2BOrderLine {
 	public void setProduct(AbstractProduct product) {
 		this.product = product;
 	}
-
-	
-
-	
-
 }

@@ -1,5 +1,7 @@
 package ctrl;
 
+import java.util.List;
+
 import db.OrderDB;
 import db.OrderDBIF;
 import exceptions.DataAccessException;
@@ -73,7 +75,15 @@ public class OrderCtrl {
 		return this.o;
 	}
 	
-	public void registerB2BOrder(String giftNo) throws DataAccessException {
-		orderDB.findOrderBylogin(giftNo);
+	public B2BOrder registerB2BOrder(String giftNo) throws DataAccessException {
+		return orderDB.findOrderBylogin(giftNo);
+	}
+	
+	public List<B2BOrderLine> insertLogin(String email, String giftNo) {
+		return o.getOrderLines();
+	}
+	
+	public List<B2BOrderLine> choosePack(String barcode) {
+		return o.choosePack(barcode);
 	}
 }
