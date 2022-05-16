@@ -274,7 +274,6 @@ public class B2BOrderGUI extends JFrame {
 			//e.printStackTrace();
 		}
 			if(login) {
-				DefaultTableModel loginModel = (DefaultTableModel) loginTable.getModel();
 				refresh();
 			}else {
 				JOptionPane.showMessageDialog(null, "Mailadresse er allerede tilføjet", "Fejl", 

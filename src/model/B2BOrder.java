@@ -49,14 +49,12 @@ public class B2BOrder {
 		return this.orderNo;
 	}
 
-	public boolean addB2BLogin(String email) {
+	public synchronized boolean addB2BLogin(String email) {
 		boolean res = false;
 		if(email != "") {
 			if(getEmailGiftNo().size() > 0) {
 				for(Map.Entry<String, String> entry : emailGiftNo.entrySet()) {
 					if(!entry.getKey().equals(email)) {
-						B2BLogin b2bLogin = new B2BLogin();
-						emailGiftNo.put(email, b2bLogin.createGiftNo());
 						res = true;
 					}else {
 						return false;
@@ -67,9 +65,15 @@ public class B2BOrder {
 				emailGiftNo.put(email, b2bLogin.createGiftNo());
 				res = true;
 			}
+			if(res) {
+				B2BLogin b2bLogin = new B2BLogin();
+				emailGiftNo.put(email, b2bLogin.createGiftNo());
+			}
 		}
 		return res;
 	}
+	
+	
 	//TODO: Skal alle disse settere være der?
 	public void setEndDate(String endDateString) {
 		endDate = LocalDate.parse(endDateString,DateTimeFormatter.ofPattern("dd-MM-yyyy"));
