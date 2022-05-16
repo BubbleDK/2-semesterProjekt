@@ -72,7 +72,7 @@ public class ProductDB implements ProductDBIF {
 	public Pack findByProductId(int id) throws DataAccessException {
 		Pack currPack = null;
 		try {
-			findByBarcodePS.setInt(1, id);
+			findByProductIDPS.setInt(1, id);
 			ResultSet rs = findByProductIDPS.executeQuery();
 			if(rs.next()) {
 				currPack = buildPackObject(rs);

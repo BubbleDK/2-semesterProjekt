@@ -45,16 +45,16 @@ public class CustomerDB implements CustomerDBIF {
 	public B2BCustomer findB2BCustomerByID(int id) throws DataAccessException {
 		B2BCustomer currCustomer = null;
 		try {
-			findCustomer.setInt(1, id);
+			findCustomerById.setInt(1, id);
 			ResultSet rs = findCustomerById.executeQuery();
 			if(rs.next()) {
 			currCustomer = buildObject(rs);
 			}
 		} catch (SQLException e) {
-			throw new DataAccessException(DBMessages.COULD_NOT_READ_RESULTSET, e);
 //			e.printStackTrace();
+			throw new DataAccessException(DBMessages.COULD_NOT_READ_RESULTSET, e);		
 		}
-		return null;
+		return currCustomer;
 	}
 	
 	//TODO husk at lave et view som kan trækkes info ud fra til customerobjekter

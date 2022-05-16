@@ -139,7 +139,7 @@ public class B2BOrderMenu extends JFrame {
 		} catch (DataAccessException e) {
 			JOptionPane.showMessageDialog(this, "Kan ikke få adgang til database", "Data access error",
 					JOptionPane.ERROR_MESSAGE);
-//			e.printStackTrace();
+			e.printStackTrace();
 		}
 		if(!(currOrder == null)) {
 			GiftChoiceGUI gcgui = new GiftChoiceGUI(orderCtrl);

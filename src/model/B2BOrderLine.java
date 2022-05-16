@@ -1,9 +1,9 @@
 package model;
 
 public class B2BOrderLine {
-	private AbstractProduct product;
+	private Pack product;
 	private int quantity;
-	public B2BOrderLine(AbstractProduct product) {
+	public B2BOrderLine(Pack product) {
 		this.product = product;
 		this.quantity = 0;
 	}
@@ -20,11 +20,11 @@ public class B2BOrderLine {
 		this.quantity = quantity;
 	}
 
-	public AbstractProduct getProduct() {
+	public Pack getProduct() {
 		return product;
 	}
 
-	public void setProduct(AbstractProduct product) {
+	public void setProduct(Pack product) {
 		this.product = product;
 	}
 }
