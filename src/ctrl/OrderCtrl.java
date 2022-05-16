@@ -24,14 +24,8 @@ public class OrderCtrl {
 		customerCtrl = new CustomerCtrl();
 	}
 	
-	public void registerB2BOrderChoice(String giftNo) {
-		//TODO: Lav et join som viser Orders sammen med B2BCustomer eller Person og måske orderlines med?
-		try {
-			o = orderDB.findOrderBylogin(giftNo);
-		} catch (DataAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public B2BOrder registerB2BOrderChoice(String giftNo) throws DataAccessException {
+		return orderDB.findOrderBylogin(giftNo);
 	}
 	
 	public B2BOrder registerB2BOrder(String endDate, int cvr) throws DataAccessException {
@@ -73,10 +67,6 @@ public class OrderCtrl {
 	
 	public B2BOrder getOrder() {
 		return this.o;
-	}
-	
-	public B2BOrder registerB2BOrder(String giftNo) throws DataAccessException {
-		return orderDB.findOrderBylogin(giftNo);
 	}
 	
 	public List<B2BOrderLine> insertLogin(String email, String giftNo) {
