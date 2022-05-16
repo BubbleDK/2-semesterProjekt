@@ -19,6 +19,9 @@ import ctrl.CustomerCtrl;
 import ctrl.OrderCtrl;
 import exceptions.DataAccessException;
 import model.B2BCustomer;
+import model.B2BOrder;
+import model.Pack;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -76,13 +79,15 @@ public class B2BOrderMenu extends JFrame {
 		gbc_btnNyB2BOrdre.gridy = 0;
 		panel.add(btnNyB2BOrdre, gbc_btnNyB2BOrdre);
 
-		JButton btnNewButton = new JButton("B2B Gavevalg");
-		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.fill = GridBagConstraints.BOTH;
-		gbc_btnNewButton.insets = new Insets(0, 0, 5, 0);
-		gbc_btnNewButton.gridx = 0;
-		gbc_btnNewButton.gridy = 1;
-		panel.add(btnNewButton, gbc_btnNewButton);
+		JButton btnGiftChoice = new JButton("B2B Gavevalg");
+		btnGiftChoice.addActionListener((e) -> giftChoiceClicked());
+		
+		GridBagConstraints gbc_btnGiftChoice = new GridBagConstraints();
+		gbc_btnGiftChoice.fill = GridBagConstraints.BOTH;
+		gbc_btnGiftChoice.insets = new Insets(0, 0, 5, 0);
+		gbc_btnGiftChoice.gridx = 0;
+		gbc_btnGiftChoice.gridy = 1;
+		panel.add(btnGiftChoice, gbc_btnGiftChoice);
 
 		JButton btnNewButton_1 = new JButton("New button");
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
@@ -107,6 +112,8 @@ public class B2BOrderMenu extends JFrame {
 
 	
 
+	
+
 	private void init() {
 		try {
 			customerCtrl = new CustomerCtrl();
@@ -122,6 +129,13 @@ public class B2BOrderMenu extends JFrame {
 					JOptionPane.OK_OPTION);
 			//e.printStackTrace();
 		}
+	}
+	//TODO: må vi godt holde fast i et objekt B2BOrder her?
+	private void giftChoiceClicked() {
+		String insertGiftNo = JOptionPane.showInputDialog("Indtast gavekode");
+		B2BOrder currOrder = null;
+		currOrder = orderCtrl.registerB2BOrderChoice(insertGiftNo);	
+		GiftChoiceGUI gcgui = new GiftChoiceGUI(orderCtrl);
 	}
 
 	private void newB2BOrderClicked() {
