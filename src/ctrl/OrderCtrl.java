@@ -72,4 +72,8 @@ public class OrderCtrl {
 	public B2BOrder getOrder() {
 		return this.o;
 	}
+	
+	public void registerB2BOrder(String giftNo) throws DataAccessException {
+		orderDB.findOrderBylogin(giftNo);
+	}
 }

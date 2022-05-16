@@ -167,7 +167,4 @@ public class OrderDB implements OrderDBIF {
 		}
 		return currOL;
 	}
-
-	
-
 }
