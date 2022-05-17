@@ -158,9 +158,7 @@ public class OrderDB implements OrderDBIF {
 		emailGiftNo = new HashMap<String, String>();
 
 		try {
-			if (rs.next()) {
 				emailGiftNo.put(rs.getString("Email"), rs.getString("GiftNo"));
-			}
 		} catch (SQLException e) {
 			throw new DataAccessException(DBMessages.COULD_NOT_READ_RESULTSET, e);
 		}
@@ -179,7 +177,8 @@ public class OrderDB implements OrderDBIF {
 				currOrderLine.setProduct(productDB.findByProductId(rs.getInt("productID")));
 				currOrderLine.setQuantity(rs.getInt("quantity"));
 				currOrder.setOrderLines(currOrderLine);
-				System.out.println(currOrder.getOrderLines());
+				
+				System.out.println(rs);
 
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -187,6 +186,7 @@ public class OrderDB implements OrderDBIF {
 
 			}
 		}
+		System.out.println(currOrder.getOrderLines());
 		return currOrder;
 	}
 }
