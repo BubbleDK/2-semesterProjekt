@@ -100,7 +100,7 @@ public class OrderDB implements OrderDBIF {
 			}
 			DBConnection.getInstance().commitTransaction();
 		} catch (SQLException e) {
-//			e.printStackTrace();
+			e.printStackTrace();
 			DBConnection.getInstance().rollbackTransaction();
 //			throw new DataAccessException(DBMessages.COULD_NOT_BIND_PS_VARS_INSERT, e);
 		}
@@ -177,16 +177,12 @@ public class OrderDB implements OrderDBIF {
 				currOrderLine.setProduct(productDB.findByProductId(rs.getInt("productID")));
 				currOrderLine.setQuantity(rs.getInt("quantity"));
 				currOrder.setOrderLines(currOrderLine);
-				
-				System.out.println(rs);
-
 			} catch (SQLException e) {
 				e.printStackTrace();
 				throw new DataAccessException(DBMessages.COULD_NOT_BIND_OR_EXECUTE_QUERY, e);
 
 			}
 		}
-		System.out.println(currOrder.getOrderLines());
 		return currOrder;
 	}
 }
