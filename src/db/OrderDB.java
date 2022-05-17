@@ -31,8 +31,10 @@ public class OrderDB implements OrderDBIF {
 	private PreparedStatement findProductIDPS;
 	private static final String FIND_BY_ORDERNO_Q = "SELECT * FROM kk_Orders WHERE OrderNo = ?";
 	private static PreparedStatement findByOrderNoPS;
-	private static final String FIND_ORDER_BY_LOGIN_Q = "SELECT * FROM kk_Orders INNER JOIN kk_B2BLogin ON kk_orders.id = kk_B2BLogin.orderid and kk_B2BLogin.giftNo = ? INNER JOIN kk_OrderLines ON kk_OrderLines.orderID = kk_Orders.id";
+	private static final String FIND_ORDER_BY_LOGIN_Q = "SELECT * FROM kk_Orders INNER JOIN kk_B2BLogin ON kk_orders.id = kk_B2BLogin.orderid and kk_B2BLogin.giftNo = ?";
 	private static PreparedStatement findOrderByLoginPS;
+	private static final String FIND_ORDERLINES_BY_ORDERID_Q = "Select * FROM kk_OrderLines WHERE orderID = ?";
+	private static PreparedStatement findOrderLinesByOrderIdPS;
 
 	public OrderDB() throws DataAccessException {
 		customerDB = new CustomerDB();
@@ -46,6 +48,7 @@ public class OrderDB implements OrderDBIF {
 			findProductIDPS = con.prepareStatement(FIND_PRODUCTID_Q);
 			insertB2bLoginPS = con.prepareStatement(INSERT_INTO_B2BLOGIN_Q);
 			findOrderByLoginPS = con.prepareStatement(FIND_ORDER_BY_LOGIN_Q);
+			findOrderLinesByOrderIdPS = con.prepareStatement(FIND_ORDERLINES_BY_ORDERID_Q);
 		} catch (SQLException e) {
 			// e.printStackTrace();
 			throw new DataAccessException(DBMessages.COULD_NOT_PREPARE_STATEMENT, e);
@@ -54,11 +57,13 @@ public class OrderDB implements OrderDBIF {
 
 	@Override
 	public B2BOrder saveOrderToDB(B2BOrder order) throws DataAccessException {
+		
 		int customerID = -1;
 		int orderNo = 0;
 		int employeeID = 1;
 		int productID = -1;
 		try {
+			DBConnection.getInstance().startTransaction();
 			findCustomerIDPS.setInt(1, order.getB2BCustomer().getCVR());
 			ResultSet rsCustomer = findCustomerIDPS.executeQuery();
 			if (rsCustomer.next()) {
@@ -93,9 +98,11 @@ public class OrderDB implements OrderDBIF {
 				insertB2bLoginPS.setInt(3, orderID);
 				insertB2bLoginPS.execute();
 			}
+			DBConnection.getInstance().commitTransaction();
 		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new DataAccessException(DBMessages.COULD_NOT_BIND_PS_VARS_INSERT, e);
+//			e.printStackTrace();
+			DBConnection.getInstance().rollbackTransaction();
+//			throw new DataAccessException(DBMessages.COULD_NOT_BIND_PS_VARS_INSERT, e);
 		}
 		return order;
 	}
@@ -131,14 +138,15 @@ public class OrderDB implements OrderDBIF {
 
 	private B2BOrder buildOrderObject(ResultSet rs) throws DataAccessException {
 		currOrder = new B2BOrder();
+		int orderID = -1;
 		try {
+			orderID = rs.getInt("orderid");
 			currOrder.setEndDate(rs.getString("endDate"));
 			currOrder.setCustomer(customerDB.findB2BCustomerByID(rs.getInt("customerID")));
 			currOrder.setEmailGiftNo(buildEmailGiftObject(rs));
-			ArrayList<B2BOrderLine> orderLines = buildOrderLineObject(rs);
-			for (B2BOrderLine orderLine : orderLines) {
-				currOrder.setOrderLines(orderLine);
-			}
+			
+			currOrder = buildOrderLineObject(currOrder, orderID);
+			
 		} catch (SQLException e) {
 //			e.printStackTrace();
 			throw new DataAccessException(DBMessages.COULD_NOT_READ_RESULTSET, e);
@@ -157,17 +165,21 @@ public class OrderDB implements OrderDBIF {
 			throw new DataAccessException(DBMessages.COULD_NOT_READ_RESULTSET, e);
 		}
 
-		return null;
+		return emailGiftNo;
 	}
 	//TODO check om rs har noget!
-	public ArrayList<B2BOrderLine> buildOrderLineObject(ResultSet rs) throws DataAccessException, SQLException {
-		ArrayList<B2BOrderLine> orderLines = new ArrayList<>();
+	public B2BOrder buildOrderLineObject(B2BOrder currOrder, int orderID) throws DataAccessException, SQLException {
+//		ArrayList<B2BOrderLine> orderLines = new ArrayList<>();
 		B2BOrderLine currOrderLine = new B2BOrderLine();
-		System.out.println(rs);
-		if(rs.next()) {
+		findOrderLinesByOrderIdPS.setInt(1, orderID);
+		ResultSet rs = findOrderLinesByOrderIdPS.executeQuery();
+		System.out.println(rs + "Jeg er foran ifen");
+		while(rs.next()) {
+			System.out.println("JEG ER I IFEN");
 		try {
 			currOrderLine.setProduct(productDB.findByProductId(rs.getInt("productID")));
 			currOrderLine.setQuantity(rs.getInt("quantity"));
+			currOrder.setOrderLines(currOrderLine);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -175,10 +187,8 @@ public class OrderDB implements OrderDBIF {
 				
 		}
 		}
-		if (rs.next()) {
-			buildOrderLineObject(rs);
-		}
+		
 
-		return orderLines;
+		return currOrder;
 	}
 }

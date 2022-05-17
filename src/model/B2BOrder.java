@@ -18,7 +18,6 @@ public class B2BOrder {
 
 	public B2BOrder(String endDateString,B2BCustomer c) {
 		this.c = c;
-		
 		orderLines = new ArrayList<>();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 		this.endDate = LocalDate.parse(endDateString,formatter);
