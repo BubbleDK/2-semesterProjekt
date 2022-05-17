@@ -8,10 +8,14 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import ctrl.OrderCtrl;
+import model.B2BOrderLine;
+
 import javax.swing.JLabel;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.util.List;
+
 import javax.swing.JTextField;
 import javax.swing.JDesktopPane;
 import javax.swing.JScrollPane;
@@ -25,7 +29,7 @@ import java.awt.GridLayout;
 import javax.swing.JSplitPane;
 
 public class GiftChoiceGUI extends JFrame {
-
+	private OrderChoiceTableModel orderChoiceTableModel;
 	private JPanel contentPane;
 	private OrderCtrl orderCtrl;
 	private JTextField txtOrderNumber;
@@ -53,9 +57,9 @@ public class GiftChoiceGUI extends JFrame {
 		});
 	}
 
-	public GiftChoiceGUI(OrderCtrl orderCtrl, String GiftNo) {
+	public GiftChoiceGUI(OrderCtrl orderCtrl, String giftNo) {
 		this();
-		init(orderCtrl);
+		init(orderCtrl, giftNo);
 	}
 	
 	/**
@@ -221,8 +225,28 @@ public class GiftChoiceGUI extends JFrame {
 		txtEmail.setColumns(10);
 	}
 	
-	public void init(OrderCtrl orderCtrl){
+	public void init(OrderCtrl orderCtrl, String giftNo){
 		this.orderCtrl = orderCtrl;
+		orderChoiceTableModel = new OrderChoiceTableModel();
+		this.tblChoices.setModel(orderChoiceTableModel);
+		this.txtOrderNumber.setText(Integer.toString(orderCtrl.getOrder().getOrderNo()));
+		this.txtB2BCustomer.setText(orderCtrl.getOrder().getB2BCustomer().getCompanyName());
+		this.txtGiftCode.setText(giftNo);
+		System.out.println(orderCtrl.getOrder().getEmailGiftNo().get("TESTERDEBUG@test.dk"));
+		for(String email : orderCtrl.getOrder().getEmailGiftNo().keySet()) {
+			System.out.println(orderCtrl.getOrder().getEmailGiftNo().get(email));
+			if(orderCtrl.getOrder().getEmailGiftNo().get(email).equals(giftNo)){
+				this.txtEmail.setText(email);
+				System.out.println("IM IN");
+			}
+		}
+		refresh();
 		
+	}
+
+	private void refresh() {
+		List<B2BOrderLine> currOrderLines = orderCtrl.getOrder().getOrderLines();
+		System.out.println(currOrderLines);
+		this.orderChoiceTableModel.setModelData(currOrderLines);
 	}
 }

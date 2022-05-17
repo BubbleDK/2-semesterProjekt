@@ -42,6 +42,10 @@ public abstract class AbstractProduct {
 	public void setProductDescription(String productDescription) {
 		this.productDescription = productDescription;
 	}
+	
+	public String getProductDescription() {
+		return productDescription;
+	}
 
 	public void setStock(int stock) {
 		this.stock = stock;
