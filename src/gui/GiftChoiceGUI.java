@@ -41,6 +41,7 @@ public class GiftChoiceGUI extends JFrame {
 	private JTextField txtEmail;
 	private JTable tblChoices;
 	private JTable tblB2BOrder;
+	private boolean choice;
 
 	/**
 	 * Launch the application.
@@ -141,8 +142,12 @@ public class GiftChoiceGUI extends JFrame {
 		gbl_panel_4.columnWeights = new double[]{1.0, Double.MIN_VALUE};
 		gbl_panel_4.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		panel_4.setLayout(gbl_panel_4);
-		
+		//TODO: Færdiggør orderLineID på login + stock og quantity i db
 		JButton btnUpdateOrder = new JButton("Gem");
+		btnUpdateOrder.addActionListener((e -> {
+			 this.dispose();
+			
+		}));
 		btnUpdateOrder.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		GridBagConstraints gbc_btnUpdateOrder = new GridBagConstraints();
 		gbc_btnUpdateOrder.anchor = GridBagConstraints.EAST;
@@ -233,8 +238,9 @@ public class GiftChoiceGUI extends JFrame {
 	
 	private void choiceClicked() {
 		int selected = tblChoices.getSelectedRow();
-		if(selected >= 0 ) {
+		if(selected >= 0 && !choice) {
 		updateQuantity(selected);
+		choice = true;
 		refresh();
 		}
 	}
@@ -249,6 +255,7 @@ public class GiftChoiceGUI extends JFrame {
 	}
 
 	public void init(OrderCtrl orderCtrl, String giftNo){
+		choice = false;
 		this.orderCtrl = orderCtrl;
 		orderChoiceTableModel = new OrderChoiceTableModel();
 		this.tblChoices.setModel(orderChoiceTableModel);
