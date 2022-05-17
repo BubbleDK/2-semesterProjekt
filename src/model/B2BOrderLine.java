@@ -19,6 +19,10 @@ public class B2BOrderLine {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
+	
+	public void addQuantity(int amount) {
+		this.quantity += amount;
+	}
 
 	public Pack getProduct() {
 		return product;

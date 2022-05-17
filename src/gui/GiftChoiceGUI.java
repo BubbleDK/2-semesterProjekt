@@ -27,8 +27,11 @@ import java.awt.Component;
 import javax.swing.Box;
 import java.awt.GridLayout;
 import javax.swing.JSplitPane;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class GiftChoiceGUI extends JFrame {
+	private OrderChoiceOrderTableModel orderChoiceOrderTableModel;
 	private OrderChoiceTableModel orderChoiceTableModel;
 	private JPanel contentPane;
 	private OrderCtrl orderCtrl;
@@ -117,6 +120,9 @@ public class GiftChoiceGUI extends JFrame {
 		panel_3.setLayout(gbl_panel_3);
 		
 		JButton btnChoice = new JButton("Tilføj");
+		btnChoice.addActionListener((e ->  { 
+			choiceClicked();
+		}));
 		GridBagConstraints gbc_btnChoice = new GridBagConstraints();
 		gbc_btnChoice.anchor = GridBagConstraints.NORTHEAST;
 		gbc_btnChoice.gridx = 1;
@@ -225,6 +231,23 @@ public class GiftChoiceGUI extends JFrame {
 		txtEmail.setColumns(10);
 	}
 	
+	private void choiceClicked() {
+		int selected = tblChoices.getSelectedRow();
+		if(selected >= 0 ) {
+		updateQuantity(selected);
+		refresh();
+		}
+	}
+
+//	private void updateOrder(int selected) {
+//		orderChoiceOrderTableModel.getElementAtIndex(selected);
+//		updateQuantity();
+//	}
+
+	private void updateQuantity(int selected) {
+		orderCtrl.getOrder().getOrderLines().get(selected).addQuantity(1);
+	}
+
 	public void init(OrderCtrl orderCtrl, String giftNo){
 		this.orderCtrl = orderCtrl;
 		orderChoiceTableModel = new OrderChoiceTableModel();
@@ -232,21 +255,22 @@ public class GiftChoiceGUI extends JFrame {
 		this.txtOrderNumber.setText(Integer.toString(orderCtrl.getOrder().getOrderNo()));
 		this.txtB2BCustomer.setText(orderCtrl.getOrder().getB2BCustomer().getCompanyName());
 		this.txtGiftCode.setText(giftNo);
-		System.out.println(orderCtrl.getOrder().getEmailGiftNo().get("TESTERDEBUG@test.dk"));
 		for(String email : orderCtrl.getOrder().getEmailGiftNo().keySet()) {
 			System.out.println(orderCtrl.getOrder().getEmailGiftNo().get(email));
 			if(orderCtrl.getOrder().getEmailGiftNo().get(email).equals(giftNo)){
 				this.txtEmail.setText(email);
-				System.out.println("IM IN");
 			}
 		}
+		orderChoiceOrderTableModel = new OrderChoiceOrderTableModel();
+		this.tblB2BOrder.setModel(orderChoiceOrderTableModel);
 		refresh();
 		
 	}
 
 	private void refresh() {
 		List<B2BOrderLine> currOrderLines = orderCtrl.getOrder().getOrderLines();
-		System.out.println(currOrderLines);
 		this.orderChoiceTableModel.setModelData(currOrderLines);
+		this.orderChoiceOrderTableModel.setModelData(currOrderLines);
+		
 	}
 }
