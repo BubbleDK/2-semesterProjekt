@@ -142,7 +142,8 @@ public class B2BOrderMenu extends JFrame {
 			e.printStackTrace();
 		}
 		if(!(currOrder == null)) {
-			GiftChoiceGUI gcgui = new GiftChoiceGUI(orderCtrl);
+			GiftChoiceGUI gcgui = new GiftChoiceGUI(orderCtrl, insertGiftNo);
+			gcgui.setVisible(true);
 		}else {
 			JOptionPane.showMessageDialog(null, "Kunne ikke finde koden i systemet.", "Fejl", 
 					JOptionPane.ERROR_MESSAGE);
