@@ -141,10 +141,10 @@ public class OrderDB implements OrderDBIF {
 		int orderID = -1;
 		try {
 			orderID = rs.getInt("orderid");
+			currOrder.setOrderNo(rs.getInt("orderNo"));
 			currOrder.setEndDate(rs.getString("endDate"));
 			currOrder.setCustomer(customerDB.findB2BCustomerByID(rs.getInt("customerID")));
 			currOrder.setEmailGiftNo(buildEmailGiftObject(rs));
-
 			currOrder = buildOrderLineObject(currOrder, orderID);
 
 		} catch (SQLException e) {

@@ -90,7 +90,7 @@ public class B2BOrder {
 	}
 	
 	public void setEmailGiftNo(HashMap emailGiftNo) {
-		emailGiftNo = new HashMap<String,String>();
+		this.emailGiftNo = emailGiftNo;
 	}
 	//TODO: ÆNDRE!
 	public int newOrderNo() {
@@ -104,5 +104,9 @@ public class B2BOrder {
 
 	public B2BOrderLine choosePack(Pack p) {
 		return this.addOrderLine(new B2BOrderLine(p));
+	}
+
+	public void setOrderNo(int orderNo) {
+		this.orderNo = orderNo;
 	}
 }
