@@ -15,7 +15,7 @@ import model.B2BOrder;
 import model.B2BOrderLine;
 
 public class OrderDB implements OrderDBIF {
-	private B2BOrder currOrder;
+//	private B2BOrder currOrder;
 	private CustomerDBIF customerDB;
 	private ProductDBIF productDB;
 	private HashMap<String, String> emailGiftNo;
@@ -57,7 +57,7 @@ public class OrderDB implements OrderDBIF {
 
 	@Override
 	public B2BOrder saveOrderToDB(B2BOrder order) throws DataAccessException {
-		
+
 		int customerID = -1;
 		int orderNo = 0;
 		int employeeID = 1;
@@ -109,7 +109,7 @@ public class OrderDB implements OrderDBIF {
 
 	// TODO: Skal denne returnere NULL? Skal currOrder bruges?
 	public B2BOrder findByOrderNo(int orderNo) throws DataAccessException {
-		currOrder = null;
+		B2BOrder currOrder = null;
 		try {
 			findByOrderNoPS.setInt(1, orderNo);
 			ResultSet rs = findByOrderNoPS.executeQuery();
@@ -123,7 +123,7 @@ public class OrderDB implements OrderDBIF {
 
 	@Override
 	public B2BOrder findOrderBylogin(String giftNo) throws DataAccessException {
-		currOrder = null;
+		B2BOrder currOrder = null;
 		try {
 			findOrderByLoginPS.setString(1, giftNo);
 			ResultSet rs = findOrderByLoginPS.executeQuery();
@@ -137,16 +137,16 @@ public class OrderDB implements OrderDBIF {
 	}
 
 	private B2BOrder buildOrderObject(ResultSet rs) throws DataAccessException {
-		currOrder = new B2BOrder();
+		B2BOrder currOrder = new B2BOrder();
 		int orderID = -1;
 		try {
 			orderID = rs.getInt("orderid");
 			currOrder.setEndDate(rs.getString("endDate"));
 			currOrder.setCustomer(customerDB.findB2BCustomerByID(rs.getInt("customerID")));
 			currOrder.setEmailGiftNo(buildEmailGiftObject(rs));
-			
+
 			currOrder = buildOrderLineObject(currOrder, orderID);
-			
+
 		} catch (SQLException e) {
 //			e.printStackTrace();
 			throw new DataAccessException(DBMessages.COULD_NOT_READ_RESULTSET, e);
@@ -167,28 +167,26 @@ public class OrderDB implements OrderDBIF {
 
 		return emailGiftNo;
 	}
-	//TODO check om rs har noget!
+
+	// TODO check om rs har noget!
 	public B2BOrder buildOrderLineObject(B2BOrder currOrder, int orderID) throws DataAccessException, SQLException {
 //		ArrayList<B2BOrderLine> orderLines = new ArrayList<>();
 		B2BOrderLine currOrderLine = new B2BOrderLine();
 		findOrderLinesByOrderIdPS.setInt(1, orderID);
 		ResultSet rs = findOrderLinesByOrderIdPS.executeQuery();
-		System.out.println(rs + "Jeg er foran ifen");
-		while(rs.next()) {
-			System.out.println("JEG ER I IFEN");
-		try {
-			currOrderLine.setProduct(productDB.findByProductId(rs.getInt("productID")));
-			currOrderLine.setQuantity(rs.getInt("quantity"));
-			currOrder.setOrderLines(currOrderLine);
+		while (rs.next()) {
+			try {
+				currOrderLine.setProduct(productDB.findByProductId(rs.getInt("productID")));
+				currOrderLine.setQuantity(rs.getInt("quantity"));
+				currOrder.setOrderLines(currOrderLine);
+				System.out.println(currOrder.getOrderLines());
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new DataAccessException(DBMessages.COULD_NOT_BIND_OR_EXECUTE_QUERY, e);
-				
-		}
-		}
-		
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new DataAccessException(DBMessages.COULD_NOT_BIND_OR_EXECUTE_QUERY, e);
 
+			}
+		}
 		return currOrder;
 	}
 }

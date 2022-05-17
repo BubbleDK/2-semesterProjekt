@@ -26,7 +26,8 @@ public class B2BOrder {
 	}
 	
 	public B2BOrder() {
-		
+		orderLines = new ArrayList<>();
+		emailGiftNo = new HashMap<String, String>();
 	}
 	
 	public B2BOrderLine addOrderLine(B2BOrderLine ol) {
