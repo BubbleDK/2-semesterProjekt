@@ -169,11 +169,11 @@ public class OrderDB implements OrderDBIF {
 	// TODO check om rs har noget!
 	public B2BOrder buildOrderLineObject(B2BOrder currOrder, int orderID) throws DataAccessException, SQLException {
 //		ArrayList<B2BOrderLine> orderLines = new ArrayList<>();
-		B2BOrderLine currOrderLine = new B2BOrderLine();
 		findOrderLinesByOrderIdPS.setInt(1, orderID);
 		ResultSet rs = findOrderLinesByOrderIdPS.executeQuery();
 		while (rs.next()) {
 			try {
+				B2BOrderLine currOrderLine = new B2BOrderLine();
 				currOrderLine.setProduct(productDB.findByProductId(rs.getInt("productID")));
 				currOrderLine.setQuantity(rs.getInt("quantity"));
 				currOrder.setOrderLines(currOrderLine);
