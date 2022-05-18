@@ -170,7 +170,10 @@ public class B2BOrderMenu extends JFrame {
 		}
 		else if(companyName != null) {
 			String endDate = JOptionPane.showInputDialog("Indtast slut dato: 'DD-MM-YYYY'");
-			if(checkDate(endDate).equals("ok")) {
+			if(endDate == null) {
+				
+			}
+			else if(checkDate(endDate).equals("ok")) {
 			B2BOrderGUI orderGUI = new B2BOrderGUI(cvr, companyName, endDate, orderCtrl);
 			orderGUI.setVisible(true);
 			this.dispose();
