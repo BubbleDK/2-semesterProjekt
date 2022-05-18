@@ -11,4 +11,6 @@ public interface OrderDBIF {
 	public B2BOrder findOrderBylogin(String giftNo) throws DataAccessException;
 
 	public void saveChoice(int orderId, int productId, String giftNo) throws DataAccessException, SQLException;
+
+	public int findLoginByGiftNo(String giftNo) throws SQLException;
 }

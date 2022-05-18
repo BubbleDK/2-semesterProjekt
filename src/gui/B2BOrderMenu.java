@@ -23,6 +23,7 @@ import model.B2BOrder;
 import model.Pack;
 
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 public class B2BOrderMenu extends JFrame {
@@ -80,7 +81,14 @@ public class B2BOrderMenu extends JFrame {
 		panel.add(btnNyB2BOrdre, gbc_btnNyB2BOrdre);
 
 		JButton btnGiftChoice = new JButton("B2B Gavevalg");
-		btnGiftChoice.addActionListener((e) -> giftChoiceClicked());
+		btnGiftChoice.addActionListener((e) -> {
+			try {
+				giftChoiceClicked();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
 		
 		GridBagConstraints gbc_btnGiftChoice = new GridBagConstraints();
 		gbc_btnGiftChoice.fill = GridBagConstraints.BOTH;
@@ -131,9 +139,10 @@ public class B2BOrderMenu extends JFrame {
 		}
 	}
 	//TODO: Lav et tjek efter om brugt
-	private void giftChoiceClicked() {
+	private void giftChoiceClicked() throws SQLException {
 		String insertGiftNo = JOptionPane.showInputDialog("Indtast gavekode");
 		B2BOrder currOrder = null;
+		
 		try {
 			currOrder = orderCtrl.registerB2BOrderChoice(insertGiftNo);
 		} catch (DataAccessException e) {
@@ -145,7 +154,7 @@ public class B2BOrderMenu extends JFrame {
 			GiftChoiceGUI gcgui = new GiftChoiceGUI(orderCtrl, insertGiftNo);
 			gcgui.setVisible(true);
 		}else {
-			JOptionPane.showMessageDialog(null, "Kunne ikke finde koden i systemet.", "Fejl", 
+			JOptionPane.showMessageDialog(null, "Kunne ikke finde koden i systemet eller koden er brugt.", "Fejl", 
 					JOptionPane.ERROR_MESSAGE);
 		}
 		

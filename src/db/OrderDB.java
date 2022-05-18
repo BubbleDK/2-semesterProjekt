@@ -41,6 +41,8 @@ public class OrderDB implements OrderDBIF {
 	private static PreparedStatement updateB2BLoginPS;
 	private static final String UPDATE_ORDERLINE_Q = "update kk_OrderLines set quantity += 1 where id = ?";
 	private static PreparedStatement updateOrderLinePS;
+	private static final String FIND_B2BLOGIN_Q = "select orderlineId from kk_B2BLogin where giftNo = ?";
+	private static PreparedStatement findB2BLoginPS;
 
 	public OrderDB() throws DataAccessException {
 		customerDB = new CustomerDB();
@@ -58,6 +60,7 @@ public class OrderDB implements OrderDBIF {
 			findOrderLinesByOrderIdProductIdPS = con.prepareStatement(FIND_ORDERLINES_BY_ORDERID_PRODUCTID_Q);
 			updateB2BLoginPS = con.prepareStatement(UPDATE_B2BLOGIN_Q);
 			updateOrderLinePS = con.prepareStatement(UPDATE_ORDERLINE_Q);
+			findB2BLoginPS = con.prepareStatement(FIND_B2BLOGIN_Q);
 			} catch (SQLException e) {
 			// e.printStackTrace();
 			throw new DataAccessException(DBMessages.COULD_NOT_PREPARE_STATEMENT, e);
@@ -216,5 +219,18 @@ public class OrderDB implements OrderDBIF {
 		updateB2BLoginPS.executeUpdate();
 		updateOrderLinePS.setInt(1, orderLineId);
 		updateOrderLinePS.executeUpdate();
+	}
+
+	@Override
+	public int findLoginByGiftNo(String giftNo) throws SQLException {
+		int orderLineId = -1;
+		findB2BLoginPS.setString(1, giftNo);
+		ResultSet rs = findB2BLoginPS.executeQuery();
+		
+		if(rs.next()) {
+			orderLineId = rs.getInt("orderlineId");
+		}
+		
+		return orderLineId;
 	}
 }

@@ -26,9 +26,14 @@ public class OrderCtrl {
 		orderDB = new OrderDB();
 	}
 	
-	public B2BOrder registerB2BOrderChoice(String giftNo) throws DataAccessException {
+	public B2BOrder registerB2BOrderChoice(String giftNo) throws DataAccessException, SQLException {
+		int orderLineId = orderDB.findLoginByGiftNo(giftNo);
+		System.out.println("ORDERLINEID::::" + orderLineId);
+		if(orderLineId == 0) {
 		o = orderDB.findOrderBylogin(giftNo);
 		return o;
+		}
+		return null;
 	}
 	
 	public B2BOrder registerB2BOrder(String endDate, int cvr) throws DataAccessException {
