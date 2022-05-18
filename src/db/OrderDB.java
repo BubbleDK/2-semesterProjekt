@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 
 import exceptions.DataAccessException;
@@ -198,7 +199,7 @@ public class OrderDB implements OrderDBIF {
 	}
 
 	@Override
-	public void saveChoice(int orderId, int productId, String giftNo) throws DataAccessException, SQLException {
+	public void saveChoice(int orderId, int productId, String giftNo, List<B2BOrderLine> orderLines) throws DataAccessException, SQLException {
 		int orderLineId = -1;
 		findOrderLinesByOrderIdProductIdPS.setInt(1, orderId);
 		findOrderLinesByOrderIdProductIdPS.setInt(2, productId);
@@ -219,6 +220,7 @@ public class OrderDB implements OrderDBIF {
 		updateB2BLoginPS.executeUpdate();
 		updateOrderLinePS.setInt(1, orderLineId);
 		updateOrderLinePS.executeUpdate();
+
 	}
 
 	@Override

@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import ctrl.OrderCtrl;
+import ctrl.ProductCtrl;
 import exceptions.DataAccessException;
 import model.B2BOrderLine;
 
@@ -45,6 +46,8 @@ public class GiftChoiceGUI extends JFrame {
 	private JTable tblB2BOrder;
 	private boolean choice;
 	private String giftNo;
+	private String barcode;
+	private ProductCtrl productCtrl;
 
 	/**
 	 * Launch the application.
@@ -249,7 +252,8 @@ public class GiftChoiceGUI extends JFrame {
 	}
 	
 	private void saveChoice() throws DataAccessException, SQLException {
-		orderCtrl.saveChoice(giftNo);
+		orderCtrl.saveChoice(giftNo, barcode);
+//		productCtrl.updateStock(giftNo);
 	}
 
 	private void choiceClicked() {
@@ -267,8 +271,9 @@ public class GiftChoiceGUI extends JFrame {
 //	}
 
 	private void choosePack(int selected) {
-		String barcode = orderCtrl.getOrder().getOrderLines().get(selected).getProduct().getBarcode();
+		barcode = orderCtrl.getOrder().getOrderLines().get(selected).getProduct().getBarcode();
 		orderCtrl.choosePack(barcode);
+		
 	}
 
 	public void init(OrderCtrl orderCtrl, String giftNo){

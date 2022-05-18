@@ -85,15 +85,18 @@ public class OrderCtrl {
 		o.choosePack(barcode);
 	}
 
-	public void saveChoice(String giftNo) throws DataAccessException, SQLException {
+	public void saveChoice(String giftNo, String barcodeCheck) throws DataAccessException, SQLException {
 		String barcode = "";
 		int productId = -1;
 		int orderId = o.getOrderId();
 		for(int i = 0; i < this.o.getOrderLines().size(); i++) {
-			barcode = this.o.getOrderLines().get(i).getProduct().getBarcode();
-			productId = productCtrl.findProductIdByBarcode(barcode);
+			if(this.o.getOrderLines().get(i).getProduct().getBarcode().equals(barcodeCheck)) {
+				barcode = barcodeCheck;
+				productId = productCtrl.findProductIdByBarcode(barcode);
+			}
 		}
-		orderDB.saveChoice(orderId, productId, giftNo);
+		orderDB.saveChoice(orderId, productId, giftNo, o.getOrderLines());
+//		productCtrl.updateStock(productId);
 	}
 	
 	
