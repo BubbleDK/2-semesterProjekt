@@ -87,6 +87,9 @@ public class B2BOrderMenu extends JFrame {
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
+			} catch (DataAccessException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
 		});
 		
@@ -139,7 +142,7 @@ public class B2BOrderMenu extends JFrame {
 		}
 	}
 	//TODO: Lav et tjek efter om brugt
-	private void giftChoiceClicked() throws SQLException {
+	private void giftChoiceClicked() throws SQLException, DataAccessException {
 		String insertGiftNo = JOptionPane.showInputDialog("Indtast gavekode");
 		B2BOrder currOrder = null;
 		

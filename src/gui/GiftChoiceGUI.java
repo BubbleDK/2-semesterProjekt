@@ -67,7 +67,7 @@ public class GiftChoiceGUI extends JFrame {
 		});
 	}
 
-	public GiftChoiceGUI(OrderCtrl orderCtrl, String giftNo) {
+	public GiftChoiceGUI(OrderCtrl orderCtrl, String giftNo) throws DataAccessException {
 		this();
 		init(orderCtrl, giftNo);
 	}
@@ -160,7 +160,7 @@ public class GiftChoiceGUI extends JFrame {
 				// TODO Auto-generated catch block
 				se.printStackTrace();
 			}
-			this.dispose();
+			
 			
 		}));
 		btnUpdateOrder.setAlignmentX(Component.RIGHT_ALIGNMENT);
@@ -253,7 +253,8 @@ public class GiftChoiceGUI extends JFrame {
 	
 	private void saveChoice() throws DataAccessException, SQLException {
 		orderCtrl.saveChoice(giftNo, barcode);
-//		productCtrl.updateStock(giftNo);
+		productCtrl.updateStock(barcode);
+		this.dispose();
 	}
 
 	private void choiceClicked() {
@@ -276,10 +277,11 @@ public class GiftChoiceGUI extends JFrame {
 		
 	}
 
-	public void init(OrderCtrl orderCtrl, String giftNo){
+	public void init(OrderCtrl orderCtrl, String giftNo) throws DataAccessException{
 		choice = false;
 		this.giftNo = giftNo;
 		this.orderCtrl = orderCtrl;
+		this.productCtrl = new ProductCtrl();
 		orderChoiceTableModel = new OrderChoiceTableModel();
 		this.tblChoices.setModel(orderChoiceTableModel);
 		this.txtOrderNumber.setText(Integer.toString(orderCtrl.getOrder().getOrderNo()));

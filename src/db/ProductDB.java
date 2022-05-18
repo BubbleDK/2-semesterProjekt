@@ -20,6 +20,8 @@ public class ProductDB implements ProductDBIF {
 	private static PreparedStatement findByProductIDPS;
 	private static final String FIND_PRODUCTID_BY_BARCODE_Q = "select id from kk_AbstractProduct where barcode = ?";
 	private static PreparedStatement findProductIdByBarcodePS;
+	private static final String UPDATE_STOCK_BY_BARCODE_Q = "update kk_AbstractProduct set stock -= 1 where barcode = ?";
+	private static PreparedStatement updateStockByBarcodePS;
 
 	public ProductDB() throws DataAccessException {
 		Connection con = DBConnection.getInstance().getConnection();
@@ -28,6 +30,7 @@ public class ProductDB implements ProductDBIF {
 			findPriceHistoryPS = con.prepareStatement(FIND_PRICEHISTORY_BY_PRODUCTID_Q);
 			findByProductIDPS = con.prepareStatement(FIND_BY_PRODUCTID_Q);
 			findProductIdByBarcodePS = con.prepareStatement(FIND_PRODUCTID_BY_BARCODE_Q);
+			updateStockByBarcodePS = con.prepareStatement(UPDATE_STOCK_BY_BARCODE_Q);
 		} catch (SQLException e) {
 //			e.printStackTrace();
 			throw new DataAccessException(DBMessages.COULD_NOT_PREPARE_STATEMENT, e);
@@ -102,6 +105,13 @@ public class ProductDB implements ProductDBIF {
 			throw new DataAccessException(DBMessages.COULD_NOT_BIND_OR_EXECUTE_QUERY, e);
 		}
 		return currPack;
+	}
+
+	@Override
+	public void updateStockByBarcode(String barcode) throws SQLException {
+		updateStockByBarcodePS.setString(1, barcode);
+		System.out.println(barcode);
+		updateStockByBarcodePS.executeUpdate();
 	}
 
 }

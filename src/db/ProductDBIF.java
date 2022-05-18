@@ -12,5 +12,7 @@ public interface ProductDBIF {
 	
 	Pack findByProductId(int id) throws DataAccessException;
 
-	int findProductIdByBarcode(String barcode) throws SQLException, DataAccessException;
+	public int findProductIdByBarcode(String barcode) throws SQLException, DataAccessException;
+
+	public void updateStockByBarcode(String barcode) throws SQLException;
 }

@@ -26,8 +26,8 @@ public class ProductCtrl {
 		return productDB.findProductIdByBarcode(barcode);
 	}
 	
-	public void updateStock() {
-		
+	public void updateStock(String barcode) throws SQLException {
+		productDB.updateStockByBarcode(barcode);
 	}
 	
 	
