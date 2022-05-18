@@ -1,9 +1,11 @@
 package ctrl;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import db.OrderDB;
 import db.OrderDBIF;
+import db.ProductDB;
 import exceptions.DataAccessException;
 import model.B2BCustomer;
 import model.B2BOrder;
@@ -74,7 +76,20 @@ public class OrderCtrl {
 		return o.getOrderLines();
 	}
 	
-	public B2BOrderLine choosePack(String barcode) throws DataAccessException {
-		return o.choosePack(productCtrl.findPack(barcode));
+	public void choosePack(String barcode) {
+		o.choosePack(barcode);
 	}
+
+	public void saveChoice(String giftNo) throws DataAccessException, SQLException {
+		String barcode = "";
+		int productId = -1;
+		int orderId = o.getOrderId();
+		for(int i = 0; i < this.o.getOrderLines().size(); i++) {
+			barcode = this.o.getOrderLines().get(i).getProduct().getBarcode();
+			productId = productCtrl.findProductIdByBarcode(barcode);
+		}
+		orderDB.saveChoice(orderId, productId, giftNo);
+	}
+	
+	
 }

@@ -15,6 +15,7 @@ public class B2BOrder {
 	private B2BCustomer c;
 	private HashMap<String, String> emailGiftNo;
 	private int orderNo;
+	private int orderId;
 
 	public B2BOrder(String endDateString,B2BCustomer c) {
 		this.c = c;
@@ -49,6 +50,10 @@ public class B2BOrder {
 	
 	public int getOrderNo() {
 		return this.orderNo;
+	}
+	
+	public int getOrderId() {
+		return this.orderId;
 	}
 
 	public synchronized boolean addB2BLogin(String email) {
@@ -102,11 +107,23 @@ public class B2BOrder {
 		return this.emailGiftNo;
 	}
 
-	public B2BOrderLine choosePack(Pack p) {
-		return this.addOrderLine(new B2BOrderLine(p));
+	public void choosePack(String barcode) {
+		boolean goon = true;
+		int i = 0;
+		while(goon && i < orderLines.size()) {
+			if(orderLines.get(i).getProduct().getBarcode().equals(barcode)) {
+				goon = false;
+				orderLines.get(i).addQuantity(1);
+			}
+			i++;
+		}
 	}
 
 	public void setOrderNo(int orderNo) {
 		this.orderNo = orderNo;
+	}
+	
+	public void setOrderId(int orderId) {
+		this.orderId = orderId;
 	}
 }

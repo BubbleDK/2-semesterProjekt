@@ -18,17 +18,37 @@ public class ProductDB implements ProductDBIF {
 	private static PreparedStatement findPriceHistoryPS;
 	private static final String FIND_BY_PRODUCTID_Q = "SELECT * FROM kk_AbstractProduct WHERE id = ?";
 	private static PreparedStatement findByProductIDPS;
-	
+	private static final String FIND_PRODUCTID_BY_BARCODE_Q = "select id from kk_AbstractProduct where barcode = ?";
+	private static PreparedStatement findProductIdByBarcodePS;
+
 	public ProductDB() throws DataAccessException {
 		Connection con = DBConnection.getInstance().getConnection();
 		try {
 			findByBarcodePS = con.prepareStatement(FIND_BY_BARCODE_Q);
 			findPriceHistoryPS = con.prepareStatement(FIND_PRICEHISTORY_BY_PRODUCTID_Q);
 			findByProductIDPS = con.prepareStatement(FIND_BY_PRODUCTID_Q);
+			findProductIdByBarcodePS = con.prepareStatement(FIND_PRODUCTID_BY_BARCODE_Q);
 		} catch (SQLException e) {
 //			e.printStackTrace();
 			throw new DataAccessException(DBMessages.COULD_NOT_PREPARE_STATEMENT, e);
-		} 
+		}
+	}
+
+	@Override
+	public int findProductIdByBarcode(String barcode) throws SQLException, DataAccessException {
+		int productId = -1;
+		findProductIdByBarcodePS.setString(1, barcode);
+		ResultSet rs = findProductIdByBarcodePS.executeQuery();
+		System.out.println(rs);
+		try {
+			if (rs.next()) {
+				productId = rs.getInt("id");
+			}
+		} catch (SQLException e) {
+			throw new DataAccessException(DBMessages.COULD_NOT_READ_RESULTSET, e);
+		}
+		System.out.println(productId);
+		return productId;
 	}
 
 	@Override
@@ -37,7 +57,7 @@ public class ProductDB implements ProductDBIF {
 		try {
 			findByBarcodePS.setString(1, barcode);
 			ResultSet rs = findByBarcodePS.executeQuery();
-			if(rs.next()) {
+			if (rs.next()) {
 				currPack = buildPackObject(rs);
 			}
 		} catch (SQLException e) {
@@ -46,7 +66,7 @@ public class ProductDB implements ProductDBIF {
 		}
 		return currPack;
 	}
-	
+
 	private Pack buildPackObject(ResultSet rs) throws DataAccessException {
 		Pack currPack = new Pack();
 		try {
@@ -56,11 +76,11 @@ public class ProductDB implements ProductDBIF {
 			currPack.setStock(rs.getInt("stock"));
 			findPriceHistoryPS.setInt(1, rs.getInt("id"));
 			ResultSet res = findPriceHistoryPS.executeQuery();
-			if(res.next()) {
+			if (res.next()) {
 				String p = res.getString("price");
 				Price price = new Price(Double.parseDouble(p));
 				currPack.setPrice(price);
-			}	
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DataAccessException(DBMessages.COULD_NOT_READ_RESULTSET, e);
@@ -74,7 +94,7 @@ public class ProductDB implements ProductDBIF {
 		try {
 			findByProductIDPS.setInt(1, id);
 			ResultSet rs = findByProductIDPS.executeQuery();
-			if(rs.next()) {
+			if (rs.next()) {
 				currPack = buildPackObject(rs);
 			}
 		} catch (SQLException e) {

@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import ctrl.OrderCtrl;
+import exceptions.DataAccessException;
 import model.B2BOrderLine;
 
 import javax.swing.JLabel;
@@ -28,6 +29,7 @@ import javax.swing.Box;
 import java.awt.GridLayout;
 import javax.swing.JSplitPane;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 public class GiftChoiceGUI extends JFrame {
@@ -42,6 +44,7 @@ public class GiftChoiceGUI extends JFrame {
 	private JTable tblChoices;
 	private JTable tblB2BOrder;
 	private boolean choice;
+	private String giftNo;
 
 	/**
 	 * Launch the application.
@@ -145,7 +148,16 @@ public class GiftChoiceGUI extends JFrame {
 		//TODO: Færdiggør orderLineID på login + stock og quantity i db
 		JButton btnUpdateOrder = new JButton("Gem");
 		btnUpdateOrder.addActionListener((e -> {
-			 this.dispose();
+			try {
+				saveChoice();
+			} catch (DataAccessException dae) {
+				// TODO Auto-generated catch block
+				dae.printStackTrace();
+			} catch (SQLException se) {
+				// TODO Auto-generated catch block
+				se.printStackTrace();
+			}
+			this.dispose();
 			
 		}));
 		btnUpdateOrder.setAlignmentX(Component.RIGHT_ALIGNMENT);
@@ -236,10 +248,14 @@ public class GiftChoiceGUI extends JFrame {
 		txtEmail.setColumns(10);
 	}
 	
+	private void saveChoice() throws DataAccessException, SQLException {
+		orderCtrl.saveChoice(giftNo);
+	}
+
 	private void choiceClicked() {
 		int selected = tblChoices.getSelectedRow();
 		if(selected >= 0 && !choice) {
-		updateQuantity(selected);
+		choosePack(selected);
 		choice = true;
 		refresh();
 		}
@@ -250,12 +266,14 @@ public class GiftChoiceGUI extends JFrame {
 //		updateQuantity();
 //	}
 
-	private void updateQuantity(int selected) {
-		orderCtrl.getOrder().getOrderLines().get(selected).addQuantity(1);
+	private void choosePack(int selected) {
+		String barcode = orderCtrl.getOrder().getOrderLines().get(selected).getProduct().getBarcode();
+		orderCtrl.choosePack(barcode);
 	}
 
 	public void init(OrderCtrl orderCtrl, String giftNo){
 		choice = false;
+		this.giftNo = giftNo;
 		this.orderCtrl = orderCtrl;
 		orderChoiceTableModel = new OrderChoiceTableModel();
 		this.tblChoices.setModel(orderChoiceTableModel);

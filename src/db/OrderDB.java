@@ -35,6 +35,12 @@ public class OrderDB implements OrderDBIF {
 	private static PreparedStatement findOrderByLoginPS;
 	private static final String FIND_ORDERLINES_BY_ORDERID_Q = "Select * FROM kk_OrderLines WHERE orderID = ?";
 	private static PreparedStatement findOrderLinesByOrderIdPS;
+	private static final String FIND_ORDERLINES_BY_ORDERID_PRODUCTID_Q = "Select * FROM kk_OrderLines WHERE orderID = ? and productID = ?";
+	private static PreparedStatement findOrderLinesByOrderIdProductIdPS;
+	private static final String UPDATE_B2BLOGIN_Q = "update kk_B2BLogin set orderLineID = ? where orderID = ? and giftNo = ?";
+	private static PreparedStatement updateB2BLoginPS;
+	private static final String UPDATE_ORDERLINE_Q = "update kk_OrderLines set quantity += 1 where id = ?";
+	private static PreparedStatement updateOrderLinePS;
 
 	public OrderDB() throws DataAccessException {
 		customerDB = new CustomerDB();
@@ -49,7 +55,10 @@ public class OrderDB implements OrderDBIF {
 			insertB2bLoginPS = con.prepareStatement(INSERT_INTO_B2BLOGIN_Q);
 			findOrderByLoginPS = con.prepareStatement(FIND_ORDER_BY_LOGIN_Q);
 			findOrderLinesByOrderIdPS = con.prepareStatement(FIND_ORDERLINES_BY_ORDERID_Q);
-		} catch (SQLException e) {
+			findOrderLinesByOrderIdProductIdPS = con.prepareStatement(FIND_ORDERLINES_BY_ORDERID_PRODUCTID_Q);
+			updateB2BLoginPS = con.prepareStatement(UPDATE_B2BLOGIN_Q);
+			updateOrderLinePS = con.prepareStatement(UPDATE_ORDERLINE_Q);
+			} catch (SQLException e) {
 			// e.printStackTrace();
 			throw new DataAccessException(DBMessages.COULD_NOT_PREPARE_STATEMENT, e);
 		}
@@ -138,14 +147,13 @@ public class OrderDB implements OrderDBIF {
 
 	private B2BOrder buildOrderObject(ResultSet rs) throws DataAccessException {
 		B2BOrder currOrder = new B2BOrder();
-		int orderID = -1;
 		try {
-			orderID = rs.getInt("orderid");
+			currOrder.setOrderId(rs.getInt("id"));
 			currOrder.setOrderNo(rs.getInt("orderNo"));
 			currOrder.setEndDate(rs.getString("endDate"));
 			currOrder.setCustomer(customerDB.findB2BCustomerByID(rs.getInt("customerID")));
 			currOrder.setEmailGiftNo(buildEmailGiftObject(rs));
-			currOrder = buildOrderLineObject(currOrder, orderID);
+			currOrder = buildOrderLineObject(currOrder, currOrder.getOrderId());
 
 		} catch (SQLException e) {
 //			e.printStackTrace();
@@ -184,5 +192,29 @@ public class OrderDB implements OrderDBIF {
 			}
 		}
 		return currOrder;
+	}
+
+	@Override
+	public void saveChoice(int orderId, int productId, String giftNo) throws DataAccessException, SQLException {
+		int orderLineId = -1;
+		findOrderLinesByOrderIdProductIdPS.setInt(1, orderId);
+		findOrderLinesByOrderIdProductIdPS.setInt(2, productId);
+		ResultSet rs = findOrderLinesByOrderIdProductIdPS.executeQuery();
+
+		
+		try {
+			if(rs.next()) {
+				orderLineId = rs.getInt("ID");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DataAccessException(DBMessages.COULD_NOT_BIND_OR_EXECUTE_QUERY, e);
+		}
+		updateB2BLoginPS.setInt(1, orderLineId);
+		updateB2BLoginPS.setInt(2, orderId);
+		updateB2BLoginPS.setString(3, giftNo);
+		updateB2BLoginPS.executeUpdate();
+		updateOrderLinePS.setInt(1, orderLineId);
+		updateOrderLinePS.executeUpdate();
 	}
 }
