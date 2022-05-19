@@ -59,15 +59,6 @@ public abstract class AbstractProduct {
 		return prices.get(prices.size()-1).getPrice();
 	}
 	
-//	public double getPrice(String date) {
-//		for(Price p: prices) {
-//			if(p.getDate().toString().equals(date)) {
-//				return p.getPrice();
-//			}
-//		}
-//		return -1d;
-//	}
-	
 	public void setPrice(Price price) {
 		this.prices.add(price);
 	}
