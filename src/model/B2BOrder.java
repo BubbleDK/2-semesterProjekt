@@ -8,6 +8,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+/**
+ * 
+ * @authors Rasmus Gudiksen, Jakob Kjeldsteen, Emil Tolstrup Petersen, Christan
+ *          Funder og Mark Drongesen
+ * 
+ *          <p>
+ *          Denne klasse er til at oprette en Ordre for en B2B kunde.
+ *
+ */
 public class B2BOrder {
 	private LocalDate endDate;
 	private String dateText;
@@ -17,92 +26,111 @@ public class B2BOrder {
 	private int orderNo;
 	private int orderId;
 
-	public B2BOrder(String endDateString,B2BCustomer c) {
+	/**
+	 * Constructoren til B2BOrder som skal bruge en slutdato, for hvornår ordren er
+	 * gyldig til og en kunde som er firmaet.
+	 * 
+	 * @param endDateString er en dato hvor ordren er gyldig til.
+	 * @param c             er en B2BCustomer som skal være tilknyttet ordren.
+	 */
+	public B2BOrder(String endDateString, B2BCustomer c) {
 		this.c = c;
 		orderLines = new ArrayList<>();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-		this.endDate = LocalDate.parse(endDateString,formatter);
+		this.endDate = LocalDate.parse(endDateString, formatter);
 		dateText = endDate.format(formatter);
 		emailGiftNo = new HashMap<String, String>();
 	}
-	
+
+	/**
+	 * En constructor som opretter en <code>ArrayList</code> og et
+	 * <code>HashMap</code>. Constructoren skal bruges til byggelse af et order
+	 * objekt som bliver trukket ud fra databasen.
+	 */
 	public B2BOrder() {
 		orderLines = new ArrayList<>();
 		emailGiftNo = new HashMap<String, String>();
 	}
-	
+
+	/**
+	 * En metode der bruges til at ligge ordre linjer ned i en
+	 * <code>ArrayList</code>.
+	 * 
+	 * @param ol
+	 * @return
+	 */
 	public B2BOrderLine addOrderLine(B2BOrderLine ol) {
 		orderLines.add(ol);
 		return ol;
 	}
-	
+
 	public String getEndDate() {
 		return dateText;
 	}
-	
-	public List<B2BOrderLine> getOrderLines(){
+
+	public List<B2BOrderLine> getOrderLines() {
 		return orderLines;
 	}
-	
+
 	public B2BCustomer getB2BCustomer() {
 		return c;
 	}
-	
+
 	public int getOrderNo() {
 		return this.orderNo;
 	}
-	
+
 	public int getOrderId() {
 		return this.orderId;
 	}
 
 	public synchronized boolean addB2BLogin(String email) {
 		boolean res = false;
-		if(email != "") {
-			if(getEmailGiftNo().size() > 0) {
-				for(Map.Entry<String, String> entry : emailGiftNo.entrySet()) {
-					if(!entry.getKey().equals(email)) {
+		if (email != "") {
+			if (getEmailGiftNo().size() > 0) {
+				for (Map.Entry<String, String> entry : emailGiftNo.entrySet()) {
+					if (!entry.getKey().equals(email)) {
 						res = true;
-					}else {
+					} else {
 						return false;
 					}
 				}
-			}else {
+			} else {
 				B2BLogin b2bLogin = new B2BLogin();
 				emailGiftNo.put(email, b2bLogin.createGiftNo());
 				res = true;
 			}
-			if(res) {
+			if (res) {
 				B2BLogin b2bLogin = new B2BLogin();
 				emailGiftNo.put(email, b2bLogin.createGiftNo());
 			}
 		}
 		return res;
 	}
-	
-	
-	//TODO: Skal alle disse settere være der?
+
+	// TODO: Skal alle disse settere være der?
 	public void setEndDate(String endDateString) {
-		endDate = LocalDate.parse(endDateString,DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+		endDate = LocalDate.parse(endDateString, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
 	}
-	
+
 	public void setOrderLines(B2BOrderLine orderLine) {
 		orderLines.add(orderLine);
 	}
-	
+
 	public void setCustomer(B2BCustomer c) {
 		this.c = c;
 	}
-	
+
 	public void setEmailGiftNo(HashMap emailGiftNo) {
 		this.emailGiftNo = emailGiftNo;
 	}
-	//TODO: ÆNDRE!
+
+	// TODO: ÆNDRE!
 	public int newOrderNo() {
 		orderNo = new Random().nextInt(1000000);
 		return orderNo;
 	}
-	
+
 	public HashMap<String, String> getEmailGiftNo() {
 		return this.emailGiftNo;
 	}
@@ -110,8 +138,8 @@ public class B2BOrder {
 	public void choosePack(String barcode) {
 		boolean goon = true;
 		int i = 0;
-		while(goon && i < orderLines.size()) {
-			if(orderLines.get(i).getProduct().getBarcode().equals(barcode)) {
+		while (goon && i < orderLines.size()) {
+			if (orderLines.get(i).getProduct().getBarcode().equals(barcode)) {
 				goon = false;
 				orderLines.get(i).addQuantity(1);
 			}
@@ -122,7 +150,7 @@ public class B2BOrder {
 	public void setOrderNo(int orderNo) {
 		this.orderNo = orderNo;
 	}
-	
+
 	public void setOrderId(int orderId) {
 		this.orderId = orderId;
 	}

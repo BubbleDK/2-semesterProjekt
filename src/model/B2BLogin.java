@@ -4,19 +4,27 @@ import java.nio.charset.Charset;
 import java.util.Random;
 import java.util.HashMap;
 
+/**
+ * 
+ * @authors Rasmus Gudiksen, Jakob Kjeldsteen, Emil Tolstrup Petersen, Christan
+ *          Funder og Mark Drongesen
+ * 
+ *          <p>
+ *          Denne klasse er til at oprette en gave kode til medarbejderene i B2B
+ *          kundens firma. Koden skal bruges når medarbejderen vil vælge en
+ *          pakke degodt kunne tænke sig.
+ *
+ */
 public class B2BLogin {
 
 	private String giftNo;
 
-
-
-//	private void createRandomGiftNo(String email) {
-//		HashMap<String, String> emailGiftNo = new HashMap<String, String>();
-//		emailGiftNo.put(email, getRandomString());
-//		System.out.println(emailGiftNo);
-//
-//	}
-
+	/**
+	 * Denne metode opretter en tilfældig kode på 20 tegn. Med store og små
+	 * bogstaver fra A til Z og fra 0 til 9.
+	 * 
+	 * @return En gift Code på 20 tegn.
+	 */
 	public String createGiftNo() {
 		byte[] array = new byte[256];
 		new Random().nextBytes(array);
@@ -42,14 +50,5 @@ public class B2BLogin {
 
 		return giftNo;
 	}
-
-
-
-	public String getEmail() {
-		// TODO Skal vi ikke kunne gette en email på et object? Det skal helst kunne ske til GUI
-		return null;
-	}
-
-	
 
 }
