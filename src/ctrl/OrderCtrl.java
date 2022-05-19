@@ -76,11 +76,7 @@ public class OrderCtrl {
 	public B2BOrder getOrder() {
 		return this.o;
 	}
-	
-	public List<B2BOrderLine> insertLogin(String email, String giftNo) {
-		return o.getOrderLines();
-	}
-	
+		
 	public void choosePack(String barcode) {
 		o.choosePack(barcode);
 	}
