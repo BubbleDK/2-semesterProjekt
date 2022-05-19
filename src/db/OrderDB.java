@@ -178,8 +178,7 @@ public class OrderDB implements OrderDBIF {
 		return emailGiftNo;
 	}
 
-	// TODO check om rs har noget!
-	public B2BOrder buildOrderLineObject(B2BOrder currOrder, int orderID) throws DataAccessException, SQLException {
+	private B2BOrder buildOrderLineObject(B2BOrder currOrder, int orderID) throws DataAccessException, SQLException {
 //		ArrayList<B2BOrderLine> orderLines = new ArrayList<>();
 		findOrderLinesByOrderIdPS.setInt(1, orderID);
 		ResultSet rs = findOrderLinesByOrderIdPS.executeQuery();
