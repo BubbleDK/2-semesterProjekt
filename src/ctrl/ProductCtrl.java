@@ -18,8 +18,8 @@ public class ProductCtrl {
 	}
 	
 	public Pack findPack(String barcode) throws DataAccessException {
-		Pack p = productDB.findByProductBarcode(barcode);
-		return p;
+		Pack currPack = productDB.findByProductBarcode(barcode);
+		return currPack;
 	}
 
 	public int findProductIdByBarcode(String barcode) throws SQLException, DataAccessException {
