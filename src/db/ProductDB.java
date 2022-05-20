@@ -1,6 +1,7 @@
 package db;
 
 import java.sql.Connection;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,6 +12,15 @@ import model.Pack;
 import model.Price;
 import model.Product;
 
+/**
+ * 
+ * @authors Rasmus Gudiksen, Jakob Kjeldsteen, Emil Tolstrup Petersen, Christan
+ *          Funder og Mark Drongesen
+ * 
+ *          <p>
+ *          Denne klasse styre alt kontakt med databasen omkring produkter.
+ *
+ */
 public class ProductDB implements ProductDBIF {
 	private static final String FIND_BY_BARCODE_Q = "SELECT * FROM kk_AbstractProduct WHERE barcode = ?";
 	private static PreparedStatement findByBarcodePS;
@@ -22,7 +32,11 @@ public class ProductDB implements ProductDBIF {
 	private static PreparedStatement findProductIdByBarcodePS;
 	private static final String UPDATE_STOCK_BY_BARCODE_Q = "update kk_AbstractProduct set stock -= 1 where barcode = ?";
 	private static PreparedStatement updateStockByBarcodePS;
-
+	
+	/**
+	 * Constructoren til klassen instantiere alle prepared statements i klassen.
+	 * @throws DataAccessException kastes hvis der ikke kan trækkes data ud fra databasen.
+	 */
 	public ProductDB() throws DataAccessException {
 		Connection con = DBConnection.getInstance().getConnection();
 		try {
@@ -36,7 +50,7 @@ public class ProductDB implements ProductDBIF {
 			throw new DataAccessException(DBMessages.COULD_NOT_PREPARE_STATEMENT, e);
 		}
 	}
-
+	
 	@Override
 	public int findProductIdByBarcode(String barcode) throws SQLException, DataAccessException {
 		int productId = -1;
