@@ -14,7 +14,7 @@ import model.Product;
 public class ProductDB implements ProductDBIF {
 	private static final String FIND_BY_BARCODE_Q = "SELECT * FROM kk_AbstractProduct WHERE barcode = ?";
 	private static PreparedStatement findByBarcodePS;
-	private static final String FIND_PRICEHISTORY_BY_PRODUCTID_Q = "SELECT TOP 1 * FROM kk_Pricehistory WHERE productID = ? ORDER BY historyDate DESC";
+	private static final String FIND_PRICEHISTORY_BY_PRODUCTID_Q = "SELECT TOP 1 * FROM kk_Pricehistory WHERE productID = ? ORDER BY historyDate convert (dateTime, historyDate, 103) desc";
 	private static PreparedStatement findPriceHistoryPS;
 	private static final String FIND_BY_PRODUCTID_Q = "SELECT * FROM kk_AbstractProduct WHERE id = ?";
 	private static PreparedStatement findByProductIDPS;
