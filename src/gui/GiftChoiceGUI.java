@@ -312,8 +312,8 @@ public class GiftChoiceGUI extends JFrame {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (DataAccessException e) {
-					JOptionPane.showMessageDialog(this, "Kunne ikke opdatere ordrelisten", "Data access error", 
-							JOptionPane.ERROR_MESSAGE);				
+					JOptionPane.showMessageDialog(this, "Kunne ikke opdatere ordrelisten", 
+							"Data access error", JOptionPane.ERROR_MESSAGE);				
 				}
 			}
 		}).start();
