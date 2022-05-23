@@ -251,7 +251,7 @@ public class OrderDB implements OrderDBIF {
 	}
 
 	@Override
-	public B2BOrder pullOrderLines(B2BOrder currOrder) throws SQLException, DataAccessException {
+	public B2BOrder pullOrderLines(B2BOrder currOrder) throws DataAccessException, SQLException {
 		findOrderLinesByOrderIdPS.setInt(1, currOrder.getOrderId());
 		ResultSet rs = findOrderLinesByOrderIdPS.executeQuery();
 		currOrder.getOrderLines().clear();
@@ -262,8 +262,8 @@ public class OrderDB implements OrderDBIF {
 				currOrderLine.setQuantity(rs.getInt("quantity"));
 				currOrder.setOrderLines(currOrderLine);
 			} catch (SQLException e) {
-				e.printStackTrace();
-				throw new DataAccessException(DBMessages.COULD_NOT_BIND_OR_EXECUTE_QUERY, e);
+				//e.printStackTrace();
+				throw new DataAccessException(DBMessages.COULD_NOT_READ_RESULTSET, e);
 
 			}
 		}

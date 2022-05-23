@@ -13,6 +13,8 @@ import exceptions.DataAccessException;
 import model.B2BOrderLine;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -310,8 +312,8 @@ public class GiftChoiceGUI extends JFrame {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (DataAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					JOptionPane.showMessageDialog(this, "Kunne ikke opdatere ordrelisten", "Data access error", 
+							JOptionPane.ERROR_MESSAGE);				
 				}
 			}
 		}).start();
@@ -331,8 +333,9 @@ public class GiftChoiceGUI extends JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (DataAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
+			JOptionPane.showMessageDialog(this, "Kunne ikke opdatere ordrelisten", "Data access error", 
+					JOptionPane.ERROR_MESSAGE);
 		}
 		this.orderChoiceOrderTableModel.setModelData(orderCtrl.getOrder().getOrderLines());
 		});
