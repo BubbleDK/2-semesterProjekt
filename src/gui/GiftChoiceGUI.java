@@ -34,6 +34,7 @@ import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 public class GiftChoiceGUI extends JFrame {
+	private static GiftChoiceGUI gui;
 	private OrderChoiceOrderTableModel orderChoiceOrderTableModel;
 	private OrderChoiceTableModel orderChoiceTableModel;
 	private JPanel contentPane;
@@ -65,6 +66,17 @@ public class GiftChoiceGUI extends JFrame {
 				}
 			}
 		});
+		new Thread(() -> {
+			while(true) {
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e) {
+					// should not happen - we don't interrupt this thread
+					e.printStackTrace();
+				}
+				gui.refresh();
+			}
+		}).start();
 	}
 
 	public GiftChoiceGUI(OrderCtrl orderCtrl, String giftNo) throws DataAccessException {
@@ -299,7 +311,7 @@ public class GiftChoiceGUI extends JFrame {
 		
 	}
 
-	private void refresh() {
+	protected void refresh() {
 		List<B2BOrderLine> currOrderLines = orderCtrl.getOrder().getOrderLines();
 		this.orderChoiceTableModel.setModelData(currOrderLines);
 		this.orderChoiceOrderTableModel.setModelData(currOrderLines);
