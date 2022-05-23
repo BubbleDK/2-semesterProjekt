@@ -22,7 +22,7 @@ public interface ProductDBIF {
 	 * @return den pakke der bliver fundet.
 	 * @throws DataAccessException kastes hvis der ikke kan trækkes data ud fra databasen.
 	 */
-	Pack findByProductBarcode(String barcode) throws DataAccessException;
+	public Pack findByProductBarcode(String barcode) throws DataAccessException;
 	
 	/**
 	 * Metoden finder en pakke ud fra et productID.
@@ -30,7 +30,7 @@ public interface ProductDBIF {
 	 * @return den pakke der bliver fundet.
 	 * @throws DataAccessException kastes hvis der ikke kan trækkes data ud fra databasen.
 	 */
-	Pack findByProductId(int id) throws DataAccessException;
+	public Pack findByProductId(int id) throws DataAccessException;
 	
 	/**
 	 * Metoden finder ProductID ud fra en stregkoden.

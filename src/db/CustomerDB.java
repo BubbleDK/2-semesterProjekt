@@ -7,6 +7,15 @@ import java.sql.SQLException;
 
 import model.B2BCustomer;
 
+/**
+ * 
+ * @authors Rasmus Gudiksen, Jakob Kjeldsteen, Emil Tolstrup Petersen, Christan
+ *          Funder og Mark Drongesen
+ * 
+ *          <p>
+ *          Denne klasse styre alt kontakt med databasen omkring kunder.
+ *
+ */
 public class CustomerDB implements CustomerDBIF {
 	
 	private static final String FIND_CUSTOMER_BY_CVR_Q = "SELECT * FROM kk_B2BCustomer WHERE cvr = ?";
@@ -14,6 +23,10 @@ public class CustomerDB implements CustomerDBIF {
 	private static final String FIND_CUSTOMER_BY_ID_Q = "SELECT * FROM kk_B2BCustomer WHERE id = ?";
 	private static PreparedStatement findCustomerById;
 	
+	/**
+	 * Constructoren til klassen instantiere alle prepared statements i klassen.
+	 * @throws DataAccessException kastes hvis der ikke kan trækkes data ud fra databasen.
+	 */
 	public CustomerDB() throws DataAccessException {
 		try {
 			findCustomer = DBConnection.getInstance().getConnection().prepareStatement(FIND_CUSTOMER_BY_CVR_Q);
@@ -58,6 +71,13 @@ public class CustomerDB implements CustomerDBIF {
 	}
 	
 	//TODO husk at lave et view som kan trækkes info ud fra til customerobjekter
+	
+	/**
+	 * Metoden bygger et objekt af en B2B kunde med de informationer der bliver trukket ud af databasen.
+	 * @param rs er Resultsettet som bliver trukket ud af databasen.
+	 * @return den B2B kunde der er blevet bygget.
+	 * @throws DataAccessException kastes hvis der ikke kan trækkes data ud fra databasen.
+	 */
 	private B2BCustomer buildObject(ResultSet rs) throws DataAccessException {
 		B2BCustomer currCustomer = new B2BCustomer();
 		try {
@@ -76,7 +96,4 @@ public class CustomerDB implements CustomerDBIF {
 		System.out.println(currCustomer);
 		return currCustomer;
 	}
-
-
-	
 }
