@@ -24,7 +24,7 @@ import model.Product;
 public class ProductDB implements ProductDBIF {
 	private static final String FIND_BY_BARCODE_Q = "SELECT * FROM kk_AbstractProduct WHERE barcode = ?";
 	private static PreparedStatement findByBarcodePS;
-	private static final String FIND_PRICEHISTORY_BY_PRODUCTID_Q = "SELECT TOP 1 * FROM kk_Pricehistory WHERE productID = ? ORDER BY historyDate convert (dateTime, historyDate, 103) desc";
+	private static final String FIND_PRICEHISTORY_BY_PRODUCTID_Q = "SELECT TOP 1 * FROM kk_Pricehistory WHERE productID = ? ORDER BY convert (dateTime, historyDate, 103) desc";
 	private static PreparedStatement findPriceHistoryPS;
 	private static final String FIND_BY_PRODUCTID_Q = "SELECT * FROM kk_AbstractProduct WHERE id = ?";
 	private static PreparedStatement findByProductIDPS;
@@ -84,6 +84,12 @@ public class ProductDB implements ProductDBIF {
 		return currPack;
 	}
 
+	/**
+	 * Metoden bygger et objekt af en Pack med de informationer der bliver trukket ud af databasen.
+	 * @param rs er Resultsettet som bliver trukket ud af databasen.
+	 * @return den pakke der er blevet bygget.
+	 * @throws DataAccessException kastes hvis der ikke kan trækkes data ud fra databasen.
+	 */
 	private Pack buildPackObject(ResultSet rs) throws DataAccessException {
 		Pack currPack = new Pack();
 		try {

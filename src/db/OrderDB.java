@@ -14,7 +14,15 @@ import model.AbstractProduct;
 import model.B2BCustomer;
 import model.B2BOrder;
 import model.B2BOrderLine;
-
+/**
+ * 
+ * @authors Rasmus Gudiksen, Jakob Kjeldsteen, Emil Tolstrup Petersen, Christan
+ *          Funder og Mark Drongesen
+ * 
+ *          <p>
+ *       	Dette klasse styre alt kontakt med databasen omkring ordre.
+ *
+ */
 public class OrderDB implements OrderDBIF {
 //	private B2BOrder currOrder;
 	private CustomerDBIF customerDB;
@@ -30,8 +38,6 @@ public class OrderDB implements OrderDBIF {
 	private PreparedStatement findCustomerIDPS;
 	private static final String FIND_PRODUCTID_Q = "select id from kk_AbstractProduct WHERE barcode = ?";
 	private PreparedStatement findProductIDPS;
-	private static final String FIND_BY_ORDERNO_Q = "SELECT * FROM kk_Orders WHERE OrderNo = ?";
-	private static PreparedStatement findByOrderNoPS;
 	private static final String FIND_ORDER_BY_LOGIN_Q = "SELECT * FROM kk_Orders INNER JOIN kk_B2BLogin ON kk_orders.id = kk_B2BLogin.orderid and kk_B2BLogin.giftNo = ?";
 	private static PreparedStatement findOrderByLoginPS;
 	private static final String FIND_ORDERLINES_BY_ORDERID_Q = "Select * FROM kk_OrderLines WHERE orderID = ?";
@@ -44,7 +50,11 @@ public class OrderDB implements OrderDBIF {
 	private static PreparedStatement updateOrderLinePS;
 	private static final String FIND_B2BLOGIN_Q = "select orderlineId from kk_B2BLogin where giftNo = ?";
 	private static PreparedStatement findB2BLoginPS;
-
+	
+	/**
+	 * Constructoren til klassen instantiere alle prepared statements og andre klasser i klassen.
+	 * @throws DataAccessException kastes hvis der ikke kan trækkes data ud fra databasen.
+	 */
 	public OrderDB() throws DataAccessException {
 		customerDB = new CustomerDB();
 		productDB = new ProductDB();
@@ -53,7 +63,6 @@ public class OrderDB implements OrderDBIF {
 			insertOrderLinePS = con.prepareStatement(INSERT_INTO_ORDERLINE_Q);
 			insertOrderPS = con.prepareStatement(INSERT_INTO_ORDER_Q, PreparedStatement.RETURN_GENERATED_KEYS);
 			findCustomerIDPS = con.prepareStatement(FIND_CUSTOMERID_Q);
-			findByOrderNoPS = con.prepareStatement(FIND_BY_ORDERNO_Q);
 			findProductIDPS = con.prepareStatement(FIND_PRODUCTID_Q);
 			insertB2bLoginPS = con.prepareStatement(INSERT_INTO_B2BLOGIN_Q);
 			findOrderByLoginPS = con.prepareStatement(FIND_ORDER_BY_LOGIN_Q);
@@ -120,20 +129,6 @@ public class OrderDB implements OrderDBIF {
 		return order;
 	}
 
-	// TODO: Skal denne returnere NULL? Skal currOrder bruges?
-	public B2BOrder findByOrderNo(int orderNo) throws DataAccessException {
-		B2BOrder currOrder = null;
-		try {
-			findByOrderNoPS.setInt(1, orderNo);
-			ResultSet rs = findByOrderNoPS.executeQuery();
-			buildOrderObject(rs);
-		} catch (SQLException e) {
-//			e.printStackTrace();
-			throw new DataAccessException(DBMessages.COULD_NOT_BIND_OR_EXECUTE_QUERY, e);
-		}
-		return null;
-	}
-
 	@Override
 	public B2BOrder findOrderBylogin(String giftNo) throws DataAccessException {
 		B2BOrder currOrder = null;
@@ -149,6 +144,12 @@ public class OrderDB implements OrderDBIF {
 		return currOrder;
 	}
 
+	/**
+	 * Metoden bygger et ordre objekt ud fra data der kommer fra databasen.
+	 * @param rs er det Resultset som bliver trukket ud af databasen.
+	 * @return Den ordre der lige er blevet bygget
+	 * @throws DataAccessException kastes hvis der ikke kan trækkes data ud fra databasen.
+	 */
 	private B2BOrder buildOrderObject(ResultSet rs) throws DataAccessException {
 		B2BOrder currOrder = new B2BOrder();
 		try {
@@ -166,6 +167,12 @@ public class OrderDB implements OrderDBIF {
 		return currOrder;
 	}
 
+	/**
+	 * Metoden bygger et hashMap med email og deres tilknyttet gavekoder som er på en given ordre.
+	 * @param rs er resultsettet der kommer fra databasen.	
+	 * @return et hashMap med email og gavekoder.
+	 * @throws DataAccessException kastes hvis ikke der kan trækkes data ud fra databasen.
+	 */
 	private HashMap<String, String> buildEmailGiftObject(ResultSet rs) throws DataAccessException {
 		emailGiftNo = new HashMap<String, String>();
 
@@ -178,6 +185,14 @@ public class OrderDB implements OrderDBIF {
 		return emailGiftNo;
 	}
 
+	/**
+	 * Metoden bygger objekter med ordreLinjer.
+	 * @param currOrder den ordre som der kigges på.
+	 * @param orderID er det orderId på ordren hvis ordrelinjer der skal trækkes ud fra databasen.
+	 * @return en ordre med ordrelinjerne.
+	 * @throws DataAccessException kastes hvis der ikke kan trækkes data ud fra databasen.
+	 * @throws SQLException kastes hvis der er fejl med databasen.
+	 */
 	private B2BOrder buildOrderLineObject(B2BOrder currOrder, int orderID) throws DataAccessException, SQLException {
 //		ArrayList<B2BOrderLine> orderLines = new ArrayList<>();
 		findOrderLinesByOrderIdPS.setInt(1, orderID);
