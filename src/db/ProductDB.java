@@ -18,7 +18,7 @@ import model.Product;
  *          Funder og Mark Drongesen
  * 
  *          <p>
- *          Denne klasse styre alt kontakt med databasen omkring produkter.
+ *          Denne klasse styrer alt kontakt med databasen omkring produkter.
  *
  */
 public class ProductDB implements ProductDBIF {

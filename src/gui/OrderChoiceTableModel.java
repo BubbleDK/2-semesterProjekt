@@ -12,11 +12,16 @@ public class OrderChoiceTableModel extends DefaultTableModel {
 
 	private static final String[] COLUMN_NAMES = { "Produkt", "Produkt Beskrivelse" };
 	private ArrayList<B2BOrderLine> elements;
-
+	/**
+	 * Constructoren instantierer en <code>ArrayList<code> og laver et OrderChoiceOrderTableModel objekt
+	 */
 	public OrderChoiceTableModel() {
 		elements = new ArrayList<>();
 	}
-
+	/**
+	 * Metoden sætter modellens data.
+	 * @param data er listen med de orderLines, som skal vises i tabellen.
+	 */
 	public void setModelData(List<B2BOrderLine> data) {
 		elements.clear();
 		elements.addAll(data);
@@ -56,7 +61,11 @@ public class OrderChoiceTableModel extends DefaultTableModel {
 		
 		return res;
 	}
-
+	/**
+	 * Metoden tager elementet på den valgte række og returnerer det, hvis der er et.
+	 * @param selectedRow er den valgte række
+	 * @return Et objekt af typen B2BOrderLine fra den valgte række.
+	 */
 	public B2BOrderLine getElementAtIndex(int selectedRow) {
 		if (elements.size() < 1) {
 			return null;

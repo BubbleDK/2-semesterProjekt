@@ -42,6 +42,16 @@ import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
 import javax.swing.BoxLayout;
 
+
+/**
+ * 
+ * @authors Rasmus Gudiksen, Jakob Kjeldsteen, Emil Tolstrup Petersen, Christan
+ *          Funder og Mark Drongesen
+ * 
+ *          <p>
+ *          Denne klasse styrer interaktionen mellem bruger og tilføjelsen af emails og pakker til ordren.
+ *
+ */
 public class B2BOrderGUI extends JFrame {
 
 	private JPanel contentPane;
@@ -70,9 +80,12 @@ public class B2BOrderGUI extends JFrame {
 		});
 	}
 	/**
-	* @param endDate 
-	 * @param orderCtrl 
-	 * @param cvr 
+	 * Constructoren til B2BOrderHUI objektet
+	 * 
+	 * @param cvr				er cvrnummeret på firmaet
+	 * @param companyName		er navnet på firmaet
+	 * @param endDate			er datoen for, hvornår ordren skal udløbe
+	 * @param orderCtrl			er den controller, som holder den nuværende ordre
 	 */
 	public B2BOrderGUI(int cvr, String companyName, String endDate, OrderCtrl orderCtrl) {
 		this();
@@ -80,7 +93,7 @@ public class B2BOrderGUI extends JFrame {
 	}
 	
 	/**
-	 * Create the frame.
+	 * Constructoren  der laver GUI
 	 */
 	public B2BOrderGUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -184,7 +197,15 @@ public class B2BOrderGUI extends JFrame {
 		loginTable = new JTable();
 		scrollPane_1.setViewportView(loginTable);
 	}
-	
+	/**
+	 * Metoden initierer modellen for tabellerne, sætter teksfelterne, initierer productCtrl
+	 * og laver en ny ordre gennem orderCtrl. De exceptions, som bliver smidt, håndteres 
+	 * her ved at give brugeren en besked om fejlen.
+	 * @param cvr
+	 * @param companyName
+	 * @param endDate
+	 * @param orderCtrl
+	 */
 	private void init(int cvr, String companyName, String endDate, OrderCtrl orderCtrl) {
 		lblCustomerName.setText("Kunde: " + companyName);
 		lblDate.setText("Slutdato: " + endDate);
@@ -208,7 +229,10 @@ public class B2BOrderGUI extends JFrame {
 			//e.printStackTrace();
 		}
 	}
-	
+	/**
+	 * Metoden laver en <code>JOptionPane<code> og beder om strgkode input. Inputtet tages
+	 * og bruges til at finde en pack, som tilføjes til ordren på orderCtrl.
+	 */
 	private void addProductClicked() {
 		String insertBarcode = JOptionPane.showInputDialog("Indtast stregkode");
 		Pack currPack = null;
@@ -238,13 +262,19 @@ public class B2BOrderGUI extends JFrame {
 		}
 	
 	}
-	
+	/**
+	 * Metoden opdaterer modellerne i vinduet med orderLines og emailGiftNo.
+	 */
 	private void refresh() {
 		List<B2BOrderLine> currOrderLines = orderCtrl.getOrder().getOrderLines();
 		this.orderTableModel.setModelData(currOrderLines);
 		HashMap currLogins = orderCtrl.getOrder().getEmailGiftNo();
 		this.orderLoginTableModel.setModelData(currLogins);
 	}
+	/**
+	 * Metoden afslutter en ordre og sender den til ordreDB for at blive gemt. 
+	 * Hvis det lykkedes vises en besked, ellers vises en fejlmeddelelse.
+	 */
 	private void endOrderClicked() {
 		try {
 			if(orderCtrl.endOrder() != null) {
@@ -261,6 +291,10 @@ public class B2BOrderGUI extends JFrame {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * Metoden laver en <code>JOptionPane<code>, som brugeren inputter en email gennem. Inputtet tjekkes 
+	 * for duplikater og tilføjes ellers til ordren.
+	 */
 	private void addLoginClicked() {
 		boolean login = false;
 		String insertEmail = JOptionPane.showInputDialog("Indtast email til login");
@@ -286,7 +320,11 @@ public class B2BOrderGUI extends JFrame {
 		}
 		}
 	}
-	
+	/**
+	 * Metoden tjekker en indtastes streng for brud mod et givent format.
+	 * @param email	er emailen, som brugeren har indtastet, og som skal tilføjes til ordren.
+	 * @return en boolean. som returnerer <code>True<code> hvis den instastede streng overholder formatet.
+	 */
 	private Boolean checkEmail(String email) {
 		String emailPattern = "^[ÆØÅæøåa-zA-Z0-9._%+-]+@[ÆØÅæøåa-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$";
 

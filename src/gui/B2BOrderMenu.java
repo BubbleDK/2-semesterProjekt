@@ -116,7 +116,9 @@ public class B2BOrderMenu extends JFrame {
 	
 
 	
-
+	/**
+	 * Metoden initierer customerCtrl og orderCtrl.
+	 */
 	private void init() {
 		try {
 			customerCtrl = new CustomerCtrl();
@@ -133,6 +135,13 @@ public class B2BOrderMenu extends JFrame {
 			//e.printStackTrace();
 		}
 	}
+	/**
+	 * Metoden laver en <code>JOptionPane<code> hvor brugeren indtaster en gavekode, som tjekkes i forhold
+	 * til gavekoder i databasen. Findes koden laves der en instans af GiftChoiceGUI og denne sættes til synlig.
+	 * @throws SQLException kastes hvis er fejl i forbindelse med databasen
+	 * @throws DataAccessException smides hvis ikke der kan fås adgang til databasen eller <code>ResultSet<code>
+	 * ikke kan læses.
+	 */
 	//TODO: Lav et tjek efter om brugt
 	private void giftChoiceClicked() throws SQLException, DataAccessException {
 		String insertGiftNo = JOptionPane.showInputDialog("Indtast gavekode");
@@ -154,7 +163,10 @@ public class B2BOrderMenu extends JFrame {
 		}
 		
 	}
-
+	/**
+	 * Metoden finder et firma ud fra dets CVR nummer og laver en <code>JOptionPane<code> som beder om input i form
+	 * af endDate. Hvis disse findes og overholder formatet instantieres en ny B2BOrderGUI og dette vindue afmonteres.
+	 */
 	private void newB2BOrderClicked() {
 		String companyName = findCompanyNameByCVR();
 		if(companyName != null && companyName.equals("close!")) {
@@ -182,7 +194,10 @@ public class B2BOrderMenu extends JFrame {
 			newB2BOrderClicked();
 		}
 	}
-
+	/**
+	 * Metoden finder et firma ud fra CVR nummer, som indtastes i <code>JOptionPane<code>. 
+	 * @return en streng med firmaets navn.
+	 */
 	private String findCompanyNameByCVR() {
 		//System.out.println("1");
 		String insertCVR = JOptionPane.showInputDialog("Indtast CVR");
@@ -218,7 +233,11 @@ public class B2BOrderMenu extends JFrame {
 		//System.out.println(currCustomer + "2");
 		return currCustomer.getCompanyName();
 	}
-	
+	/**
+	 * Metoden tjekker om en indtastet dato overholder datoformatet og er efter dags dato.
+	 * @param date er endDate, som brugeren indtaster
+	 * @return En streng, som indeholder datoen i det korrekte format.
+	 */
 	private String checkDate(String date) {
 		String res = "";
 		
@@ -244,7 +263,11 @@ public class B2BOrderMenu extends JFrame {
 			}
 		return res;
 	}
-
+	/**
+	 * Metoden bruges til at test om en indtastet Integer er et tal
+	 * @param string er den indtastede streng, som skal tjekkes for at være et nummer.
+	 * @return En boolean, som er sand hvis der er tale om et tal.
+	 */
 	private boolean isANumber(String string) {
 		try {
 			Double.parseDouble(string);
@@ -253,7 +276,10 @@ public class B2BOrderMenu extends JFrame {
 			return false;
 		}
 	}
-	
+	/**
+	 * Metoden laver en testordre med CVR, firmanavn, slutdato og orderCtrl allerede 
+	 * associeret.
+	 */
 	private void testDataClicked() {
 		B2BOrderGUI orderGUI = new B2BOrderGUI(123456789, "CGI", "02-02-2222", orderCtrl);
 		orderGUI.setVisible(true);

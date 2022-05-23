@@ -68,7 +68,12 @@ public class GiftChoiceGUI extends JFrame {
 			}
 		});
 	}
-
+	/**
+	 * Construtoren kalder klassens anden constructor og initmetode.
+	 * @param orderCtrl					Den orderCtrl som styrer den nuværende ordre
+	 * @param giftNo					Det giftNo der er indtastet af brugeren
+	 * @throws DataAccessException		kastes hvis ikke ProductDB kan få kontakt til databasen
+	 */
 	public GiftChoiceGUI(OrderCtrl orderCtrl, String giftNo) throws DataAccessException {
 		this();
 		init(orderCtrl, giftNo);
@@ -154,7 +159,7 @@ public class GiftChoiceGUI extends JFrame {
 		JButton btnUpdateOrder = new JButton("Gem");
 		btnUpdateOrder.addActionListener((e -> {
 			try {
-				saveChoice();
+				saveChoiceClicked();
 			} catch (DataAccessException dae) {
 				// TODO Auto-generated catch block
 				dae.printStackTrace();
@@ -252,33 +257,14 @@ public class GiftChoiceGUI extends JFrame {
 		panel_1.add(txtEmail, gbc_txtEmail);
 		txtEmail.setColumns(10);
 	}
-	
-	private void saveChoice() throws DataAccessException, SQLException {
-		orderCtrl.saveChoice(giftNo, barcode);
-		productCtrl.updateStock(barcode);
-		this.dispose();
-	}
-
-	private void choiceClicked() {
-		int selected = tblChoices.getSelectedRow();
-		if(selected >= 0 && !choice) {
-		choosePack(selected);
-		choice = true;
-		refresh();
-		}
-	}
-
-//	private void updateOrder(int selected) {
-//		orderChoiceOrderTableModel.getElementAtIndex(selected);
-//		updateQuantity();
-//	}
-
-	private void choosePack(int selected) {
-		barcode = orderCtrl.getOrder().getOrderLines().get(selected).getProduct().getBarcode();
-		orderCtrl.choosePack(barcode);
-		
-	}
-
+	/**
+	 * Metoden initierer productCtrl, tabelmodellerne og den tråd der står for at opdatere
+	 * ordrelinjerne. Derudover sættes modeldata og tekstfelterne udfyldes.
+	 * @param orderCtrl					er den orderCtrl, som styrer den nuværende ordre
+	 * @param giftNo					er det nummer, som brugeren har indtastet
+	 * @throws DataAccessException		smides hvis forbindelsen til databasen forsvinder eller
+	 * ikke kan oprettes.
+	 */
 	public void init(OrderCtrl orderCtrl, String giftNo) throws DataAccessException{
 		choice = false;
 		this.giftNo = giftNo;
@@ -318,13 +304,55 @@ public class GiftChoiceGUI extends JFrame {
 			}
 		}).start();
 	}
+	/**
+	 * Metoden sender en besked om at gemme valget af den valgte pakke og sletter vinduet.
+	 * @throws DataAccessException	smides hvis der ikke kan gemmes til databasen
+	 * @throws SQLException			smides hvis queryen ikke kan sendes til database.
+	 */
+	private void saveChoiceClicked() throws DataAccessException, SQLException {
+		orderCtrl.saveChoice(giftNo, barcode);
+		productCtrl.updateStock(barcode);
+		this.dispose();
+	}
+	/**
+	 * Metoden tager den markerede række og sender den til choosePack metoden. Herefter
+	 * opdateres tabellerne.
+	 */
+	private void choiceClicked() {
+		int selected = tblChoices.getSelectedRow();
+		if(selected >= 0 && !choice) {
+		choosePack(selected);
+		choice = true;
+		refresh();
+		}
+	}
 
+//	private void updateOrder(int selected) {
+//		orderChoiceOrderTableModel.getElementAtIndex(selected);
+//		updateQuantity();
+//	}
+	/**
+	 * Metoden tager rækken, finder barcode på den pågældende pakke og tilføjer 1 til quantity på ordrelinjen.
+	 * @param selected er den markerede række i tabellen.
+	 */
+	private void choosePack(int selected) {
+		barcode = orderCtrl.getOrder().getOrderLines().get(selected).getProduct().getBarcode();
+		orderCtrl.choosePack(barcode);
+		
+	}
+	/**
+	 * Metoden opdaterer tabellerne.
+	 */
 	private void refresh() {
 		List<B2BOrderLine> currOrderLines = orderCtrl.getOrder().getOrderLines();
 		this.orderChoiceTableModel.setModelData(currOrderLines);
 		this.orderChoiceOrderTableModel.setModelData(currOrderLines);
 	}
-	
+	/**
+	 * Metoden opdaterer den ene af tabellerne med ordrelinjer, og kaldes fra tråden.
+	 * @throws SQLException			smides hvis <code>ResultSet<code> ikke kan executes.
+	 * @throws DataAccessException	smides hvis <code>ResultSet<code> ikke kan læses.
+	 */
 	private void updateOrderList() throws SQLException, DataAccessException {
 		SwingUtilities.invokeLater(() -> {
 		try {

@@ -84,7 +84,9 @@ public class MainMenu extends JFrame {
 		btnFindProduct.setEnabled(false);
 
 	}
-
+	/**
+	 * Metoden laver en ny B2BOrderMenu, gør den synlig og sletter denne <code>JFrame<code>
+	 */
 	private void newOrderClicked() {
 		B2BOrderMenu orderMenu = new B2BOrderMenu();
 		orderMenu.setVisible(true);
