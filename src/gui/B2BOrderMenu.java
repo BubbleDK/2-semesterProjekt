@@ -64,9 +64,9 @@ public class B2BOrderMenu extends JFrame {
 		contentPane.add(panel, BorderLayout.CENTER);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[] { 0, 0 };
-		gbl_panel.rowHeights = new int[] { 60, 60, 60, 60, 0 };
+		gbl_panel.rowHeights = new int[] { 60, 60, 60, 0 };
 		gbl_panel.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
-		gbl_panel.rowWeights = new double[] { 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE };
+		gbl_panel.rowWeights = new double[] { 1.0, 1.0, 1.0, Double.MIN_VALUE };
 		panel.setLayout(gbl_panel);
 
 		JButton btnNyB2BOrdre = new JButton("Ny B2B Ordre");
@@ -100,14 +100,6 @@ public class B2BOrderMenu extends JFrame {
 		gbc_btnGiftChoice.gridy = 1;
 		panel.add(btnGiftChoice, gbc_btnGiftChoice);
 
-		JButton btnNewButton_1 = new JButton("New button");
-		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
-		gbc_btnNewButton_1.fill = GridBagConstraints.BOTH;
-		gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 0);
-		gbc_btnNewButton_1.gridx = 0;
-		gbc_btnNewButton_1.gridy = 2;
-		panel.add(btnNewButton_1, gbc_btnNewButton_1);
-
 		JButton btnTestData = new JButton("Ny ordre med testdata");
 		btnTestData.addActionListener((e -> {
 				testDataClicked();
@@ -115,7 +107,7 @@ public class B2BOrderMenu extends JFrame {
 		GridBagConstraints gbc_btnTestData = new GridBagConstraints();
 		gbc_btnTestData.fill = GridBagConstraints.BOTH;
 		gbc_btnTestData.gridx = 0;
-		gbc_btnTestData.gridy = 3;
+		gbc_btnTestData.gridy = 2;
 		panel.add(btnTestData, gbc_btnTestData);
 
 		init();
