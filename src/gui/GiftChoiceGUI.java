@@ -19,6 +19,7 @@ import java.awt.Insets;
 import java.util.List;
 
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.JDesktopPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -55,36 +56,15 @@ public class GiftChoiceGUI extends JFrame {
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
-			private OrderCtrl orderCtrl;
-
 			public void run() {
 				try {
-					GiftChoiceGUI frame = new GiftChoiceGUI();
-					frame.setVisible(true);
+					gui = new GiftChoiceGUI();
+					gui.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
-		new Thread(() -> {
-			while(true) {
-				try {
-					Thread.sleep(2000);
-				} catch (InterruptedException e) {
-					// should not happen - we don't interrupt this thread
-					e.printStackTrace();
-				}
-				try {
-					gui.updateOrderList();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (DataAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}).start();
 	}
 
 	public GiftChoiceGUI(OrderCtrl orderCtrl, String giftNo) throws DataAccessException {
@@ -316,7 +296,26 @@ public class GiftChoiceGUI extends JFrame {
 		orderChoiceOrderTableModel = new OrderChoiceOrderTableModel();
 		this.tblB2BOrder.setModel(orderChoiceOrderTableModel);
 		refresh();
-		
+		new Thread(() -> {
+			while(true) {
+				try {
+					Thread.sleep(2000);
+					System.out.println("Hej");
+				} catch (InterruptedException e) {
+					// should not happen - we don't interrupt this thread
+					e.printStackTrace();
+				}
+				try {
+					this.updateOrderList();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (DataAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}).start();
 	}
 
 	private void refresh() {
@@ -326,7 +325,17 @@ public class GiftChoiceGUI extends JFrame {
 	}
 	
 	private void updateOrderList() throws SQLException, DataAccessException {
-		orderCtrl.pullOrderLines(orderCtrl.getOrder());
+		SwingUtilities.invokeLater(() -> {
+		try {
+			orderCtrl.pullOrderLines(orderCtrl.getOrder());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (DataAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		refresh();
+		});
 	}
 }
