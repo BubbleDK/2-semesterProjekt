@@ -50,4 +50,6 @@ public interface OrderDBIF {
 	 * @throws SQLException kastes hvis der er fejl med databasen.
 	 */
 	public int findLoginByGiftNo(String giftNo) throws SQLException;
+
+	public B2BOrder pullOrderLines(B2BOrder currOrder) throws SQLException, DataAccessException;
 }

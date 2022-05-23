@@ -74,7 +74,15 @@ public class GiftChoiceGUI extends JFrame {
 					// should not happen - we don't interrupt this thread
 					e.printStackTrace();
 				}
-				gui.refresh();
+				try {
+					gui.updateOrderList();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (DataAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}).start();
 	}
@@ -311,10 +319,14 @@ public class GiftChoiceGUI extends JFrame {
 		
 	}
 
-	protected void refresh() {
+	private void refresh() {
 		List<B2BOrderLine> currOrderLines = orderCtrl.getOrder().getOrderLines();
 		this.orderChoiceTableModel.setModelData(currOrderLines);
 		this.orderChoiceOrderTableModel.setModelData(currOrderLines);
-		
+	}
+	
+	private void updateOrderList() throws SQLException, DataAccessException {
+		orderCtrl.pullOrderLines(orderCtrl.getOrder());
+		refresh();
 	}
 }

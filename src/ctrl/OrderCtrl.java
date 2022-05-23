@@ -193,4 +193,8 @@ public class OrderCtrl {
 //		productCtrl.updateStock(productId);
 	}
 
+	public void pullOrderLines(B2BOrder currOrder) throws SQLException, DataAccessException {
+		orderDB.pullOrderLines(currOrder);
+	}
+
 }

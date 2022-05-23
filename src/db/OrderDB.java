@@ -249,4 +249,24 @@ public class OrderDB implements OrderDBIF {
 		
 		return orderLineId;
 	}
+
+	@Override
+	public B2BOrder pullOrderLines(B2BOrder currOrder) throws SQLException, DataAccessException {
+		findOrderLinesByOrderIdPS.setInt(1, currOrder.getOrderId());
+		ResultSet rs = findOrderLinesByOrderIdPS.executeQuery();
+		currOrder.getOrderLines().clear();
+		while (rs.next()) {
+			try {
+				B2BOrderLine currOrderLine = new B2BOrderLine();
+				currOrderLine.setProduct(productDB.findByProductId(rs.getInt("productID")));
+				currOrderLine.setQuantity(rs.getInt("quantity"));
+				currOrder.setOrderLines(currOrderLine);
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new DataAccessException(DBMessages.COULD_NOT_BIND_OR_EXECUTE_QUERY, e);
+
+			}
+		}
+		return currOrder;
+	}
 }
