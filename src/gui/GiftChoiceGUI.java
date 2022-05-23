@@ -299,8 +299,7 @@ public class GiftChoiceGUI extends JFrame {
 		new Thread(() -> {
 			while(true) {
 				try {
-					Thread.sleep(2000);
-					System.out.println("Hej");
+					Thread.sleep(10000);
 				} catch (InterruptedException e) {
 					// should not happen - we don't interrupt this thread
 					e.printStackTrace();
@@ -335,7 +334,7 @@ public class GiftChoiceGUI extends JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		refresh();
+		this.orderChoiceOrderTableModel.setModelData(orderCtrl.getOrder().getOrderLines());
 		});
 	}
 }
