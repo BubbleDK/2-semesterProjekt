@@ -23,7 +23,6 @@ class TC4 {
 	void testEmailAlreadyOnOrder() throws DataAccessException, SQLException {
 		currOrder = null;
 		OrderCtrl orderCtrl = new OrderCtrl();
-//		CustomerCtrl customerCtrl = new CustomerCtrl();
 		orderCtrl.registerB2BOrder("20-05-2022", 123456789);
 		orderCtrl.addPackage("P1234");
 		orderCtrl.addB2BLogin("Gudiksen@gmail.com");
@@ -31,5 +30,4 @@ class TC4 {
 		currOrder = orderCtrl.endOrder();
 		assertEquals(1,currOrder.getEmailGiftNo().size());
 	}
-
 }
