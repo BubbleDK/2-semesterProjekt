@@ -108,7 +108,6 @@ public class B2BOrder {
 		return res;
 	}
 
-	// TODO: Skal alle disse settere være der?
 	public void setEndDate(String endDateString) {
 		endDate = LocalDate.parse(endDateString, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
 	}
@@ -125,7 +124,6 @@ public class B2BOrder {
 		this.emailGiftNo = emailGiftNo;
 	}
 
-	// TODO: ÆNDRE!
 	public int newOrderNo() {
 		orderNo = new Random().nextInt(1000000);
 		return orderNo;

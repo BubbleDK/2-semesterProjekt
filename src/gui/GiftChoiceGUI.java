@@ -155,7 +155,6 @@ public class GiftChoiceGUI extends JFrame {
 		gbl_panel_4.columnWeights = new double[]{1.0, Double.MIN_VALUE};
 		gbl_panel_4.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		panel_4.setLayout(gbl_panel_4);
-		//TODO: Færdiggør orderLineID på login + stock og quantity i db
 		JButton btnUpdateOrder = new JButton("Gem");
 		btnUpdateOrder.addActionListener((e -> {
 			try {

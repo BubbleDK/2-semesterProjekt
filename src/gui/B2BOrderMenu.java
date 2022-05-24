@@ -142,7 +142,6 @@ public class B2BOrderMenu extends JFrame {
 	 * @throws DataAccessException smides hvis ikke der kan fås adgang til databasen eller <code>ResultSet<code>
 	 * ikke kan læses.
 	 */
-	//TODO: Lav et tjek efter om brugt
 	private void giftChoiceClicked() throws SQLException, DataAccessException {
 		String insertGiftNo = JOptionPane.showInputDialog("Indtast gavekode");
 		B2BOrder currOrder = null;
