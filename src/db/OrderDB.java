@@ -122,7 +122,7 @@ public class OrderDB implements OrderDBIF {
 			}
 			DBConnection.getInstance().commitTransaction();
 		} catch (SQLException e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 			DBConnection.getInstance().rollbackTransaction();
 //			throw new DataAccessException(DBMessages.COULD_NOT_BIND_PS_VARS_INSERT, e);
 		}
@@ -213,28 +213,37 @@ public class OrderDB implements OrderDBIF {
 	}
 
 	@Override
-	public void saveChoice(int orderId, int productId, String giftNo, List<B2BOrderLine> orderLines) throws DataAccessException, SQLException {
+	public void saveChoice(int orderId, int productId, String giftNo, List<B2BOrderLine> orderLines) throws DataAccessException {
 		int orderLineId = -1;
-		findOrderLinesByOrderIdProductIdPS.setInt(1, orderId);
-		findOrderLinesByOrderIdProductIdPS.setInt(2, productId);
-		ResultSet rs = findOrderLinesByOrderIdProductIdPS.executeQuery();
-
-		
+		DBConnection.getInstance().startTransaction();
 		try {
-			if(rs.next()) {
-				orderLineId = rs.getInt("ID");
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new DataAccessException(DBMessages.COULD_NOT_BIND_OR_EXECUTE_QUERY, e);
-		}
-		updateB2BLoginPS.setInt(1, orderLineId);
-		updateB2BLoginPS.setInt(2, orderId);
-		updateB2BLoginPS.setString(3, giftNo);
-		updateB2BLoginPS.executeUpdate();
-		updateOrderLinePS.setInt(1, orderLineId);
-		updateOrderLinePS.executeUpdate();
+			findOrderLinesByOrderIdProductIdPS.setInt(1, orderId);
+			findOrderLinesByOrderIdProductIdPS.setInt(2, productId);
+			ResultSet rs = findOrderLinesByOrderIdProductIdPS.executeQuery();
 
+			
+			try {
+				if(rs.next()) {
+					orderLineId = rs.getInt("ID");
+				}
+			} catch (SQLException e) {
+//				e.printStackTrace();
+				throw new DataAccessException(DBMessages.COULD_NOT_READ_RESULTSET, e);
+			}
+			updateB2BLoginPS.setInt(1, orderLineId);
+			updateB2BLoginPS.setInt(2, orderId);
+			updateB2BLoginPS.setString(3, giftNo);
+			updateB2BLoginPS.executeUpdate();
+			updateOrderLinePS.setInt(1, orderLineId);
+			updateOrderLinePS.executeUpdate();
+			DBConnection.getInstance().commitTransaction();
+		} catch (SQLException e1) {
+			DBConnection.getInstance().rollbackTransaction();
+			throw new DataAccessException(DBMessages.COULD_NOT_INSERT, e1);
+//			e1.printStackTrace();
+		}
+		
+		
 	}
 
 	@Override
