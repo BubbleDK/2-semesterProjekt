@@ -4,9 +4,7 @@ import java.sql.SQLException;
 import db.ProductDB;
 import db.ProductDBIF;
 import exceptions.DataAccessException;
-import model.AbstractProduct;
 import model.Pack;
-import model.Product;
 
 /**
  * 
@@ -54,7 +52,7 @@ public class ProductCtrl {
 	 * @throws DataAccessException kastes hvis der ikke kan trækkes data ud fra
 	 *                             databasen.
 	 */
-	public int findProductIdByBarcode(String barcode) throws SQLException, DataAccessException {
+	public int findProductIdByBarcode(String barcode) throws DataAccessException {
 		return productDB.findProductIdByBarcode(barcode);
 	}
 
@@ -63,9 +61,10 @@ public class ProductCtrl {
 	 * 
 	 * @param barcode er stregkoden på produktet der skal have opdateret sin
 	 *                lagerbeholdning.
+	 * @throws DataAccessException 
 	 * @throws SQLException kastes hvis der er fejl med databasen.
 	 */
-	public void updateStock(String barcode) throws SQLException {
+	public void updateStock(String barcode) throws DataAccessException {
 		productDB.updateStockByBarcode(barcode);
 	}
 

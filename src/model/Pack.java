@@ -1,8 +1,5 @@
 package model;
 
-import java.util.LinkedList;
-import java.util.List;
-
 /**
  * 
  * @authors Rasmus Gudiksen, Jakob Kjeldsteen, Emil Tolstrup Petersen, Christan

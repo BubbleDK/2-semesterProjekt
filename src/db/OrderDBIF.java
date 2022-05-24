@@ -41,15 +41,15 @@ public interface OrderDBIF {
 	 * @throws DataAccessException kastes hvis der ikke kan gemmes ting i databasen.
 	 * @throws SQLException kastes hvis der er fejl med databasen.
 	 */
-	public void saveChoice(int orderId, int productId, String giftNo, List<B2BOrderLine> orderLines) throws DataAccessException, SQLException;
+	public void saveChoice(int orderId, int productId, String giftNo, List<B2BOrderLine> orderLines) throws DataAccessException;
 	
 	/**
 	 * Metoden finder et login ud en gavekode.
 	 * @param giftNo er gavekoden som er opgivet til medarbjderen.
 	 * @return en int som er det OrderLineID som ligger på loginnet.
-	 * @throws SQLException kastes hvis der er fejl med databasen.
+	 * @throws DataAccessException kastes hvis der er fejl med databasen.
 	 */
-	public int findLoginByGiftNo(String giftNo) throws SQLException;
+	public int findLoginByGiftNo(String giftNo) throws DataAccessException;
 
-	public B2BOrder pullOrderLines(B2BOrder currOrder) throws SQLException, DataAccessException;
+	public B2BOrder pullOrderLines(B2BOrder currOrder) throws DataAccessException;
 }

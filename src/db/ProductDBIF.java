@@ -3,9 +3,7 @@ package db;
 import java.sql.SQLException;
 
 import exceptions.DataAccessException;
-import model.AbstractProduct;
 import model.Pack;
-import model.Product;
 /**
  * 
  * @authors Rasmus Gudiksen, Jakob Kjeldsteen, Emil Tolstrup Petersen, Christan
@@ -39,12 +37,13 @@ public interface ProductDBIF {
 	 * @throws SQLException kastes hvis der er fejl med databasen.
 	 * @throws DataAccessException kastes hvis der ikke kan trækkes data ud fra databasen.
 	 */
-	public int findProductIdByBarcode(String barcode) throws SQLException, DataAccessException;
+	public int findProductIdByBarcode(String barcode) throws DataAccessException;
 	
 	/**
 	 * Metoden tager en stregkode og updatere lagerbeholdning ud fra et valg taget i GUIen.
 	 * @param barcode er stregkoden på produktet.
+	 * @throws DataAccessException 
 	 * @throws SQLException kastes hvis der er fejl med databasen.
 	 */
-	public void updateStockByBarcode(String barcode) throws SQLException;
+	public void updateStockByBarcode(String barcode) throws DataAccessException ;
 }

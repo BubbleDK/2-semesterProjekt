@@ -20,11 +20,7 @@ import ctrl.OrderCtrl;
 import exceptions.DataAccessException;
 import model.B2BCustomer;
 import model.B2BOrder;
-import model.Pack;
-
-import java.awt.event.ActionListener;
 import java.sql.SQLException;
-import java.awt.event.ActionEvent;
 
 public class B2BOrderMenu extends JFrame {
 
@@ -82,15 +78,7 @@ public class B2BOrderMenu extends JFrame {
 
 		JButton btnGiftChoice = new JButton("B2B Gavevalg");
 		btnGiftChoice.addActionListener((e) -> {
-			try {
-				giftChoiceClicked();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (DataAccessException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			giftChoiceClicked();
 		});
 		
 		GridBagConstraints gbc_btnGiftChoice = new GridBagConstraints();
@@ -142,7 +130,7 @@ public class B2BOrderMenu extends JFrame {
 	 * @throws DataAccessException smides hvis ikke der kan fås adgang til databasen eller <code>ResultSet<code>
 	 * ikke kan læses.
 	 */
-	private void giftChoiceClicked() throws SQLException, DataAccessException {
+	private void giftChoiceClicked()  {
 		String insertGiftNo = JOptionPane.showInputDialog("Indtast gavekode");
 		B2BOrder currOrder = null;
 		
@@ -154,8 +142,16 @@ public class B2BOrderMenu extends JFrame {
 			e.printStackTrace();
 		}
 		if(!(currOrder == null)) {
-			GiftChoiceGUI gcgui = new GiftChoiceGUI(orderCtrl, insertGiftNo);
-			gcgui.setVisible(true);
+			GiftChoiceGUI gcgui;
+			try {
+				gcgui = new GiftChoiceGUI(orderCtrl, insertGiftNo);
+				gcgui.setVisible(true);
+			} catch (DataAccessException e) {
+//				e.printStackTrace();
+				JOptionPane.showMessageDialog(null, "Kunne ikke få forbindelse til databsen, prøv igen senere", "Fejl", 
+						JOptionPane.ERROR_MESSAGE);
+			}
+			
 		}else {
 			JOptionPane.showMessageDialog(null, "Kunne ikke finde koden i systemet eller koden er brugt.", "Fejl", 
 					JOptionPane.ERROR_MESSAGE);

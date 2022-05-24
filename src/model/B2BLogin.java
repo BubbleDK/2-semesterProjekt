@@ -2,7 +2,6 @@ package model;
 
 import java.nio.charset.Charset;
 import java.util.Random;
-import java.util.HashMap;
 
 /**
  * 

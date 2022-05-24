@@ -6,13 +6,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.sql.Connection;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
-
 import ctrl.CustomerCtrl;
 import ctrl.OrderCtrl;
 import db.DBConnection;
 import exceptions.DataAccessException;
-import model.AbstractProduct;
 import model.B2BOrderLine;
 
 class TC3Test {

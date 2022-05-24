@@ -4,14 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
-
 import exceptions.DataAccessException;
-import model.AbstractProduct;
-import model.B2BCustomer;
 import model.B2BOrder;
 import model.B2BOrderLine;
 /**
@@ -247,34 +242,44 @@ public class OrderDB implements OrderDBIF {
 	}
 
 	@Override
-	public int findLoginByGiftNo(String giftNo) throws SQLException {
+	public int findLoginByGiftNo(String giftNo) throws DataAccessException {
 		int orderLineId = -1;
-		findB2BLoginPS.setString(1, giftNo);
-		ResultSet rs = findB2BLoginPS.executeQuery();
-		
-		if(rs.next()) {
-			orderLineId = rs.getInt("orderlineId");
+		try {
+			findB2BLoginPS.setString(1, giftNo);
+			ResultSet rs = findB2BLoginPS.executeQuery();
+			
+			if(rs.next()) {
+				orderLineId = rs.getInt("orderlineId");
+			}
+		} catch (SQLException e) {
+			throw new DataAccessException(DBMessages.COULD_NOT_READ_RESULTSET, e);
 		}
+		
 		
 		return orderLineId;
 	}
 
 	@Override
-	public B2BOrder pullOrderLines(B2BOrder currOrder) throws DataAccessException, SQLException {
-		findOrderLinesByOrderIdPS.setInt(1, currOrder.getOrderId());
-		ResultSet rs = findOrderLinesByOrderIdPS.executeQuery();
-		currOrder.getOrderLines().clear();
-		while (rs.next()) {
-			try {
+	public B2BOrder pullOrderLines(B2BOrder currOrder) throws DataAccessException {
+		ResultSet rs = null;
+		try {
+			findOrderLinesByOrderIdPS.setInt(1, currOrder.getOrderId());
+			rs = findOrderLinesByOrderIdPS.executeQuery();
+			currOrder.getOrderLines().clear();
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+			throw new DataAccessException(DBMessages.COULD_NOT_BIND_OR_EXECUTE_QUERY, e1);
+		}
+		try {
+			while (rs.next()) {
 				B2BOrderLine currOrderLine = new B2BOrderLine();
 				currOrderLine.setProduct(productDB.findByProductId(rs.getInt("productID")));
 				currOrderLine.setQuantity(rs.getInt("quantity"));
 				currOrder.setOrderLines(currOrderLine);
-			} catch (SQLException e) {
-				//e.printStackTrace();
-				throw new DataAccessException(DBMessages.COULD_NOT_READ_RESULTSET, e);
-
 			}
+		} catch (SQLException e) {
+			//e.printStackTrace();
+			throw new DataAccessException(DBMessages.COULD_NOT_READ_RESULTSET, e);
 		}
 		return currOrder;
 	}

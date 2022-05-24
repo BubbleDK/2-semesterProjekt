@@ -27,14 +27,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import java.awt.FlowLayout;
 import java.awt.Component;
-import javax.swing.Box;
-import java.awt.GridLayout;
-import javax.swing.JSplitPane;
-import java.awt.event.ActionListener;
-import java.sql.SQLException;
-import java.awt.event.ActionEvent;
 
 public class GiftChoiceGUI extends JFrame {
 	private static GiftChoiceGUI gui;
@@ -157,17 +150,7 @@ public class GiftChoiceGUI extends JFrame {
 		panel_4.setLayout(gbl_panel_4);
 		JButton btnUpdateOrder = new JButton("Gem");
 		btnUpdateOrder.addActionListener((e -> {
-			try {
 				saveChoiceClicked();
-			} catch (DataAccessException dae) {
-				// TODO Auto-generated catch block
-				dae.printStackTrace();
-			} catch (SQLException se) {
-				// TODO Auto-generated catch block
-				se.printStackTrace();
-			}
-			
-			
 		}));
 		btnUpdateOrder.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		GridBagConstraints gbc_btnUpdateOrder = new GridBagConstraints();
@@ -293,9 +276,6 @@ public class GiftChoiceGUI extends JFrame {
 				}
 				try {
 					this.updateOrderList();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
 				} catch (DataAccessException e) {
 					JOptionPane.showMessageDialog(this, "Kunne ikke opdatere ordrelisten", 
 							"Data access error", JOptionPane.ERROR_MESSAGE);				
@@ -306,12 +286,17 @@ public class GiftChoiceGUI extends JFrame {
 	/**
 	 * Metoden sender en besked om at gemme valget af den valgte pakke og sletter vinduet.
 	 * @throws DataAccessException	smides hvis der ikke kan gemmes til databasen
-	 * @throws SQLException			smides hvis queryen ikke kan sendes til database.
 	 */
-	private void saveChoiceClicked() throws DataAccessException, SQLException {
-		orderCtrl.saveChoice(giftNo, barcode);
-		productCtrl.updateStock(barcode);
-		this.dispose();
+	private void saveChoiceClicked()  {
+		try {
+			orderCtrl.saveChoice(giftNo, barcode);
+			productCtrl.updateStock(barcode);
+			this.dispose();
+		} catch (DataAccessException e) {
+			JOptionPane.showMessageDialog(this, "Kunne ikke gemme ordren", 
+					"Data access error", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		} 
 	}
 	/**
 	 * Metoden tager den markerede række og sender den til choosePack metoden. Herefter
@@ -349,16 +334,12 @@ public class GiftChoiceGUI extends JFrame {
 	}
 	/**
 	 * Metoden opdaterer den ene af tabellerne med ordrelinjer, og kaldes fra tråden.
-	 * @throws SQLException			smides hvis <code>ResultSet<code> ikke kan executes.
 	 * @throws DataAccessException	smides hvis <code>ResultSet<code> ikke kan læses.
 	 */
-	private void updateOrderList() throws SQLException, DataAccessException {
+	private void updateOrderList() throws  DataAccessException {
 		SwingUtilities.invokeLater(() -> {
 		try {
 			orderCtrl.pullOrderLines(orderCtrl.getOrder());
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (DataAccessException e) {
 			//e.printStackTrace();
 			JOptionPane.showMessageDialog(this, "Kunne ikke opdatere ordrelisten", "Data access error", 

@@ -2,11 +2,8 @@ package ctrl;
 
 import java.sql.SQLException;
 
-import java.util.List;
-
 import db.OrderDB;
 import db.OrderDBIF;
-import db.ProductDB;
 import exceptions.DataAccessException;
 import model.B2BCustomer;
 import model.B2BOrder;
@@ -63,7 +60,7 @@ public class OrderCtrl {
 	 *                             databasen
 	 * @throws SQLException        smides hvis der er fejl med databasen.
 	 */
-	public B2BOrder registerB2BOrderChoice(String giftNo) throws DataAccessException, SQLException {
+	public B2BOrder registerB2BOrderChoice(String giftNo) throws DataAccessException {
 		int orderLineId = orderDB.findLoginByGiftNo(giftNo);
 		if (orderLineId == 0) {
 			o = orderDB.findOrderBylogin(giftNo);
@@ -179,7 +176,7 @@ public class OrderCtrl {
 	 *                             databasen.
 	 * @throws SQLException        kastes hvis der er fejl med databasen.
 	 */
-	public void saveChoice(String giftNo, String barcodeCheck) throws DataAccessException, SQLException {
+	public void saveChoice(String giftNo, String barcodeCheck) throws DataAccessException {
 		String barcode = "";
 		int productId = -1;
 		int orderId = o.getOrderId();
@@ -193,7 +190,7 @@ public class OrderCtrl {
 //		productCtrl.updateStock(productId);
 	}
 
-	public void pullOrderLines(B2BOrder currOrder) throws SQLException, DataAccessException {
+	public void pullOrderLines(B2BOrder currOrder) throws  DataAccessException {
 		orderDB.pullOrderLines(currOrder);
 	}
 

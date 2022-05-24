@@ -7,10 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import exceptions.DataAccessException;
-import model.AbstractProduct;
 import model.Pack;
 import model.Price;
-import model.Product;
 
 /**
  * 
@@ -52,19 +50,18 @@ public class ProductDB implements ProductDBIF {
 	}
 	
 	@Override
-	public int findProductIdByBarcode(String barcode) throws SQLException, DataAccessException {
+	public int findProductIdByBarcode(String barcode) throws DataAccessException {
 		int productId = -1;
-		findProductIdByBarcodePS.setString(1, barcode);
-		ResultSet rs = findProductIdByBarcodePS.executeQuery();
-		System.out.println(rs);
 		try {
+			findProductIdByBarcodePS.setString(1, barcode);
+			ResultSet rs = findProductIdByBarcodePS.executeQuery();
 			if (rs.next()) {
 				productId = rs.getInt("id");
 			}
 		} catch (SQLException e) {
 			throw new DataAccessException(DBMessages.COULD_NOT_READ_RESULTSET, e);
+//			e.printStackTrace();
 		}
-		System.out.println(productId);
 		return productId;
 	}
 
@@ -128,10 +125,15 @@ public class ProductDB implements ProductDBIF {
 	}
 
 	@Override
-	public void updateStockByBarcode(String barcode) throws SQLException {
-		updateStockByBarcodePS.setString(1, barcode);
-		System.out.println(barcode);
-		updateStockByBarcodePS.executeUpdate();
+	public void updateStockByBarcode(String barcode) throws DataAccessException  {
+		try {
+			updateStockByBarcodePS.setString(1, barcode);
+			updateStockByBarcodePS.executeUpdate();
+		} catch (SQLException e) {
+			throw new DataAccessException(DBMessages.COULD_NOT_BIND_OR_EXECUTE_QUERY, e);
+//			e.printStackTrace();
+		}
+		
 	}
 
 }
