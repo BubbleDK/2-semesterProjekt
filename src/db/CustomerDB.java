@@ -70,7 +70,6 @@ public class CustomerDB implements CustomerDBIF {
 		return currCustomer;
 	}
 	
-	//TODO husk at lave et view som kan trækkes info ud fra til customerobjekter
 	
 	/**
 	 * Metoden bygger et objekt af en B2B kunde med de informationer der bliver trukket ud af databasen.
