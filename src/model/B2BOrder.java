@@ -83,7 +83,13 @@ public class B2BOrder {
 	public int getOrderId() {
 		return this.orderId;
 	}
-
+	/**
+	 * Metoden tilføjer et B2BLogin til et hashMap. <p>
+	 * Der bliver taget en email ind som parameter og så tjekker metoden emailen igennem for at se om emailen allerede ligger i hashmappet.
+	 * Hvis ikke den gør det oprettes der en gavekode til som kommer til at ligge som value til emailen i hashmappet.
+	 * @param email er emailen på B2B kundens medarbejder.
+	 * @return En boolean for at se om den er blevet tilføjet eller ej.
+	 */
 	public synchronized boolean addB2BLogin(String email) {
 		boolean res = false;
 		if (email != "") {
@@ -123,7 +129,10 @@ public class B2BOrder {
 	public void setEmailGiftNo(HashMap emailGiftNo) {
 		this.emailGiftNo = emailGiftNo;
 	}
-
+	/**
+	 * Metoden laver et random tal og dette er ordrenummeret ordren får.
+	 * @return Et random tal mellem 0 og 1.000.000
+	 */
 	public int newOrderNo() {
 		orderNo = new Random().nextInt(1000000);
 		return orderNo;
@@ -132,7 +141,11 @@ public class B2BOrder {
 	public HashMap<String, String> getEmailGiftNo() {
 		return this.emailGiftNo;
 	}
-
+	/**
+	 * Metoden tager en stregkode som parameter og bruger stregkoden til at se om den stregkode ligger på ordren.<p>
+	 * Hvis den gør det stopper while loopet og der bliver tilføjet én til antallet af pakken på ordren.
+	 * @param barcode er stregkoden på den pakke B2B kundens medarbejder har valgt.
+	 */
 	public void choosePack(String barcode) {
 		boolean goon = true;
 		int i = 0;

@@ -49,7 +49,15 @@ public interface OrderDBIF {
 	 * @return en int som er det OrderLineID som ligger på loginnet.
 	 * @throws DataAccessException kastes hvis der er fejl med databasen.
 	 */
-	public int findLoginByGiftNo(String giftNo) throws DataAccessException;
 
+	public int findLoginByGiftNo(String giftNo) throws DataAccessException;
+	
+	/**
+	 * Metoden trækker orderlines ud på en given ordre for kunne opdatere ordren i real tid.
+	 * @param currOrder er den ordre der kigges på, på det givne tidspunkt.
+	 * @return En ordre for at den kan vises i GUI
+	 * @throws SQLException kastes hvis der er fejl med databasen.
+	 * @throws DataAccessException kastes hvis der ikke kan trækkes data ud fra databasen.
+	 */
 	public B2BOrder pullOrderLines(B2BOrder currOrder) throws DataAccessException;
 }
