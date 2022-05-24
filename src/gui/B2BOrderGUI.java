@@ -19,27 +19,16 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-
 import ctrl.OrderCtrl;
 import ctrl.ProductCtrl;
 import exceptions.DataAccessException;
-import model.AbstractProduct;
-import model.B2BLogin;
 import model.B2BOrderLine;
 import model.Pack;
-import model.Product;
-
-import javax.swing.JSplitPane;
 import javax.swing.JDesktopPane;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.awt.event.ActionEvent;
 import javax.swing.BoxLayout;
 
 
