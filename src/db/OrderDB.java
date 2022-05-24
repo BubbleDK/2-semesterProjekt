@@ -186,23 +186,27 @@ public class OrderDB implements OrderDBIF {
 	 * @param orderID er det orderId på ordren hvis ordrelinjer der skal trækkes ud fra databasen.
 	 * @return en ordre med ordrelinjerne.
 	 * @throws DataAccessException kastes hvis der ikke kan trækkes data ud fra databasen.
-	 * @throws SQLException kastes hvis der er fejl med databasen.
 	 */
-	private B2BOrder buildOrderLineObject(B2BOrder currOrder, int orderID) throws DataAccessException, SQLException {
-//		ArrayList<B2BOrderLine> orderLines = new ArrayList<>();
-		findOrderLinesByOrderIdPS.setInt(1, orderID);
-		ResultSet rs = findOrderLinesByOrderIdPS.executeQuery();
-		while (rs.next()) {
-			try {
+	private B2BOrder buildOrderLineObject(B2BOrder currOrder, int orderID) throws DataAccessException {
+		ResultSet rs = null;
+		try {
+			findOrderLinesByOrderIdPS.setInt(1, orderID);
+			rs = findOrderLinesByOrderIdPS.executeQuery();
+		} catch (SQLException e1) {
+//			e1.printStackTrace();
+			throw new DataAccessException(DBMessages.COULD_NOT_BIND_OR_EXECUTE_QUERY, e1);
+			
+		}
+		try {
+			while (rs.next()) {
 				B2BOrderLine currOrderLine = new B2BOrderLine();
 				currOrderLine.setProduct(productDB.findByProductId(rs.getInt("productID")));
 				currOrderLine.setQuantity(rs.getInt("quantity"));
 				currOrder.setOrderLines(currOrderLine);
-			} catch (SQLException e) {
-				e.printStackTrace();
-				throw new DataAccessException(DBMessages.COULD_NOT_BIND_OR_EXECUTE_QUERY, e);
-
 			}
+		} catch (SQLException e) {
+//				e.printStackTrace();
+			throw new DataAccessException(DBMessages.COULD_NOT_READ_RESULTSET, e);
 		}
 		return currOrder;
 	}

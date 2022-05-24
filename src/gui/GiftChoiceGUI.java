@@ -29,6 +29,16 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import java.awt.Component;
 
+/**
+ * 
+ * @authors Rasmus Gudiksen, Jakob Kjeldsteen, Emil Tolstrup Petersen, Christan
+ *          Funder og Mark Drongesen
+ * 
+ *          <p>
+ *          Denne klasse styrer interaktionen mellem bruger og valget af gavepakke til ordren.
+ *
+ */
+
 public class GiftChoiceGUI extends JFrame {
 	private static GiftChoiceGUI gui;
 	private OrderChoiceOrderTableModel orderChoiceOrderTableModel;

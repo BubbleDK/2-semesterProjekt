@@ -48,7 +48,6 @@ public class ProductCtrl {
 	 * @param barcode er stregkoden på produktet man gerne vil finde product id'et
 	 *                på.
 	 * @return Produkt id'et som en int.
-	 * @throws SQLException        kastes hvis der er fejl med databasen.
 	 * @throws DataAccessException kastes hvis der ikke kan trækkes data ud fra
 	 *                             databasen.
 	 */
@@ -62,7 +61,6 @@ public class ProductCtrl {
 	 * @param barcode er stregkoden på produktet der skal have opdateret sin
 	 *                lagerbeholdning.
 	 * @throws DataAccessException 
-	 * @throws SQLException kastes hvis der er fejl med databasen.
 	 */
 	public void updateStock(String barcode) throws DataAccessException {
 		productDB.updateStockByBarcode(barcode);

@@ -56,8 +56,8 @@ public class B2BOrder {
 	 * En metode der bruges til at ligge ordre linjer ned i en
 	 * <code>ArrayList</code>.
 	 * 
-	 * @param ol
-	 * @return
+	 * @param ol er den ordrelinje, som skal tilføjes til ordren.
+	 * @return den ordrelinje, som er tilføjet til ordren.
 	 */
 	public B2BOrderLine addOrderLine(B2BOrderLine ol) {
 		orderLines.add(ol);

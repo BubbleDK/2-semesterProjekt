@@ -34,7 +34,6 @@ public interface ProductDBIF {
 	 * Metoden finder ProductID ud fra en stregkoden.
 	 * @param barcode er stregkoden på produktet man gerne vil finde ProductID ud fra.
 	 * @return en int som er ProductID.
-	 * @throws SQLException kastes hvis der er fejl med databasen.
 	 * @throws DataAccessException kastes hvis der ikke kan trækkes data ud fra databasen.
 	 */
 	public int findProductIdByBarcode(String barcode) throws DataAccessException;
@@ -42,8 +41,7 @@ public interface ProductDBIF {
 	/**
 	 * Metoden tager en stregkode og updatere lagerbeholdning ud fra et valg taget i GUIen.
 	 * @param barcode er stregkoden på produktet.
-	 * @throws DataAccessException 
-	 * @throws SQLException kastes hvis der er fejl med databasen.
+	 * @throws DataAccessException kastes hvis der er fejl med databasen.
 	 */
 	public void updateStockByBarcode(String barcode) throws DataAccessException ;
 }

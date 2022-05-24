@@ -4,6 +4,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.table.DefaultTableModel;
 
+/**
+ * 
+ * @authors Rasmus Gudiksen, Jakob Kjeldsteen, Emil Tolstrup Petersen, Christan
+ *          Funder og Mark Drongesen
+ * 
+ *          <p>
+ *          Denne klasse styrer opsætningen af modellen for logins i B2BOrderGUI
+ *
+ */
+
 public class OrderLoginTableModel extends DefaultTableModel{
 	private static final String[] COLUMN_NAMES = { "Email"};
 	private ArrayList<String> elements;

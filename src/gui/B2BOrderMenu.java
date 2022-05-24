@@ -22,6 +22,16 @@ import model.B2BCustomer;
 import model.B2BOrder;
 import java.sql.SQLException;
 
+/**
+ * 
+ * @authors Rasmus Gudiksen, Jakob Kjeldsteen, Emil Tolstrup Petersen, Christan
+ *          Funder og Mark Drongesen
+ * 
+ *          <p>
+ *          Denne klasse styrer interaktionen mellem bruger B2B ordremenuen.
+ *
+ */
+
 public class B2BOrderMenu extends JFrame {
 
 	private JPanel contentPane;

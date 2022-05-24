@@ -102,7 +102,7 @@ public class ProductDB implements ProductDBIF {
 				currPack.setPrice(price);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 			throw new DataAccessException(DBMessages.COULD_NOT_READ_RESULTSET, e);
 		}
 		return currPack;

@@ -39,7 +39,6 @@ public interface OrderDBIF {
 	 * @param giftNo er gavekoden medarbejderen har opgivet. 
 	 * @param orderLines er ordrelinjen der skal opdateres med nyt quantity.
 	 * @throws DataAccessException kastes hvis der ikke kan gemmes ting i databasen.
-	 * @throws SQLException kastes hvis der er fejl med databasen.
 	 */
 	public void saveChoice(int orderId, int productId, String giftNo, List<B2BOrderLine> orderLines) throws DataAccessException;
 	
@@ -56,7 +55,6 @@ public interface OrderDBIF {
 	 * Metoden trækker orderlines ud på en given ordre for kunne opdatere ordren i real tid.
 	 * @param currOrder er den ordre der kigges på, på det givne tidspunkt.
 	 * @return En ordre for at den kan vises i GUI
-	 * @throws SQLException kastes hvis der er fejl med databasen.
 	 * @throws DataAccessException kastes hvis der ikke kan trækkes data ud fra databasen.
 	 */
 	public B2BOrder pullOrderLines(B2BOrder currOrder) throws DataAccessException;

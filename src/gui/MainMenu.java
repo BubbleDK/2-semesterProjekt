@@ -12,6 +12,16 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
+/**
+ * 
+ * @authors Rasmus Gudiksen, Jakob Kjeldsteen, Emil Tolstrup Petersen, Christan
+ *          Funder og Mark Drongesen
+ * 
+ *          <p>
+ *          Denne klasse styrer interaktionen mellem bruger og hovedmenuen.
+ *
+ */
+
 public class MainMenu extends JFrame {
 
 	private JPanel contentPane;

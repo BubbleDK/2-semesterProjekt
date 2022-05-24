@@ -7,6 +7,16 @@ import javax.swing.table.DefaultTableModel;
 
 import model.B2BOrderLine;
 
+/**
+ * 
+ * @authors Rasmus Gudiksen, Jakob Kjeldsteen, Emil Tolstrup Petersen, Christan
+ *          Funder og Mark Drongesen
+ * 
+ *          <p>
+ *          Denne klasse styrer opsætningen af modellen til højre side GiftChoiceGUI
+ *
+ */
+
 public class OrderChoiceOrderTableModel extends DefaultTableModel {
 	private static final String[] COLUMN_NAMES = {"Produkt", "Antal" };
 	private ArrayList<B2BOrderLine> elements;
