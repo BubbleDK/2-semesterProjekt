@@ -19,7 +19,6 @@ import model.B2BOrderLine;
  *
  */
 public class OrderDB implements OrderDBIF {
-//	private B2BOrder currOrder;
 	private CustomerDBIF customerDB;
 	private ProductDBIF productDB;
 	private HashMap<String, String> emailGiftNo;
