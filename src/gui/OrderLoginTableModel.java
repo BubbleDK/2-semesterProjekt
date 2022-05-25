@@ -27,7 +27,7 @@ public class OrderLoginTableModel extends DefaultTableModel{
 	 * Metoden sætter modellens data.
 	 * @param data er listen med de strenge, som skal vises i tabellen.
 	 */
-	public void setModelData(HashMap currLogins) {
+	public void setModelData(HashMap<String,String> currLogins) {
 		elements.clear();
 		elements.addAll(currLogins.keySet());
 		super.fireTableDataChanged();

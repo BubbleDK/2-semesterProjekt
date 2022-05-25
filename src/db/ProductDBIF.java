@@ -1,7 +1,5 @@
 package db;
 
-import java.sql.SQLException;
-
 import exceptions.DataAccessException;
 import model.Pack;
 /**

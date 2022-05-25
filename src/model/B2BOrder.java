@@ -126,7 +126,7 @@ public class B2BOrder {
 		this.c = c;
 	}
 
-	public void setEmailGiftNo(HashMap emailGiftNo) {
+	public void setEmailGiftNo(HashMap<String,String> emailGiftNo) {
 		this.emailGiftNo = emailGiftNo;
 	}
 	/**

@@ -257,7 +257,7 @@ public class B2BOrderGUI extends JFrame {
 	private void refresh() {
 		List<B2BOrderLine> currOrderLines = orderCtrl.getOrder().getOrderLines();
 		this.orderTableModel.setModelData(currOrderLines);
-		HashMap currLogins = orderCtrl.getOrder().getEmailGiftNo();
+		HashMap<String,String> currLogins = orderCtrl.getOrder().getEmailGiftNo();
 		this.orderLoginTableModel.setModelData(currLogins);
 	}
 	/**

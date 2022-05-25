@@ -1,6 +1,5 @@
 package ctrl;
 
-import java.sql.SQLException;
 import db.ProductDB;
 import db.ProductDBIF;
 import exceptions.DataAccessException;
