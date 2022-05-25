@@ -10,7 +10,6 @@ import java.sql.SQLException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import ctrl.CustomerCtrl;
 import ctrl.OrderCtrl;
 import db.DBConnection;
 import exceptions.DataAccessException;
@@ -31,7 +30,6 @@ class TC12 {
 	void testCreateOrderSameAsSavedOrderSingleProduct() throws DataAccessException, SQLException {
 		Connection con = DBConnection.getInstance().getConnection();
 		OrderCtrl orderCtrl = new OrderCtrl();
-		CustomerCtrl customerCtrl = new CustomerCtrl();
 		orderCtrl.registerB2BOrder("20-05-2022", 123456789);
 		orderCtrl.addPackage("P1234");
 		orderCtrl.addB2BLogin("Gudiksen@gmail.com");
@@ -53,7 +51,6 @@ class TC12 {
 	void testCreateOrderSameAsSavedOrderMultipleProducts() throws DataAccessException, SQLException {
 		Connection con = DBConnection.getInstance().getConnection();
 		OrderCtrl orderCtrl = new OrderCtrl();
-		CustomerCtrl customerCtrl = new CustomerCtrl();
 		orderCtrl.registerB2BOrder("20-05-2022", 123456789);
 		orderCtrl.addPackage("P1234");
 		orderCtrl.addPackage("P2345");
