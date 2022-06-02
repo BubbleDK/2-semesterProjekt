@@ -82,8 +82,7 @@ public class CustomerDB implements CustomerDBIF {
 		try {
 				currCustomer.setCvr(rs.getInt("cvr"));
 				currCustomer.setCompanyName(rs.getString("companyName"));
-				System.out.println(currCustomer.getCVR());
-				System.out.println(currCustomer.getCompanyName());
+		
 //				currCustomer.setName(rs.getString("name"));
 //				currCustomer.setAddress(rs.getString("address"));
 //				currCustomer.setZipCode(rs.getInt("zipcode"));
@@ -92,7 +91,6 @@ public class CustomerDB implements CustomerDBIF {
 			throw new DataAccessException(DBMessages.COULD_NOT_READ_RESULTSET, e);
 //			e.printStackTrace();
 		}
-		System.out.println(currCustomer);
 		return currCustomer;
 	}
 }

@@ -204,17 +204,14 @@ public class B2BOrderMenu extends JFrame {
 	 * @return en streng med firmaets navn.
 	 */
 	private String findCompanyNameByCVR() {
-		//System.out.println("1");
 		String insertCVR = JOptionPane.showInputDialog("Indtast CVR");
 		cvr = -1;
 		if(isANumber(insertCVR) && !insertCVR.isBlank()) {
 			cvr = Integer.parseInt(insertCVR);
-			//System.out.println("2");
 		}else if(insertCVR == null){
 			return "close!";
 		}else {
 			JOptionPane.showMessageDialog(this, "Input skal være et tal.", "Input fejl", JOptionPane.OK_OPTION);
-			//System.out.println("3");
 			return null;
 		}
 
@@ -222,7 +219,6 @@ public class B2BOrderMenu extends JFrame {
 
 		try {
 			currCustomer = customerCtrl.findB2BCustomer(cvr);
-			//System.out.println(currCustomer + "har fundet en customer");
 		} catch (DataAccessException e1) {
 			e1.printStackTrace();
 			JOptionPane.showMessageDialog(this, "Kan ikke få adgang til database", "Data access error",
@@ -232,10 +228,8 @@ public class B2BOrderMenu extends JFrame {
 		if (currCustomer == null) {
 			JOptionPane.showMessageDialog(null, "Kunne ikke finde kunde ud fra indtastede cvr.", "Fejlmeddelelse",
 					JOptionPane.OK_OPTION);
-			//System.out.println("4");
 			return null;
 		}
-		//System.out.println(currCustomer + "2");
 		return currCustomer.getCompanyName();
 	}
 	/**
@@ -257,13 +251,11 @@ public class B2BOrderMenu extends JFrame {
 			try {
 				endDate = LocalDate.parse(date, formatter);
 				if(m.find() && endDate.isAfter(LocalDate.now())) {
-					System.out.println(date + " is ok");
 					res = "ok";
 				}else if(LocalDate.now().isAfter(endDate)) {
 					res = "dato fejl";
 				}
 			} catch (Exception e) {
-				System.out.println(date + " is not ok");
 				res  = "format fejl";
 			}
 		return res;

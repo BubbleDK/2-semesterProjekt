@@ -268,7 +268,6 @@ public class GiftChoiceGUI extends JFrame {
 		this.txtB2BCustomer.setText(orderCtrl.getOrder().getB2BCustomer().getCompanyName());
 		this.txtGiftCode.setText(giftNo);
 		for(String email : orderCtrl.getOrder().getEmailGiftNo().keySet()) {
-			System.out.println(orderCtrl.getOrder().getEmailGiftNo().get(email));
 			if(orderCtrl.getOrder().getEmailGiftNo().get(email).equals(giftNo)){
 				this.txtEmail.setText(email);
 			}

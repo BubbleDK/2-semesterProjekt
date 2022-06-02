@@ -322,11 +322,9 @@ public class B2BOrderGUI extends JFrame {
 		Matcher m = pattern.matcher(email);
 
 		if(m.find()) {
-			System.out.println(email + " is ok");
 			return true;
 		}
 		else {
-			System.out.println(email + " is not ok");
 			return false;
 		}
 		
