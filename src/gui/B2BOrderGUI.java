@@ -34,7 +34,7 @@ import javax.swing.BoxLayout;
 
 /**
  * 
- * @authors Rasmus Gudiksen, Jakob Kjeldsteen, Emil Tolstrup Petersen, Christan
+ * @authors Rasmus Gudiksen, Jakob Kjeldsteen, Emil Tolstrup Petersen, Christian
  *          Funder og Mark Drongesen
  * 
  *          <p>
