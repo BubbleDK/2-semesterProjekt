@@ -90,7 +90,7 @@ public class B2BOrder {
 	 * @param email er emailen på B2B kundens medarbejder.
 	 * @return En boolean for at se om den er blevet tilføjet eller ej.
 	 */
-	public synchronized boolean addB2BLogin(String email) {
+	public boolean addB2BLogin(String email) {
 		boolean res = false;
 		if (email != "") {
 			if (getEmailGiftNo().size() > 0) {
