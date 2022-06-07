@@ -16,7 +16,6 @@ import java.util.Random;
  */
 public class B2BLogin {
 
-	private String giftNo;
 
 	/**
 	 * Denne metode opretter en tilfældig kode på 20 tegn. Med store og små
@@ -24,7 +23,7 @@ public class B2BLogin {
 	 * 
 	 * @return En gift Code på 20 tegn.
 	 */
-	public String createGiftNo() {
+	public static String createGiftNo() {
 		byte[] array = new byte[256];
 		new Random().nextBytes(array);
 		int maxLength = 20;
@@ -43,9 +42,7 @@ public class B2BLogin {
 			}
 		}
 
-		this.giftNo = buffer.toString();
-
-		return giftNo;
+		return buffer.toString();
 	}
 
 }

@@ -105,7 +105,7 @@ public class OrderCtrl {
 				productAlreadyExists = true;
 			}
 		}
-		if (productAlreadyExists == false) {
+		if (!productAlreadyExists) {
 			B2BOrderLine ol = new B2BOrderLine(p);
 			o.addOrderLine(ol);
 			return ol;

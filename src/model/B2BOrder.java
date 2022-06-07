@@ -102,14 +102,12 @@ public class B2BOrder {
 					}
 				}
 			} else {
-				B2BLogin b2bLogin = new B2BLogin();
-				emailGiftNo.put(email, b2bLogin.createGiftNo());
+				emailGiftNo.put(email, B2BLogin.createGiftNo());
 				return true;
 			}
 			//Står her fordi vi ellers ændrer i HashMap mens vi itererer gennem den.
 			if (res) {
-				B2BLogin b2bLogin = new B2BLogin();
-				emailGiftNo.put(email, b2bLogin.createGiftNo());
+				emailGiftNo.put(email, B2BLogin.createGiftNo());
 			}
 		}
 		return res;

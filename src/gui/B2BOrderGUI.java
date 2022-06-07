@@ -314,7 +314,7 @@ public class B2BOrderGUI extends JFrame {
 	 * @param email	er emailen, som brugeren har indtastet, og som skal tilføjes til ordren.
 	 * @return en boolean. som returnerer <code>True<code> hvis den instastede streng overholder formatet.
 	 */
-	private Boolean checkEmail(String email) {
+	private boolean checkEmail(String email) {
 		String emailPattern = "^[ÆØÅæøåa-zA-Z0-9._%+-]+@[ÆØÅæøåa-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$";
 
 		Pattern pattern = Pattern.compile(emailPattern);
