@@ -104,8 +104,9 @@ public class B2BOrder {
 			} else {
 				B2BLogin b2bLogin = new B2BLogin();
 				emailGiftNo.put(email, b2bLogin.createGiftNo());
-				res = true;
+				return true;
 			}
+			//Står her fordi vi ellers ændrer i HashMap mens vi itererer gennem den.
 			if (res) {
 				B2BLogin b2bLogin = new B2BLogin();
 				emailGiftNo.put(email, b2bLogin.createGiftNo());
