@@ -20,7 +20,7 @@ import model.Price;
  *
  */
 public class ProductDB implements ProductDBIF {
-	private static final String FIND_BY_BARCODE_Q = "SELECT * FROM kk_AbstractProduct WHERE barcode = ?";
+	private static final String FIND_BY_BARCODE_Q = "SELECT * FROM kk_AbstractProduct WHERE barcode = ? AND type = 'Pack'";
 	private static PreparedStatement findByBarcodePS;
 	private static final String FIND_PRICEHISTORY_BY_PRODUCTID_Q = "SELECT TOP 1 * FROM kk_Pricehistory WHERE productID = ? ORDER BY convert (dateTime, historyDate, 103) desc";
 	private static PreparedStatement findPriceHistoryPS;
