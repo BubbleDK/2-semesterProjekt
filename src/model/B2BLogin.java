@@ -31,13 +31,13 @@ public class B2BLogin {
 
 		StringBuffer buffer = new StringBuffer();
 
-		String AlphaNumericString = randomString.replaceAll("[^A-Za-z0-9]", "");
-		for (int i = 0; i < AlphaNumericString.length(); i++) {
+		String alphaNumericString = randomString.replaceAll("[^A-Za-z0-9]", "");
+		for (int i = 0; i < alphaNumericString.length(); i++) {
 
-			if (Character.isLetter(AlphaNumericString.charAt(i)) && (maxLength > 0)
-					|| Character.isDigit(AlphaNumericString.charAt(i)) && (maxLength > 0)) {
+			if (Character.isLetter(alphaNumericString.charAt(i)) && (maxLength > 0)
+					|| Character.isDigit(alphaNumericString.charAt(i)) && (maxLength > 0)) {
 
-				buffer.append(AlphaNumericString.charAt(i));
+				buffer.append(alphaNumericString.charAt(i));
 				maxLength--;
 			}
 		}
