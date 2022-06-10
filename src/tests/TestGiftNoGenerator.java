@@ -18,14 +18,13 @@ class TestGiftNoGenerator {
 
 	@Test
 	void testGeneratedNumbersIs20CharsLong() throws InterruptedException {
-		B2BLogin giftNo = new B2BLogin();
 		List<String> streamNumbers = new ArrayList<String>();
 		String generatedNo = "";
 		final int N = 100000;
 		System.out.println(generatedNo.length());
 		long startList = System.currentTimeMillis();
 		for(int i = 1; i <= N; i++) {
-			generatedNo = giftNo.createGiftNo();
+			generatedNo = B2BLogin.createGiftNo();
 			streamNumbers.add(generatedNo);
 			System.out.println(i);
 		}
