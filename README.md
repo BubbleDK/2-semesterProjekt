@@ -37,7 +37,7 @@ Contributors:
   - Jakob Kjeldsteen ([jkeldsteen](https://github.com/jkjeldsteen))
   - Christian Funder ([Youngfundish](https://github.com/Youngfundish))
   - Mark Drongesen ([DrDronge](https://github.com/DrDronge))
-  - Rasmus Gudiksen ([RGUCN](https://github.com/RGUCN))
+  - Rasmus Gudiksen ([neskidug](https://github.com/neskidug))
 
 ### Roadmap
 
